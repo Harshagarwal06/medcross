@@ -1,0 +1,26 @@
+{
+  "name": "MedCross — Medical Crossword Puzzles",
+  "short_name": "MedCross",
+  "description": "Interactive medical crossword puzzles with spaced-repetition review for medical education.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "categories": ["education", "medical", "games"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

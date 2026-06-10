@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Spaced-repetition flashcard review of medical terms you missed on MedCross.">
+    <title>Study - MedCross</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#667eea">
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+
+    <div id="study-page">
+        <header class="main-header">
+            <button class="stats-back" onclick="window.location.href='stats.html'">← Back to Stats</button>
+            <h1>📚 Study Session</h1>
+            <p>Spaced-repetition review of terms you missed</p>
+        </header>
+
+        <div class="container study-container">
+            <div class="study-progress-bar">
+                <div class="study-progress-fill" id="study-progress-fill"></div>
+            </div>
+            <div class="study-meta" id="study-meta"></div>
+
+            <div class="flashcard" id="flashcard">
+                <div class="flashcard-inner">
+                    <div class="flashcard-label" id="flashcard-label">Clue</div>
+                    <div class="flashcard-front" id="flashcard-front">—</div>
+                    <div class="flashcard-back" id="flashcard-back" hidden>
+                        <div class="flashcard-answer" id="flashcard-answer"></div>
+                        <div class="flashcard-category" id="flashcard-category"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="study-controls" id="study-controls">
+                <button class="study-btn study-btn-show" id="show-answer">Show Answer</button>
+                <div class="study-grade" id="study-grade" hidden>
+                    <button class="study-btn study-btn-missed" id="grade-missed">✗ Missed</button>
+                    <button class="study-btn study-btn-got" id="grade-got">✓ Got it</button>
+                </div>
+            </div>
+
+            <div class="study-done" id="study-done" hidden>
+                <div class="study-done-emoji">🎓</div>
+                <h2 id="study-done-title">All caught up!</h2>
+                <p id="study-done-sub"></p>
+                <div class="study-done-actions">
+                    <button class="study-btn study-btn-show" onclick="window.location.href='stats.html'">Back to Stats</button>
+                    <button class="study-btn study-btn-show" onclick="window.location.href='index.html'">Solve a Puzzle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="progress.js?v=3"></script>
+    <script src="study.js?v=3"></script>
+    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
+</body>
+</html>

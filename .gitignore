@@ -1,0 +1,14 @@
+# Local secrets — never commit
+config.js
+
+# OS / editor noise
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Local tooling
+.claude/
+nohup.out

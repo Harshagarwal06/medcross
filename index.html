@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MedCross — Interactive medical crossword puzzles for medical education. Practice cardiology, neurology, pharmacology, and more.">
+    <title>MedCross - Medical Crossword Puzzles</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+    <a href="stats.html" class="stats-link" id="stats-link" aria-label="View your stats">📊 My Stats</a>
+
+    <div id="homepage">
+        <header class="main-header">
+            <h1>🩺 MedCross</h1>
+            <p>Interactive Medical Crossword Puzzles for Education</p>
+            <div class="stats-bar" id="stats-bar">
+                <!-- Populated by JS -->
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Review due nudge -->
+            <div id="review-nudge"></div>
+
+            <!-- Daily Puzzle -->
+            <section class="daily-section" id="daily-section">
+                <!-- Populated by JS -->
+            </section>
+
+            <!-- Achievements preview -->
+            <section class="achievements-preview" id="achievements-preview">
+                <!-- Populated by JS -->
+            </section>
+
+            <!-- Category Selection -->
+            <section class="category-section">
+                <h2>Select Medical Specialty</h2>
+                <div id="category-grid" class="category-grid"></div>
+            </section>
+
+            <!-- Difficulty Selection -->
+            <section class="difficulty-section">
+                <h2>Select Difficulty Level</h2>
+                <div id="difficulty-grid" class="difficulty-grid"></div>
+            </section>
+
+            <!-- Puzzle Grid -->
+            <section class="puzzles-section">
+                <h2>Available Puzzles</h2>
+                <div class="search-container">
+                    <input type="text" id="puzzle-search" class="search-input" placeholder="🔍 Search puzzles by name or category...">
+                </div>
+                <div class="puzzles-filter">
+                    <select id="category-filter"></select>
+                    <select id="difficulty-filter"></select>
+                </div>
+                <div id="puzzles-grid" class="puzzles-grid">
+                    <!-- Puzzles will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+
+        <footer style="text-align:center; padding:2rem; color:rgba(255,255,255,0.6); font-size:0.85rem;">
+            MedCross — Built for Medical Education
+        </footer>
+    </div>
+
+    <script src="medical-database.js?v=3"></script>
+    <script src="crossword-generator.js?v=3"></script>
+    <script src="progress.js?v=3"></script>
+    <script src="homepage.js?v=3"></script>
+    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
+</body>
+</html>
