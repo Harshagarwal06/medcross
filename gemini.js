@@ -6,9 +6,9 @@
  *   2. Reload — AI features appear automatically on the puzzle page.
  *
  * Features:
- *   🤖 AI Explain  — explains the selected clue's medical concept in plain English
- *   💡 AI Hint     — nudges you toward the answer without revealing it
- *   📚 Learn       — post-puzzle learning notes for every term you solved
+ *   AI Explain — explains the selected clue's medical concept in plain English
+ *   AI Hint    — nudges you toward the answer without revealing it
+ *   Learn      — post-puzzle learning notes for every term you solved
  */
 
 // Key is supplied by config.js (gitignored) — see config.example.js.
@@ -168,6 +168,31 @@ ${notesText.slice(0, 12000)}`;
         return clean.slice(0, 30);
     },
 
+    async generateTopicPuzzleEntries(topic, apiEntries = []) {
+        const apiList = apiEntries.slice(0, 20)
+            .map((entry, i) => `${i + 1}. ${entry.answer} — ${entry.question}`)
+            .join('\n') || 'No useful API terms were found.';
+        const prompt =
+            `Create a high-quality medical crossword word bank for this topic: "${topic}".
+
+Use the API terms below when they are relevant, and add other high-yield medical terms needed to make a good crossword.
+
+API terms:
+${apiList}
+
+Return ONLY valid JSON: an array of objects with "answer" and "question".
+Rules:
+- 18 to 30 items.
+- answer must be one medical term, letters only after normalization, 3-15 letters.
+- question must be a concise crossword clue and must NOT contain the answer.
+- Prefer medically meaningful terms, not filler words, dosage units, or generic words.
+- Include a balanced mix of diseases, anatomy, physiology, symptoms, drugs, tests, and mechanisms when relevant.`;
+
+        const text = await _callGemini(prompt, 1800);
+        const parsed = _parseJsonArray(text);
+        return _cleanPuzzleEntries(parsed, 'Gemini did not return enough usable topic terms.');
+    },
+
     async socraticHint({ clueText, category, knownLetters, stage = 1, answerLength = 0 }) {
         const stageLabels = {
             1: 'Ask one concept-check question that helps the student identify the topic.',
@@ -201,6 +226,39 @@ Cover what it means and one high-yield clinical association.`;
 };
 
 window.MedAI = MedAI;
+
+function _parseJsonArray(text) {
+    const jsonText = String(text || '')
+        .replace(/^```json\s*/i, '')
+        .replace(/^```\s*/i, '')
+        .replace(/```$/i, '')
+        .trim();
+    try {
+        const parsed = JSON.parse(jsonText);
+        if (Array.isArray(parsed)) return parsed;
+    } catch { /* fall through */ }
+    const match = jsonText.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error('AI did not return usable JSON.');
+    return JSON.parse(match[0]);
+}
+
+function _cleanPuzzleEntries(items, emptyMessage) {
+    if (!Array.isArray(items)) throw new Error('AI did not return usable term data.');
+    const seen = new Set();
+    const clean = [];
+    for (const item of items) {
+        const answer = String(item.answer || item.word || '').replace(/[^a-z]/gi, '').toUpperCase();
+        const question = String(item.question || item.clue || '').trim();
+        if (answer.length < 3 || answer.length > 15 || !question || seen.has(answer)) continue;
+        const compactQuestion = question.replace(/[^a-z]/gi, '').toUpperCase();
+        const answerRegex = new RegExp(answer.split('').join('\\s*'), 'i');
+        if (answerRegex.test(compactQuestion)) continue;
+        seen.add(answer);
+        clean.push({ answer, question });
+    }
+    if (clean.length < 5) throw new Error(emptyMessage || 'Not enough usable crossword terms were found.');
+    return clean.slice(0, 30);
+}
 
 // ── Read the currently active clue from the DOM ───────────────────────────────
 function _getActiveClueMeta() {
@@ -259,7 +317,7 @@ function _createAIPanel() {
     panel.hidden = true;
     panel.innerHTML = `
         <div class="ai-panel-header">
-            <span class="ai-panel-icon">🤖</span>
+            <span class="ai-panel-icon" aria-hidden="true"></span>
             <span class="ai-panel-title">AI Medical Explainer</span>
             <button class="ai-panel-close" id="ai-panel-close" aria-label="Close AI panel">✕</button>
         </div>
@@ -278,6 +336,20 @@ function _showAIPanel(html) {
     panel.hidden = false;
 }
 
+function _escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[ch]));
+}
+
+function _formatAIText(value) {
+    return _escapeHtml(value).replace(/\n/g, '<br>');
+}
+
 function _setAILoading(msg = 'Thinking…') {
     _showAIPanel(`
         <div class="ai-loading-indicator">
@@ -286,7 +358,7 @@ function _setAILoading(msg = 'Thinking…') {
         </div>`);
 }
 
-// ── Add "🤖 AI Explain" button to the controls bar ────────────────────────────
+// ── Add "AI Explain" button to the controls bar ───────────────────────────────
 function _addAIButton() {
     const controls = document.getElementById('puzzle-controls');
     if (!controls || document.getElementById('ai-explain-btn')) return;
@@ -295,7 +367,7 @@ function _addAIButton() {
     btn.id = 'ai-explain-btn';
     btn.className = 'ai-explain-btn';
     btn.title = 'AI explanation of the selected clue';
-    btn.innerHTML = '🤖 AI Explain';
+    btn.textContent = 'AI Explain';
 
     const actionMenu = document.getElementById('action-menu-container');
     controls.insertBefore(btn, actionMenu);
@@ -303,7 +375,7 @@ function _addAIButton() {
     btn.addEventListener('click', async () => {
         const { clueText, category } = _getActiveClueMeta();
         if (!clueText) {
-            _showAIPanel('<p class="ai-notice">👆 Select a clue first, then tap AI Explain.</p>');
+            _showAIPanel('<p class="ai-notice">Select a clue first, then tap AI Explain.</p>');
             document.getElementById('ai-panel').hidden = false;
             return;
         }
@@ -311,10 +383,10 @@ function _addAIButton() {
         try {
             const text = await MedAI.explainClue(clueText, category, _getActiveWordState());
             _showAIPanel(`
-                <div class="ai-clue-context">📌 Clue: <em>${clueText}</em></div>
-                <div class="ai-answer-text">${text.replace(/\n/g, '<br>')}</div>`);
+                <div class="ai-clue-context">Clue: <em>${_escapeHtml(clueText)}</em></div>
+                <div class="ai-answer-text">${_formatAIText(text)}</div>`);
         } catch (e) {
-            _showAIPanel(`<p class="ai-error">⚠️ ${e.message}</p>`);
+            _showAIPanel(`<p class="ai-error">${_escapeHtml(e.message)}</p>`);
         }
     });
 }
@@ -327,7 +399,7 @@ function _addTutorButton() {
     btn.id = 'ai-tutor-btn';
     btn.className = 'ai-explain-btn ai-tutor-btn';
     btn.title = 'Guided Socratic hint chain';
-    btn.innerHTML = 'Tutor';
+    btn.textContent = 'Tutor';
 
     const actionMenu = document.getElementById('action-menu-container');
     controls.insertBefore(btn, actionMenu);
@@ -355,8 +427,8 @@ async function runTutorStage(stage) {
             ? `<button class="ai-step-btn" data-stage="${stage + 1}" type="button">Next hint</button>`
             : `<button class="ai-step-btn" id="ai-reveal-word" type="button">Reveal active word</button>`;
         _showAIPanel(`
-            <div class="ai-clue-context">Tutor stage ${stage} for: <em>${clueText}</em></div>
-            <div class="ai-answer-text">${text.replace(/\n/g, '<br>')}</div>
+            <div class="ai-clue-context">Tutor stage ${stage} for: <em>${_escapeHtml(clueText)}</em></div>
+            <div class="ai-answer-text">${_formatAIText(text)}</div>
             <div class="ai-step-actions">${next}</div>`);
         document.querySelectorAll('.ai-step-btn[data-stage]').forEach(stepBtn => {
             stepBtn.addEventListener('click', () => runTutorStage(Number(stepBtn.dataset.stage)));
@@ -373,7 +445,7 @@ async function runTutorStage(stage) {
             });
         }
     } catch (e) {
-        _showAIPanel(`<p class="ai-error">${e.message}</p>`);
+        _showAIPanel(`<p class="ai-error">${_escapeHtml(e.message)}</p>`);
     }
 }
 
@@ -395,15 +467,15 @@ function _hookHintButton() {
         try {
             const text = await MedAI.hintForClue(clueText, hasPartial ? knownLetters : null, category);
             _showAIPanel(`
-                <div class="ai-clue-context">💡 Hint for: <em>${clueText}</em></div>
-                <div class="ai-answer-text">${text.replace(/\n/g, '<br>')}</div>`);
+                <div class="ai-clue-context">Hint for: <em>${_escapeHtml(clueText)}</em></div>
+                <div class="ai-answer-text">${_formatAIText(text)}</div>`);
         } catch {
             document.getElementById('ai-panel').hidden = true; // fail silently
         }
     }, true /* capture */);
 }
 
-// ── Inject "📚 Learn" tab into the congrats modal ─────────────────────────────
+// ── Inject the Learn tab into the congrats modal ─────────────────────────────
 function _injectLearnTab() {
     const modalActions = document.querySelector('.modal-actions');
     const modalContent = document.querySelector('.modal-content');
@@ -412,7 +484,7 @@ function _injectLearnTab() {
     const learnBtn = document.createElement('button');
     learnBtn.id = 'modal-learn-btn';
     learnBtn.className = 'modal-btn modal-btn-secondary';
-    learnBtn.innerHTML = '📚 Learn';
+    learnBtn.textContent = 'Learn';
     modalActions.insertBefore(learnBtn, modalActions.firstChild);
 
     const learnPanel = document.createElement('div');
@@ -424,11 +496,11 @@ function _injectLearnTab() {
     learnBtn.addEventListener('click', async () => {
         if (!learnPanel.hidden) {
             learnPanel.hidden = true;
-            learnBtn.innerHTML = '📚 Learn';
+            learnBtn.textContent = 'Learn';
             return;
         }
         learnPanel.hidden = false;
-        learnBtn.innerHTML = '📚 Hide';
+        learnBtn.textContent = 'Hide';
         learnPanel.innerHTML = `
             <div class="ai-loading-indicator">
                 <div class="ai-spinner"></div>
@@ -443,10 +515,10 @@ function _injectLearnTab() {
         try {
             const text = await MedAI.learnBatch(terms);
             learnPanel.innerHTML = `
-                <div class="modal-learn-title">🧠 What you just learned</div>
-                <div class="modal-learn-body">${text.replace(/\n/g, '<br>')}</div>`;
+                <div class="modal-learn-title">What you just learned</div>
+                <div class="modal-learn-body">${_formatAIText(text)}</div>`;
         } catch (e) {
-            learnPanel.innerHTML = `<p class="ai-error">⚠️ Could not load notes: ${e.message}</p>`;
+            learnPanel.innerHTML = `<p class="ai-error">Could not load notes: ${_escapeHtml(e.message)}</p>`;
         }
     });
 }
@@ -471,5 +543,5 @@ document.addEventListener('DOMContentLoaded', () => {
     _addTutorButton();
     _hookHintButton();
     _watchCongratsModal();
-    console.log(`[MedAI] ✅ Gemini AI active (${_geminiModel}).`);
+    console.log(`[MedAI] Gemini AI active (${_geminiModel}).`);
 });

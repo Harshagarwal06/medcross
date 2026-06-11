@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Dark mode
     const settings = MedCrossProgress.getSettings();
     if (settings.darkMode) document.documentElement.setAttribute('data-theme', 'dark');
     const toggle = document.getElementById('theme-toggle');
-    toggle.textContent = settings.darkMode ? '☀️' : '🌙';
-    toggle.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-        toggle.textContent = isDark ? '🌙' : '☀️';
-        MedCrossProgress.saveSettings({ ...MedCrossProgress.getSettings(), darkMode: !isDark });
-    });
+    if (toggle) {
+        toggle.textContent = settings.darkMode ? 'Light' : 'Dark';
+        toggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+            toggle.textContent = isDark ? 'Dark' : 'Light';
+            MedCrossProgress.saveSettings({ ...MedCrossProgress.getSettings(), darkMode: !isDark });
+        });
+    }
 
     const els = {
         front: document.getElementById('flashcard-front'),

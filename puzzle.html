@@ -6,16 +6,16 @@
     <meta name="description" content="Solve a medical crossword puzzle on MedCross.">
     <title>Medical Crossword Puzzle</title>
     <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#1b1b1b">
+    <meta name="theme-color" content="#f5f7fb">
     <link rel="apple-touch-icon" href="icon.svg">
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body class="puzzle-page">
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+
 
     <!-- NYT-style sticky toolbar (full-width, outside app-container) -->
     <div id="puzzle-header">
-        <button id="back-button" onclick="goBack()">← Back</button>
+        <button id="back-button" onclick="goBack()">Back</button>
         <div class="ph-center">
             <h1 id="puzzle-title">Loading Puzzle…</h1>
             <div id="puzzle-info">
@@ -25,7 +25,7 @@
         </div>
         <div class="timer-wrap">
             <div id="timer">0:00</div>
-            <button id="pause-button" aria-label="Pause timer" title="Pause" hidden>⏸</button>
+            <button id="pause-button" aria-label="Pause timer" title="Pause" hidden>Pause</button>
         </div>
     </div>
 
@@ -56,22 +56,22 @@
                 <!-- NYT-style pause veil over the grid -->
                 <div id="pause-overlay" hidden>
                     <div class="pause-card">
-                        <div class="pause-emoji">⏸</div>
+                        <div class="pause-emoji" aria-hidden="true"></div>
                         <div class="pause-title">Your puzzle is paused.</div>
-                        <button id="resume-button" class="modal-btn modal-btn-primary">▶ Resume</button>
+                        <button id="resume-button" class="modal-btn modal-btn-primary">Resume</button>
                     </div>
                 </div>
             </div>
 
             <div id="puzzle-controls">
-                <button id="check-button">✓ Check</button>
-                <button id="reveal-button">👁 Reveal</button>
-                <button id="hint-button">💡 Hint <span class="hint-counter" id="hint-counter">(3)</span></button>
-                <button id="pencil-button" class="pencil-button" aria-pressed="false" title="Toggle pencil (notes) mode">✏️ Pencil</button>
-                <button id="autocheck-button" class="autocheck-button" aria-pressed="false" title="Auto-check letters as you type">✓ Auto-check</button>
+                <button id="check-button">Check</button>
+                <button id="reveal-button">Reveal</button>
+                <button id="hint-button">Hint <span class="hint-counter" id="hint-counter">(3)</span></button>
+                <button id="pencil-button" class="pencil-button" aria-pressed="false" title="Toggle pencil (notes) mode">Pencil</button>
+                <button id="autocheck-button" class="autocheck-button" aria-pressed="false" title="Auto-check letters as you type">Auto-check</button>
                 <div id="action-menu-container">
                     <select id="action-select">
-                        <option value="">— More —</option>
+                        <option value="">More actions</option>
                         <option value="reveal-letter">Reveal letter</option>
                         <option value="reveal-word">Reveal word</option>
                         <option value="reveal-grid">Reveal grid</option>
@@ -105,11 +105,11 @@
     <!-- NYT-style "Ready to start?" overlay -->
     <div class="modal-overlay" id="start-modal">
         <div class="modal-content start-modal-content">
-            <div class="modal-emoji">🧩</div>
+            <div class="modal-emoji" aria-hidden="true"></div>
             <div class="modal-title" id="start-title">Ready to start solving?</div>
             <div class="modal-subtitle" id="start-subtitle">The timer will begin when you hit Play.</div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-primary" id="start-play-button">▶ Play</button>
+                <button class="modal-btn modal-btn-primary" id="start-play-button">Play</button>
             </div>
         </div>
     </div>
@@ -117,20 +117,23 @@
     <!-- NYT-style "Keep trying" modal (grid full but incorrect) -->
     <div class="modal-overlay" id="keep-trying-modal">
         <div class="modal-content keep-trying-content">
-            <div class="modal-emoji">🤔</div>
+            <div class="modal-emoji" aria-hidden="true"></div>
             <div class="modal-title">Not quite right…</div>
             <div class="modal-subtitle">The puzzle is filled, but at least one square's amiss. Keep trying!</div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-secondary" id="keep-trying-check">✓ Check Puzzle</button>
+                <button class="modal-btn modal-btn-secondary" id="keep-trying-check">Check Puzzle</button>
                 <button class="modal-btn modal-btn-primary" id="keep-trying-close">Keep Trying</button>
             </div>
         </div>
     </div>
 
+    <!-- Celebration Overlay for Confetti -->
+    <div id="celebration-overlay"></div>
+
     <!-- Congratulations Modal -->
     <div class="modal-overlay" id="congrats-modal">
         <div class="modal-content">
-            <div class="modal-emoji">🎉</div>
+            <div class="modal-emoji" aria-hidden="true"></div>
             <div class="modal-title">Congratulations!</div>
             <div class="modal-subtitle">You solved the puzzle!</div>
             <div class="modal-time" id="modal-time">00:00</div>
@@ -142,8 +145,8 @@
             </div>
             <div class="modal-achievements" id="modal-achievements"></div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-secondary" onclick="goBack()">← Back to Puzzles</button>
-                <button class="modal-btn modal-btn-secondary" id="modal-share">📋 Share</button>
+                <button class="modal-btn modal-btn-secondary" onclick="goBack()">Back to Puzzles</button>
+                <button class="modal-btn modal-btn-secondary" id="modal-share">Share</button>
                 <button class="modal-btn modal-btn-primary" id="modal-new-puzzle">New Puzzle</button>
             </div>
         </div>
@@ -151,10 +154,10 @@
 
     <script src="medical-database.js?v=3"></script>
     <script src="crossword-generator.js?v=11"></script>
-    <script src="progress.js?v=9"></script>
-    <script src="script.js?v=11"></script>
+    <script src="progress.js?v=10"></script>
+    <script src="script.js?v=17"></script>
     <script src="config.js"></script>
-    <script src="gemini.js?v=9"></script>
+    <script src="gemini.js?v=15"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

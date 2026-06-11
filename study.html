@@ -6,16 +6,14 @@
     <meta name="description" content="Spaced-repetition flashcard review of medical terms you missed on MedCross.">
     <title>Study - MedCross</title>
     <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#667eea">
-    <link rel="stylesheet" href="style.css?v=9">
+    <meta name="theme-color" content="#f5f7fb">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-
     <div id="study-page">
         <header class="main-header">
-            <button class="stats-back" onclick="window.location.href='stats.html'">← Back to Stats</button>
-            <h1>📚 Study Session</h1>
+            <button class="stats-back" onclick="window.location.href='stats.html'">Back to Stats</button>
+            <h1>Study Session</h1>
             <p>Spaced-repetition review of terms you missed</p>
         </header>
 
@@ -36,7 +34,7 @@
                     <div class="flashcard-back" id="flashcard-back" hidden>
                         <div class="flashcard-answer" id="flashcard-answer"></div>
                         <div class="flashcard-category" id="flashcard-category"></div>
-                        <button id="flashcard-ai" class="flashcard-ai" type="button" hidden>AI explain</button>
+                        <button id="flashcard-ai" class="flashcard-ai" type="button" hidden>AI Explain</button>
                         <div id="flashcard-ai-text" class="flashcard-ai-text" hidden></div>
                     </div>
                 </div>
@@ -45,13 +43,12 @@
             <div class="study-controls" id="study-controls">
                 <button class="study-btn study-btn-show" id="show-answer">Show Answer</button>
                 <div class="study-grade" id="study-grade" hidden>
-                    <button class="study-btn study-btn-missed" id="grade-missed">✗ Missed</button>
-                    <button class="study-btn study-btn-got" id="grade-got">✓ Got it</button>
+                    <button class="study-btn study-btn-missed" id="grade-missed">Missed</button>
+                    <button class="study-btn study-btn-got" id="grade-got">Got it</button>
                 </div>
             </div>
 
             <div class="study-done" id="study-done" hidden>
-                <div class="study-done-emoji">🎓</div>
                 <h2 id="study-done-title">All caught up!</h2>
                 <p id="study-done-sub"></p>
                 <div class="study-done-actions">
@@ -62,10 +59,10 @@
         </div>
     </div>
 
-    <script src="progress.js?v=9"></script>
+    <script src="progress.js?v=10"></script>
     <script src="config.js"></script>
-    <script src="gemini.js?v=9"></script>
-    <script src="study.js?v=9"></script>
+    <script src="gemini.js?v=15"></script>
+    <script src="study.js?v=10"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

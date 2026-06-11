@@ -1,4 +1,4 @@
-const PUZZLE_DIFFICULTY_LABELS = { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency', notes: 'Notes', api: 'API', mini: 'Mini' };
+const PUZZLE_DIFFICULTY_LABELS = { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency', notes: 'Notes', api: 'Topic', mini: 'Mini' };
 
 function goBack() { window.location.href = 'index.html'; }
 function getPuzzleIdFromUrl() { return new URLSearchParams(window.location.search).get('id'); }
@@ -10,7 +10,19 @@ function getPuzzleById(puzzleId) {
     }
 
     const cachedPuzzle = getCachedPuzzleById(puzzleId);
-    if (cachedPuzzle && cachedPuzzle.data) return cachedPuzzle;
+    if (cachedPuzzle && cachedPuzzle.data) {
+        if (cachedPuzzle.data.stats?.curatedFallback) {
+            const normalized = {
+                ...cachedPuzzle,
+                title: 'Medical Mini',
+                category: 'generalMedicine',
+                difficulty: 'mini'
+            };
+            upsertCachedPuzzle(normalized);
+            return normalized;
+        }
+        return cachedPuzzle;
+    }
 
     const parts = puzzleId.split('-');
     const isMini = parts[parts.length - 1] === 'mini';
@@ -23,12 +35,15 @@ function getPuzzleById(puzzleId) {
     const generatedData = isMini
         ? generator.generateMiniCrossword(category, difficulty)
         : generator.generateCrossword(category, difficulty);
+    const isCuratedMiniFallback = Boolean(isMini && generatedData.stats?.curatedFallback);
     const puzzle = {
         id: puzzleId,
-        title: isMini
+        title: isCuratedMiniFallback
+            ? 'Medical Mini'
+            : isMini
             ? `${formatPuzzleName(category)} ${PUZZLE_DIFFICULTY_LABELS[difficulty] || formatPuzzleName(difficulty)} Mini`
             : `${formatPuzzleName(category)} ${PUZZLE_DIFFICULTY_LABELS[difficulty] || formatPuzzleName(difficulty)}`,
-        category,
+        category: isCuratedMiniFallback ? 'generalMedicine' : category,
         difficulty: isMini ? 'mini' : difficulty,
         sourceDifficulty: difficulty,
         size: `${generatedData.cols}x${generatedData.rows}`,
@@ -58,24 +73,21 @@ function upsertCachedPuzzle(puzzle) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Dark mode
-    const settings = MedCrossProgress.getSettings();
-    if (settings.darkMode) document.documentElement.setAttribute('data-theme', 'dark');
-    const toggle = document.getElementById('theme-toggle');
-    toggle.textContent = settings.darkMode ? '☀️' : '🌙';
-    toggle.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-        toggle.textContent = isDark ? '🌙' : '☀️';
-        MedCrossProgress.saveSettings({ ...MedCrossProgress.getSettings(), darkMode: !isDark });
-    });
 
     const selectedPuzzleId = getPuzzleIdFromUrl() || localStorage.getItem('selectedPuzzleId');
-    if (!selectedPuzzleId) { alert('No puzzle selected!'); return goBack(); }
+    if (!selectedPuzzleId) {
+        showToast('No puzzle was selected. Returning to the puzzle list.');
+        setTimeout(goBack, 900);
+        return;
+    }
     localStorage.setItem('selectedPuzzleId', selectedPuzzleId);
 
     const puzzle = getPuzzleById(selectedPuzzleId);
-    if (!puzzle) { alert('Could not find puzzle data!'); return goBack(); }
+    if (!puzzle) {
+        showToast('Could not find puzzle data. Returning to the puzzle list.');
+        setTimeout(goBack, 900);
+        return;
+    }
 
     const puzzleData = puzzle.data;
     const gridElement = document.getElementById('crossword-grid');
@@ -109,6 +121,69 @@ document.addEventListener('DOMContentLoaded', () => {
     let timerPaused = false;
     let assistUsed = false;        // any check/reveal disqualifies the gold star
     let keepTryingShown = false;   // "filled but wrong" modal shown for current fill
+
+    function ensureToastRoot() {
+        let root = document.getElementById('app-toast-root');
+        if (!root) {
+            root = document.createElement('div');
+            root.id = 'app-toast-root';
+            root.className = 'app-toast-root';
+            root.setAttribute('aria-live', 'polite');
+            document.body.appendChild(root);
+        }
+        return root;
+    }
+
+    function showToast(message, tone = 'info') {
+        const root = ensureToastRoot();
+        const toast = document.createElement('div');
+        toast.className = `app-toast ${tone}`;
+        toast.textContent = message;
+        root.appendChild(toast);
+        requestAnimationFrame(() => toast.classList.add('visible'));
+        setTimeout(() => {
+            toast.classList.remove('visible');
+            setTimeout(() => toast.remove(), 220);
+        }, 2400);
+    }
+
+    function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, ch => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+        }[ch]));
+    }
+
+    function showAppDialog({ title, body, confirmText = 'Continue', cancelText = 'Cancel', textValue = '' }) {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'app-dialog-overlay active';
+            overlay.innerHTML = `
+                <div class="app-dialog" role="dialog" aria-modal="true" aria-labelledby="app-dialog-title">
+                    <h2 id="app-dialog-title">${escapeHtml(title)}</h2>
+                    <p>${escapeHtml(body)}</p>
+                    ${textValue ? `<textarea class="app-dialog-text" readonly>${escapeHtml(textValue)}</textarea>` : ''}
+                    <div class="app-dialog-actions">
+                        <button class="modal-btn modal-btn-secondary" data-dialog-cancel>${escapeHtml(cancelText)}</button>
+                        <button class="modal-btn modal-btn-primary" data-dialog-confirm>${escapeHtml(confirmText)}</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            const close = (value) => {
+                overlay.classList.remove('active');
+                setTimeout(() => overlay.remove(), 160);
+                resolve(value);
+            };
+            overlay.querySelector('[data-dialog-cancel]').addEventListener('click', () => close(false));
+            overlay.querySelector('[data-dialog-confirm]').addEventListener('click', () => close(true));
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) close(false); });
+            overlay.querySelector('[data-dialog-confirm]').focus();
+        });
+    }
 
     updateHeader(puzzle);
     applyGridSizing(puzzleData.grid.length, puzzleData.grid[0].length);
@@ -184,7 +259,10 @@ document.addEventListener('DOMContentLoaded', () => {
         clues.forEach(clue => {
             const li = document.createElement('li');
             li.dataset.row = clue.row; li.dataset.col = clue.col; li.dataset.direction = clue.direction;
-            li.innerHTML = `<span class="clue-number-list">${clue.number}.</span> ${clue.clue}`;
+            const number = document.createElement('span');
+            number.className = 'clue-number-list';
+            number.textContent = `${clue.number}.`;
+            li.append(number, document.createTextNode(` ${clue.clue || ''}`));
             container.appendChild(li);
             if (!numberedCells[`${clue.row},${clue.col}`]) numberedCells[`${clue.row},${clue.col}`] = clue.number;
         });
@@ -223,15 +301,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeCell) activeCell.querySelector('input').focus();
         });
 
-        document.getElementById('apply-action').addEventListener('click', () => {
+        document.getElementById('apply-action').addEventListener('click', async () => {
             const action = actionSelect.value;
             if (!action) return;
             const needsCell = ['reveal-letter', 'reveal-word', 'check-letter', 'check-word'].includes(action);
-            if (needsCell && !activeCell) { alert('Please select a cell first.'); actionSelect.value = ''; return; }
+            if (needsCell && !activeCell) {
+                showToast('Select a cell first.');
+                actionSelect.value = '';
+                return;
+            }
             switch (action) {
                 case 'reveal-letter': revealsUsed++; revealCell(activeCell); break;
                 case 'reveal-word': revealsUsed++; getHighlightedCells().forEach(revealCell); break;
-                case 'reveal-grid': revealEntirePuzzle(); break;
+                case 'reveal-grid': if (!(await revealEntirePuzzle())) return; break;
                 case 'check-letter': checkCell(activeCell); break;
                 case 'check-word': getHighlightedCells().forEach(checkCell); break;
                 case 'check-grid': checkGrid(); break;
@@ -320,6 +402,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Auto-check: flag right/wrong in real time (skip while penciling).
                     if (autoCheck && !pencilMode) {
                         cell.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    }
+                    if (isCorrect && !pencilMode) {
+                        checkWordCompletion(cell);
                     }
                 }
             }
@@ -429,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeCell) activeCell.querySelector('input').blur();
         document.getElementById('pause-overlay').hidden = false;
         const btn = document.getElementById('pause-button');
-        btn.textContent = '▶';
+        btn.textContent = 'Resume';
         btn.setAttribute('aria-label', 'Resume timer');
     }
     function resumeGame() {
@@ -437,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timerPaused = false;
         document.getElementById('pause-overlay').hidden = true;
         const btn = document.getElementById('pause-button');
-        btn.textContent = '⏸';
+        btn.textContent = 'Pause';
         btn.setAttribute('aria-label', 'Pause timer');
         runTimerInterval();
         if (activeCell) activeCell.querySelector('input').focus();
@@ -463,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hint system
     function useHint() {
         if (isSolved || hintsRemaining <= 0) return;
-        if (!activeCell) { alert('Select a cell first!'); return; }
+        if (!activeCell) { showToast('Select a cell first.'); return; }
         const cells = getHighlightedCells();
         const emptyCell = cells.find(c => !c.querySelector('input').value);
         if (!emptyCell) return;
@@ -551,25 +636,38 @@ document.addEventListener('DOMContentLoaded', () => {
             timeSeconds: elapsedSeconds, accuracy, hintsUsed, revealsUsed, clueCount
         });
         const text =
-            `🩺 MedCross — ${puzzle.title}\n` +
-            `⏱ ${formatTimeDisplay(elapsedSeconds)}  🎯 ${accuracy}%  🌟 ${score}\n` +
-            `💡 ${hintsUsed} hints · 👁 ${revealsUsed} reveals\n` +
-            `Solve medical crosswords at MedCross!`;
+            `MedCross — ${puzzle.title}\n` +
+            `${formatTimeDisplay(elapsedSeconds)}  ${accuracy}% accuracy  ${score} score\n` +
+            `${hintsUsed} hints · ${revealsUsed} reveals\n` +
+            `Solve medical crosswords at MedCross.`;
         const btn = document.getElementById('modal-share');
-        const done = () => { const o = btn.textContent; btn.textContent = '✅ Copied!'; setTimeout(() => btn.textContent = o, 1500); };
+        const done = () => { const o = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => btn.textContent = o, 1500); };
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(done).catch(() => alert(text));
+            navigator.clipboard.writeText(text).then(done).catch(() => showShareDialog(text));
         } else {
-            alert(text);
+            showShareDialog(text);
         }
+    }
+
+    function showShareDialog(text) {
+        showAppDialog({
+            title: 'Share Results',
+            body: 'Copy your result from the field below.',
+            confirmText: 'Done',
+            cancelText: 'Close',
+            textValue: text
+        });
     }
 
     // Congratulations modal with confetti
     function showCongratsModal(stats = {}) {
         // NYT-style gold star for a solve with no checks or reveals
         const modal = document.getElementById('congrats-modal');
-        modal.querySelector('.modal-emoji').textContent = stats.clean ? '⭐' : '🎉';
-        modal.querySelector('.modal-subtitle').textContent = stats.clean
+        modal.querySelector('.modal-title').textContent = stats.revealed ? 'Puzzle Revealed' : 'Congratulations!';
+        modal.querySelector('.modal-emoji').textContent = '';
+        modal.querySelector('.modal-subtitle').textContent = stats.revealed
+            ? 'All answers are filled. Revealed puzzles are saved for review but not counted as completed.'
+            : stats.clean
             ? 'Gold star! Solved with no checks or reveals.'
             : 'You solved the puzzle!';
         document.getElementById('modal-time').textContent = formatTimeDisplay(elapsedSeconds);
@@ -582,15 +680,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const unlocked = stats.newlyUnlocked || [];
         if (unlocked.length) {
             const defs = MedCrossProgress.ACHIEVEMENTS;
-            achEl.innerHTML = '<div class="modal-ach-title">🏆 Achievement Unlocked!</div>' +
+            achEl.innerHTML = '<div class="modal-ach-title">Achievement Unlocked</div>' +
                 unlocked.map(id => {
                     const a = defs.find(d => d.id === id);
-                    return a ? `<div class="modal-ach-item"><span class="ach-icon">${a.icon}</span> <strong>${a.name}</strong> — ${a.desc}</div>` : '';
+                    return a ? `<div class="modal-ach-item"><strong>${escapeHtml(a.name)}</strong> - ${escapeHtml(a.desc)}</div>` : '';
                 }).join('');
         }
 
         document.getElementById('congrats-modal').classList.add('active');
-        spawnConfetti();
+        if (!stats.revealed) spawnConfetti();
     }
 
     function spawnConfetti() {
@@ -604,7 +702,8 @@ document.addEventListener('DOMContentLoaded', () => {
             piece.style.animationDuration = `${2 + Math.random() * 2}s`;
             piece.style.width = `${6 + Math.random() * 8}px`;
             piece.style.height = `${6 + Math.random() * 8}px`;
-            document.body.appendChild(piece);
+            const overlay = document.getElementById('celebration-overlay') || document.body;
+            overlay.appendChild(piece);
             setTimeout(() => piece.remove(), 5000);
         }
     }
@@ -663,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasProgress) {
             document.getElementById('start-title').textContent = 'Welcome back!';
             document.getElementById('start-subtitle').textContent = 'Pick up where you left off — the clock resumes when you hit Play.';
-            playBtn.textContent = '▶ Resume';
+            playBtn.textContent = 'Resume';
         }
         modal.classList.add('active');
         playBtn.addEventListener('click', () => {
@@ -687,7 +786,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Save/restore progress
-    function autoSaveProgress() {
+    function collectAnswers() {
         const answers = [];
         gridElement.querySelectorAll('.grid-cell').forEach(cell => {
             const input = cell.querySelector('input');
@@ -695,6 +794,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 answers.push({ row: parseInt(cell.dataset.row), col: parseInt(cell.dataset.col), value: input.value });
             }
         });
+        return answers;
+    }
+
+    function autoSaveProgress() {
+        const answers = collectAnswers();
         MedCrossProgress.saveAnswers(selectedPuzzleId, answers, elapsedSeconds);
     }
 
@@ -713,12 +817,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Core puzzle functions
-    function revealEntirePuzzle() {
-        if (!confirm('Reveal the entire puzzle? This will stop the timer.')) return;
-        isSolved = true;
+    async function revealEntirePuzzle() {
+        if (isSolved) return false;
+        const confirmed = await showAppDialog({
+            title: 'Reveal Entire Puzzle?',
+            body: 'This fills every square and stops the timer.',
+            confirmText: 'Reveal Puzzle'
+        });
+        if (!confirmed) return false;
         gridElement.querySelectorAll('.grid-cell').forEach(revealCell);
+        isSolved = true;
         stopTimer();
         updateProgressBar();
+        const reviewTerms = collectReviewTerms();
+        MedCrossProgress.addReviewTerms(reviewTerms, {
+            sourcePuzzle: puzzle.id,
+            category: puzzle.category,
+            difficulty: puzzle.difficulty
+        });
+        MedCrossProgress.saveAnswers(selectedPuzzleId, collectAnswers(), elapsedSeconds);
+        showCongratsModal({
+            revealed: true,
+            accuracy: 0,
+            score: 0,
+            mistakes: mistakeCount
+        });
+        return true;
     }
     function revealCell(cell) {
         assistUsed = true;
@@ -749,6 +873,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const input = cell.querySelector('input');
             const r = parseInt(cell.dataset.row); const c = parseInt(cell.dataset.col);
             return input.value.toUpperCase() === puzzleData.solution[r][c];
+        });
+    }
+
+    function checkWordCompletion(cell) {
+        ['across', 'down'].forEach(dir => {
+            const cells = getWordCells(parseInt(cell.dataset.row), parseInt(cell.dataset.col), dir);
+            if (cells.length > 1 && cells.every(c => {
+                const i = c.querySelector('input');
+                const r = parseInt(c.dataset.row), col = parseInt(c.dataset.col);
+                return i.value && i.value.toUpperCase() === puzzleData.solution[r][col];
+            })) {
+                cells.forEach(c => {
+                    c.classList.remove('word-pulse');
+                    void c.offsetWidth; // trigger reflow
+                    c.classList.add('word-pulse');
+                });
+            }
         });
     }
 

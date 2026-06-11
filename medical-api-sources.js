@@ -44,6 +44,31 @@ const MedCrossAPISources = (() => {
         return fetchConditionEntries(cleanQuery, limit);
     }
 
+    async function fetchTopicEntries({ query, limit = 30 }) {
+        const cleanQuery = String(query || '').trim();
+        if (cleanQuery.length < 2) {
+            throw new Error('Enter any medical topic, condition, drug, or body system.');
+        }
+
+        const sources = ['conditions', 'rxnorm'];
+        if (isProxyConfigured()) sources.push('proxy');
+
+        const results = await Promise.allSettled(
+            sources.map(source => fetchEntries({ source, query: cleanQuery, limit }))
+        );
+        const entries = [];
+        results.forEach((result, index) => {
+            if (result.status !== 'fulfilled') return;
+            const source = sources[index];
+            result.value.forEach(entry => entries.push({ ...entry, source }));
+        });
+
+        return finalizeEntries(
+            entries,
+            'The public medical APIs did not return enough crossword-ready terms for that topic.'
+        ).slice(0, limit);
+    }
+
     async function fetchConditionEntries(query, limit) {
         const url = new URL('https://clinicaltables.nlm.nih.gov/api/conditions/v3/search');
         url.searchParams.set('terms', query);
@@ -287,7 +312,7 @@ const MedCrossAPISources = (() => {
         return clean.slice(0, 30);
     }
 
-    return { availableSources, fetchEntries, isProxyConfigured };
+    return { availableSources, fetchEntries, fetchTopicEntries, isProxyConfigured };
 })();
 
 window.MedCrossAPISources = MedCrossAPISources;

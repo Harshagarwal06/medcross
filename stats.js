@@ -1,25 +1,19 @@
 const DIFFICULTY_ORDER = ['m1', 'm2', 'clinical', 'usmle', 'residency'];
 const DIFF_SHORT = { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency' };
-const CAT_ICONS = {
-    cardiology: '❤️', neurology: '🧠', pulmonology: '🫁', gastroenterology: '🍽️',
-    nephrology: '🥛', endocrinology: '⚖️', hematology: '🩸', immunology: '🛡️',
-    rheumatology: '🦴', infectiousDisease: '🧫', oncology: '🎗️', psychiatry: '💬',
-    dermatology: '🧴', orthopedics: '🦵', obstetricsGynecology: '👶', pediatrics: '🧸',
-    geriatrics: '🧓', emergencyMedicine: '🚑', pharmacology: '💊', anatomy: '📚'
-};
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Dark mode
     const settings = MedCrossProgress.getSettings();
     if (settings.darkMode) document.documentElement.setAttribute('data-theme', 'dark');
     const toggle = document.getElementById('theme-toggle');
-    toggle.textContent = settings.darkMode ? '☀️' : '🌙';
-    toggle.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-        toggle.textContent = isDark ? '🌙' : '☀️';
-        MedCrossProgress.saveSettings({ ...MedCrossProgress.getSettings(), darkMode: !isDark });
-    });
+    if (toggle) {
+        toggle.textContent = settings.darkMode ? 'Light' : 'Dark';
+        toggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
+            toggle.textContent = isDark ? 'Dark' : 'Light';
+            MedCrossProgress.saveSettings({ ...MedCrossProgress.getSettings(), darkMode: !isDark });
+        });
+    }
 
     renderOverview();
     renderAchievements();
@@ -28,13 +22,40 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDailyCalendar();
     renderReviewQueue();
 
-    document.getElementById('clear-review').addEventListener('click', () => {
-        if (confirm('Clear your entire review queue?')) {
+    document.getElementById('clear-review').addEventListener('click', async () => {
+        if (await showStatsConfirm()) {
             MedCrossProgress.clearReviewQueue();
             renderReviewQueue();
         }
     });
 });
+
+function showStatsConfirm() {
+    return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        overlay.className = 'app-dialog-overlay active';
+        overlay.innerHTML = `
+            <div class="app-dialog" role="dialog" aria-modal="true" aria-labelledby="stats-dialog-title">
+                <h2 id="stats-dialog-title">Clear Review Queue?</h2>
+                <p>This removes every term from your spaced-repetition queue.</p>
+                <div class="app-dialog-actions">
+                    <button class="modal-btn modal-btn-secondary" data-dialog-cancel>Cancel</button>
+                    <button class="modal-btn modal-btn-primary" data-dialog-confirm>Clear Queue</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        const close = (value) => {
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.remove(), 160);
+            resolve(value);
+        };
+        overlay.querySelector('[data-dialog-cancel]').addEventListener('click', () => close(false));
+        overlay.querySelector('[data-dialog-confirm]').addEventListener('click', () => close(true));
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(false); });
+        overlay.querySelector('[data-dialog-cancel]').focus();
+    });
+}
 
 function fmtTime(s) {
     if (!s) return '--:--';
@@ -42,14 +63,23 @@ function fmtTime(s) {
     return `${String(m).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 }
 function catName(v) { return v.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\b\w/g, c => c.toUpperCase()); }
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[ch]));
+}
 
 function renderOverview() {
     const stats = MedCrossProgress.getStats();
     const streak = MedCrossProgress.getStreak();
     const el = document.getElementById('stats-overview');
     el.innerHTML = `
-        <div class="ov-card"><div class="ov-value">🔥 ${streak.current}</div><div class="ov-label">Current Streak</div></div>
-        <div class="ov-card"><div class="ov-value">🏅 ${streak.longest}</div><div class="ov-label">Longest Streak</div></div>
+        <div class="ov-card"><div class="ov-value">${streak.current}</div><div class="ov-label">Current Streak</div></div>
+        <div class="ov-card"><div class="ov-value">${streak.longest}</div><div class="ov-label">Longest Streak</div></div>
         <div class="ov-card"><div class="ov-value">${stats.totalCompleted}</div><div class="ov-label">Puzzles Solved</div></div>
         <div class="ov-card"><div class="ov-value">${stats.averageAccuracy != null ? stats.averageAccuracy + '%' : '--'}</div><div class="ov-label">Avg Accuracy</div></div>
         <div class="ov-card"><div class="ov-value">${fmtTime(stats.bestTime)}</div><div class="ov-label">Best Time</div></div>
@@ -62,7 +92,6 @@ function renderAchievements() {
     const achievements = MedCrossProgress.getAchievements();
     el.innerHTML = achievements.map(a => `
         <div class="ach-tile ${a.unlocked ? 'unlocked' : 'locked'}">
-            <div class="ach-tile-icon">${a.unlocked ? a.icon : '🔒'}</div>
             <div class="ach-tile-name">${a.name}</div>
             <div class="ach-tile-desc">${a.desc}</div>
             ${a.unlocked ? `<div class="ach-tile-date">Unlocked ${new Date(a.unlockedAt).toLocaleDateString()}</div>` : ''}
@@ -89,13 +118,12 @@ function renderSpecialties() {
         return `
             <div class="spec-card ${done === total && total > 0 ? 'complete' : ''}">
                 <div class="spec-top">
-                    <span class="spec-icon">${CAT_ICONS[cat] || '🩺'}</span>
                     <span class="spec-name">${catName(cat)}</span>
                 </div>
                 <div class="spec-bar-track"><div class="spec-bar-fill" style="width:${pct}%"></div></div>
                 <div class="spec-meta">
                     <span>${done}/${total} levels</span>
-                    <span>${bestTime ? '⏱ ' + fmtTime(bestTime) : ''}</span>
+                    <span>${bestTime ? fmtTime(bestTime) : ''}</span>
                 </div>
             </div>
         `;
@@ -169,7 +197,7 @@ function renderReviewQueue() {
             studyBtn.classList.remove('disabled');
             studyBtn.removeAttribute('aria-disabled');
         } else if (stats.total > 0) {
-            studyBtn.textContent = 'All reviewed ✓';
+            studyBtn.textContent = 'All reviewed';
             studyBtn.classList.add('disabled');
             studyBtn.setAttribute('aria-disabled', 'true');
         } else {
@@ -180,28 +208,34 @@ function renderReviewQueue() {
     }
 
     if (!queue.length) {
-        el.innerHTML = '<div class="review-empty">Nothing to review yet. Terms you miss or reveal will appear here. 🎉</div>';
+        el.innerHTML = '<div class="review-empty">Nothing to review yet. Terms you miss or reveal will appear here.</div>';
         return;
     }
-    el.innerHTML = queue.map(item => {
+    el.innerHTML = queue.map((item, index) => {
         const isDue = (item.due || TODAY_KEY) <= TODAY_KEY;
+        const box = Math.min(5, Math.max(1, Number(item.box) || 1));
+        const category = item.category ? ` · ${catName(String(item.category))}` : '';
+        const difficulty = item.difficulty ? ` · ${DIFF_SHORT[item.difficulty] || catName(String(item.difficulty))}` : '';
+        const source = item.sourcePuzzle ? ` · Source: ${item.sourcePuzzle}` : '';
+        const last = item.lastResult ? ` · Last: ${item.lastResult}` : '';
         return `
-        <div class="review-item" data-term="${item.term}">
+        <div class="review-item" data-review-index="${index}">
             <div class="review-main">
-                <div class="review-term">${item.term}
-                    <span class="box-badge box-${item.box || 1}">${BOX_LABELS[item.box || 1]}</span>
+                <div class="review-term">${escapeHtml(item.term)}
+                    <span class="box-badge box-${box}">${BOX_LABELS[box]}</span>
                     ${isDue ? '<span class="due-badge">Due</span>' : ''}
                 </div>
-                <div class="review-clue">${item.clue}${item.category ? ' · ' + catName(item.category) : ''}${item.difficulty ? ' · ' + (DIFF_SHORT[item.difficulty] || catName(item.difficulty)) : ''}</div>
-                <div class="review-clue">Missed ${item.missedCount || 1}x${item.sourcePuzzle ? ' · Source: ' + item.sourcePuzzle : ''}${item.lastResult ? ' · Last: ' + item.lastResult : ''}</div>
+                <div class="review-clue">${escapeHtml(`${item.clue || ''}${category}${difficulty}`)}</div>
+                <div class="review-clue">${escapeHtml(`Missed ${item.missedCount || 1}x${source}${last}`)}</div>
             </div>
-            <button class="review-remove" title="Mark as learned">✓ Learned</button>
+            <button class="review-remove" title="Mark as learned">Learned</button>
         </div>`;
     }).join('');
     el.querySelectorAll('.review-remove').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const term = e.target.closest('.review-item').dataset.term;
-            MedCrossProgress.removeReviewTerm(term);
+            const index = Number(e.target.closest('.review-item').dataset.reviewIndex);
+            const item = MedCrossProgress.getReviewQueue()[index];
+            if (item) MedCrossProgress.removeReviewTerm(item.term);
             renderReviewQueue();
         });
     });

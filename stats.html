@@ -6,17 +6,15 @@
     <meta name="description" content="Your MedCross stats, achievements, and study review queue.">
     <title>My Stats - MedCross</title>
     <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#f5f7fb">
     <link rel="apple-touch-icon" href="icon.svg">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-
     <div id="stats-page">
         <header class="main-header">
-            <button id="back-button" class="stats-back" onclick="window.location.href='index.html'">← Back to Puzzles</button>
-            <h1>📊 My Stats</h1>
+            <button id="back-button" class="stats-back" onclick="window.location.href='index.html'">Back to Puzzles</button>
+            <h1>Stats</h1>
             <p>Track your progress, streaks, and study queue</p>
         </header>
 
@@ -24,12 +22,12 @@
             <section class="stats-overview" id="stats-overview"></section>
 
             <section class="stats-block">
-                <h2>🏆 Achievements</h2>
+                <h2>Achievements</h2>
                 <div class="ach-gallery" id="ach-gallery"></div>
             </section>
 
             <section class="stats-block">
-                <h2>🩺 By Specialty</h2>
+                <h2>By Specialty</h2>
                 <div class="specialty-grid" id="specialty-grid"></div>
             </section>
 
@@ -45,7 +43,7 @@
 
             <section class="stats-block">
                 <div class="review-header">
-                    <h2>📚 Review Queue</h2>
+                    <h2>Review Queue</h2>
                     <div class="review-actions">
                         <a href="study.html" id="study-now" class="study-now-btn">Study Now</a>
                         <button id="clear-review" class="clear-review-btn">Clear all</button>
@@ -56,14 +54,14 @@
             </section>
         </div>
 
-        <footer style="text-align:center; padding:2rem; color:rgba(255,255,255,0.6); font-size:0.85rem;">
+        <footer style="text-align:center; padding:2rem; color:var(--text-muted); font-size:0.85rem;">
             MedCross — Built for Medical Education
         </footer>
     </div>
 
     <script src="medical-database.js?v=3"></script>
-    <script src="progress.js?v=9"></script>
-    <script src="stats.js?v=9"></script>
+    <script src="progress.js?v=10"></script>
+    <script src="stats.js?v=12"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

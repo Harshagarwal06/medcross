@@ -1,16 +1,8 @@
 const DIFFICULTY_LABELS = {
     m1: 'M1 Level', m2: 'M2 Level', clinical: 'Clinical Years',
-    usmle: 'USMLE Level', residency: 'Residency', api: 'API Data', notes: 'Notes', mini: 'Mini'
+    usmle: 'USMLE Level', residency: 'Residency', api: 'Topic', notes: 'Notes', mini: 'Mini'
 };
 const DIFFICULTY_STARS = { m1: '★☆☆☆☆', m2: '★★☆☆☆', clinical: '★★★☆☆', usmle: '★★★★☆', residency: '★★★★★', api: '✦', notes: '✦', mini: '◆' };
-const CATEGORY_ICONS = {
-    cardiology: '❤️', neurology: '🧠', pulmonology: '🫁', gastroenterology: '🍽️',
-    nephrology: '🥛', endocrinology: '⚖️', hematology: '🩸', immunology: '🛡️',
-    rheumatology: '🦴', infectiousDisease: '🧫', oncology: '🎗️', psychiatry: '💬',
-    dermatology: '🧴', orthopedics: '🦵', obstetricsGynecology: '👶', pediatrics: '🧸',
-    geriatrics: '🧓', emergencyMedicine: '🚑', pharmacology: '💊', anatomy: '📚',
-    fmt: '🦠'
-};
 const CATEGORY_DESCRIPTIONS = {
     cardiology: 'Heart and circulatory system', neurology: 'Brain and nervous system',
     pulmonology: 'Respiratory system', gastroenterology: 'Digestive system',
@@ -40,18 +32,6 @@ const CATEGORY_GRADIENTS = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Dark mode
-    const settings = MedCrossProgress.getSettings();
-    if (settings.darkMode) document.documentElement.setAttribute('data-theme', 'dark');
-    const toggle = document.getElementById('theme-toggle');
-    toggle.textContent = settings.darkMode ? '☀️' : '🌙';
-    toggle.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        document.documentElement.setAttribute('data-theme', isDark ? '' : 'dark');
-        toggle.textContent = isDark ? '🌙' : '☀️';
-        MedCrossProgress.saveSettings({ ...MedCrossProgress.getSettings(), darkMode: !isDark });
-    });
-
     const generatedPuzzles = generatePuzzles();
     localStorage.setItem('generatedPuzzles', JSON.stringify(generatedPuzzles));
     const allPuzzles = [...getCustomPuzzleCards(), ...generatedPuzzles];
@@ -70,7 +50,6 @@ function renderReviewNudge() {
     if (!stats.due) { el.innerHTML = ''; return; }
     el.innerHTML = `
         <a href="study.html" class="review-nudge-card">
-            <span class="review-nudge-icon">📚</span>
             <span class="review-nudge-text">
                 <strong>${stats.due} term${stats.due === 1 ? '' : 's'} due for review</strong>
                 <span>Spaced repetition keeps what you missed from slipping away.</span>
@@ -88,9 +67,8 @@ function renderDailyPuzzle(puzzles) {
     if (!daily) { section.innerHTML = ''; return; }
     const done = MedCrossProgress.isDailyDone(dailyId);
     section.innerHTML = `
-        <div class="daily-card ${done ? 'done' : ''}" style="background:${CATEGORY_GRADIENTS[daily.category] || 'linear-gradient(135deg,#667eea,#764ba2)'}">
-            <div class="daily-badge">${done ? '✅ Completed Today' : '🗓️ Puzzle of the Day'}</div>
-            <div class="daily-icon">${CATEGORY_ICONS[daily.category] || '🩺'}</div>
+        <div class="daily-card ${done ? 'done' : ''}">
+            <div class="daily-badge">${done ? 'Completed Today' : 'Puzzle of the Day'}</div>
             <div class="daily-info">
                 <h3>${daily.title}</h3>
                 <p>${daily.clueCount} clues · ${shortDifficultyLabel(daily.difficulty)} · ${formatCategoryName(daily.category)}</p>
@@ -108,13 +86,13 @@ function renderAchievementsPreview() {
     const unlockedCount = achievements.filter(a => a.unlocked).length;
     section.innerHTML = `
         <div class="ach-preview-header">
-            <h2>🏆 Achievements <span class="ach-count">${unlockedCount}/${achievements.length}</span></h2>
-            <a href="stats.html" class="ach-viewall">View all →</a>
+            <h2>Achievements <span class="ach-count">${unlockedCount}/${achievements.length}</span></h2>
+            <a href="stats.html" class="ach-viewall">View all</a>
         </div>
         <div class="ach-preview-row">
             ${achievements.map(a => `
                 <div class="ach-chip ${a.unlocked ? 'unlocked' : 'locked'}" title="${a.name}: ${a.desc}">
-                    <span class="ach-chip-icon">${a.unlocked ? a.icon : '🔒'}</span>
+                    <span class="ach-chip-icon">${a.unlocked ? '' : ''}</span>
                     <span class="ach-chip-name">${a.name}</span>
                 </div>
             `).join('')}
@@ -143,7 +121,7 @@ function generatePuzzles() {
                 difficultyLabel: 'Mini',
                 size: '5x5',
                 clueCount: 10,
-                description: `A compact NYT-style mini for ${formatCategoryName(category)} ${shortDifficultyLabel(difficulty)} practice.`
+                description: `A compact checked mini built from ${formatCategoryName(category)} terms when possible, with a general medical fallback.`
             });
         }
     }
@@ -157,7 +135,7 @@ function getCustomPuzzleCards() {
         category: 'custom',
         categoryLabel: 'Custom',
         difficulty: p.difficulty || 'custom',
-        difficultyLabel: p.difficulty === 'api' ? 'API' : 'Notes',
+        difficultyLabel: p.difficulty === 'api' ? 'Topic' : 'Notes',
         size: p.size || 'Custom',
         clueCount: (p.data?.clues?.across?.length || 0) + (p.data?.clues?.down?.length || 0),
         description: p.description || 'Generated from custom medical terms.'
@@ -169,17 +147,12 @@ function renderCustomPuzzleMaker() {
     if (!section) return;
     const aiReady = typeof MedAI !== 'undefined' && MedAI.isConfigured();
     const apiReady = typeof MedCrossAPISources !== 'undefined';
-    const apiOptions = apiReady
-        ? MedCrossAPISources.availableSources().map(source =>
-            `<option value="${source.value}">${source.label}${source.needsKey ? ' (keyed)' : ''}</option>`
-        ).join('')
-        : '';
     section.innerHTML = `
         <div class="notes-create-card">
             <div>
                 <div class="notes-kicker">Custom practice</div>
                 <h2>Create a custom puzzle</h2>
-                <p>Paste notes or fetch medical terms from public data sources.</p>
+                <p>Paste notes or type any medical topic and MedCross will build the word bank.</p>
             </div>
             <button id="open-notes-creator" class="notes-create-btn" type="button">Create Puzzle</button>
         </div>
@@ -191,24 +164,20 @@ function renderCustomPuzzleMaker() {
                 </div>
                 <div class="creator-tabs" role="tablist" aria-label="Custom puzzle source">
                     <button class="creator-tab active" id="creator-notes-tab" type="button" data-mode="notes">Notes</button>
-                    <button class="creator-tab" id="creator-api-tab" type="button" data-mode="api">API Data</button>
+                    <button class="creator-tab" id="creator-api-tab" type="button" data-mode="api">Topic</button>
                 </div>
                 <div class="creator-panel" id="creator-notes-panel">
                     <textarea id="notes-input" class="notes-input" placeholder="Paste medical notes here..."></textarea>
                 </div>
                 <div class="creator-panel api-panel" id="creator-api-panel" hidden>
-                    <label class="creator-label" for="api-source">Source</label>
-                    <select id="api-source" class="creator-select" ${apiReady ? '' : 'disabled'}>
-                        ${apiOptions || '<option>No API sources available</option>'}
-                    </select>
-                    <label class="creator-label" for="api-query">Search topic</label>
-                    <input id="api-query" class="creator-input" type="text" placeholder="Examples: cardiomyopathy, diabetes, metformin">
-                    <p class="creator-help">ClinicalTables and RxNorm work without keys. Add a proxy URL in config.js for private keyed sources.</p>
+                    <label class="creator-label" for="api-query">Topic</label>
+                    <input id="api-query" class="creator-input" type="text" placeholder="Examples: asthma, renal failure, beta blockers, ECG interpretation">
+                    <p class="creator-help">MedCross searches medical APIs automatically and uses Gemini to improve the word bank when your key is configured.</p>
                 </div>
                 <div class="notes-status" id="notes-status">${aiReady ? 'Gemini will extract 15-30 terms and clues.' : 'Add a Gemini API key in config.js to enable note extraction.'}</div>
                 <div class="notes-actions">
                     <button id="notes-generate" class="notes-create-btn" type="button" ${aiReady ? '' : 'disabled'}>Generate from Notes</button>
-                    <button id="api-generate" class="notes-create-btn" type="button" hidden ${apiReady ? '' : 'disabled'}>Fetch and Build</button>
+                    <button id="api-generate" class="notes-create-btn" type="button" hidden ${apiReady || aiReady ? '' : 'disabled'}>Build from Topic</button>
                 </div>
             </div>
         </div>
@@ -239,7 +208,7 @@ function setCreatorMode(mode, { aiReady, apiReady }) {
     document.getElementById('api-generate').hidden = notesMode;
     document.getElementById('notes-status').textContent = notesMode
         ? (aiReady ? 'Gemini will extract 15-30 terms and clues.' : 'Add a Gemini API key in config.js to enable note extraction.')
-        : (apiReady ? 'Fetch 5-30 terms from a medical data source and build a puzzle.' : 'No API source client is loaded.');
+        : (apiReady || aiReady ? '' : 'Add Gemini or load the API source client to create a topic puzzle.');
 }
 
 async function createPuzzleFromNotes() {
@@ -270,24 +239,55 @@ async function createPuzzleFromNotes() {
 }
 
 async function createPuzzleFromAPI() {
-    const source = document.getElementById('api-source').value;
     const query = document.getElementById('api-query').value.trim();
     const status = document.getElementById('notes-status');
     const btn = document.getElementById('api-generate');
+    if (query.length < 2) {
+        status.textContent = 'Type a medical topic first.';
+        return;
+    }
     btn.disabled = true;
-    status.textContent = 'Fetching medical terms...';
+    status.textContent = 'Searching medical APIs...';
     try {
-        const entries = await MedCrossAPISources.fetchEntries({ source, query, limit: 30 });
+        let apiEntries = [];
+        if (typeof MedCrossAPISources !== 'undefined') {
+            try {
+                apiEntries = await MedCrossAPISources.fetchTopicEntries({ query, limit: 30 });
+            } catch (apiError) {
+                console.warn('[MedCross] API topic search failed:', apiError.message);
+            }
+        }
+
+        let entries = apiEntries;
+        if (typeof MedAI !== 'undefined' && MedAI.isConfigured()) {
+            status.textContent = apiEntries.length
+                ? 'Refining the word bank with Gemini...'
+                : 'Building a word bank with Gemini...';
+            try {
+                entries = await MedAI.generateTopicPuzzleEntries(query, apiEntries);
+            } catch (aiError) {
+                console.warn('[MedCross] Gemini topic generation failed:', aiError.message);
+                if (!apiEntries.length) throw aiError;
+                entries = apiEntries;
+                status.textContent = 'Gemini was unavailable. Building from API terms...';
+            }
+        }
+
+        if (!entries || entries.length < 5) {
+            throw new Error('Not enough topic terms were found. Try a more specific medical topic.');
+        }
+
         openCustomPuzzleFromEntries(entries, {
-            idPrefix: 'custom-api',
-            title: `API Puzzle: ${query}`,
+            idPrefix: 'custom-topic',
+            title: `Topic Puzzle: ${query}`,
             sourceTitle: query,
             difficulty: 'api',
-            description: `Generated from ${formatCategoryName(source)} API results for "${query}".`,
+            description: `Generated automatically from medical APIs${typeof MedAI !== 'undefined' && MedAI.isConfigured() ? ' and Gemini' : ''} for "${query}".`,
+            sourceEntries: apiEntries,
             status
         });
     } catch (e) {
-        status.textContent = e.message || 'Could not fetch enough usable terms from that source.';
+        status.textContent = e.message || 'Could not build a crossword from that topic.';
         btn.disabled = false;
     }
 }
@@ -305,7 +305,7 @@ function openCustomPuzzleFromEntries(entries, options) {
         size: `${data.cols}x${data.rows}`,
         description: options.description,
         data,
-        sourceEntries: entries,
+        sourceEntries: options.sourceEntries || entries,
         createdAt: new Date().toISOString()
     };
     MedCrossProgress.saveCustomPuzzle(puzzle);
@@ -320,7 +320,7 @@ function renderStatsBar() {
     const totalPuzzles = Object.keys(medicalCrosswordData).reduce((sum, cat) => sum + Object.keys(medicalCrosswordData[cat]).length, 0);
     const bar = document.getElementById('stats-bar');
     bar.innerHTML = `
-        <div class="stat-item"><div class="stat-value">🔥 ${streak.current}</div><div class="stat-label">Day Streak</div></div>
+        <div class="stat-item"><div class="stat-value">${streak.current}</div><div class="stat-label">Day Streak</div></div>
         <div class="stat-item"><div class="stat-value">${stats.totalCompleted}</div><div class="stat-label">Completed</div></div>
         <div class="stat-item"><div class="stat-value">${totalPuzzles}</div><div class="stat-label">Total Puzzles</div></div>
         <div class="stat-item"><div class="stat-value">${stats.averageAccuracy != null ? stats.averageAccuracy + '%' : '--'}</div><div class="stat-label">Avg Accuracy</div></div>
@@ -361,15 +361,16 @@ function initializeUI(puzzles) {
 function renderCategoryCards(puzzles, currentFilters) {
     const grid = document.getElementById('category-grid');
     grid.innerHTML = '';
+    let i = 0;
     for (const category of Object.keys(medicalCrosswordData)) {
         const card = document.createElement('button');
         card.type = 'button';
         card.className = 'category-card';
+        card.style.animationDelay = `${i * 0.05}s`;
+        i++;
         if (currentFilters.category === category) card.classList.add('active');
-        card.style.background = CATEGORY_GRADIENTS[category] || 'linear-gradient(135deg, #667eea, #764ba2)';
         card.dataset.category = category;
         card.innerHTML = `
-            <div class="category-icon">${CATEGORY_ICONS[category] || '➕'}</div>
             <h3>${formatCategoryName(category)}</h3>
             <p>${CATEGORY_DESCRIPTIONS[category] || 'Medical specialty'}</p>
             <span class="puzzle-count">${puzzles.filter(p => p.category === category).length} puzzles</span>
@@ -387,10 +388,13 @@ function renderCategoryCards(puzzles, currentFilters) {
 function renderDifficultyCards(puzzles, currentFilters) {
     const grid = document.getElementById('difficulty-grid');
     grid.innerHTML = '';
+    let i = 0;
     for (const difficulty of getDifficulties()) {
         const card = document.createElement('button');
         card.type = 'button';
         card.className = 'difficulty-card';
+        card.style.animationDelay = `${i * 0.05}s`;
+        i++;
         if (currentFilters.difficulty === difficulty) card.classList.add('active');
         card.innerHTML = `
             <h3>${DIFFICULTY_LABELS[difficulty] || formatCategoryName(difficulty)}</h3>
@@ -416,7 +420,7 @@ function renderFilterOptions(puzzles) {
     replaceOptions(document.getElementById('difficulty-filter'), [
         { value: 'all', label: 'All Difficulties' },
         { value: 'notes', label: 'Notes' },
-        { value: 'api', label: 'API Data' },
+        { value: 'api', label: 'Topic' },
         { value: 'mini', label: 'Mini' },
         ...getDifficulties().map(d => ({ value: d, label: DIFFICULTY_LABELS[d] || formatCategoryName(d) }))
     ]);
@@ -459,20 +463,20 @@ function createPuzzleCard(puzzle) {
     const progress = MedCrossProgress.getProgress(puzzle.id);
     let badgeHTML = '';
     if (progress && progress.completed) {
-        badgeHTML = `<span class="completion-badge completed">✅ Completed${progress.bestTime ? ' · ' + formatTime(progress.bestTime) : ''}</span>`;
+        badgeHTML = `<span class="completion-badge completed">Completed${progress.bestTime ? ' · ' + formatTime(progress.bestTime) : ''}</span>`;
     } else if (progress && progress.answers && progress.answers.length > 0) {
-        badgeHTML = `<span class="completion-badge in-progress">⏳ In Progress</span>`;
+        badgeHTML = `<span class="completion-badge in-progress">In Progress</span>`;
     }
 
     card.innerHTML = `
         <div class="puzzle-header">
-            <h3 class="puzzle-title">${puzzle.title}</h3>
-            <span class="puzzle-difficulty">${shortDifficultyLabel(puzzle.difficulty)}</span>
+            <h3 class="puzzle-title">${escapeHtml(puzzle.title)}</h3>
+            <span class="puzzle-difficulty">${escapeHtml(shortDifficultyLabel(puzzle.difficulty))}</span>
         </div>
-        <p class="puzzle-description">${puzzle.description}</p>
+        <p class="puzzle-description">${escapeHtml(puzzle.description)}</p>
         ${badgeHTML}
         <div class="puzzle-footer">
-            <span class="puzzle-size">${puzzle.clueCount} clues</span>
+            <span class="puzzle-size">${Number(puzzle.clueCount) || 0} clues</span>
             <button class="start-button" type="button">${progress && progress.answers && progress.answers.length > 0 ? 'Resume' : 'Start Puzzle'}</button>
         </div>
     `;
@@ -493,6 +497,16 @@ function getDifficulties() {
     return ['m1', 'm2', 'clinical', 'usmle', 'residency'].filter(d => set.has(d));
 }
 
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[ch]));
+}
+
 function formatCategoryName(v) { return v.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\b\w/g, c => c.toUpperCase()); }
-function shortDifficultyLabel(d) { return { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency', api: 'API', notes: 'Notes', mini: 'Mini' }[d] || formatCategoryName(d); }
-function difficultyDescription(d) { return { m1: 'Basic medical sciences', m2: 'Pathophysiology', clinical: 'Clinical applications', usmle: 'Board exam preparation', residency: 'Advanced specialty knowledge', api: 'External data source', notes: 'Custom study notes', mini: 'Dense 5x5 crossword' }[d] || 'Medical crossword difficulty'; }
+function shortDifficultyLabel(d) { return { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency', api: 'Topic', notes: 'Notes', mini: 'Mini' }[d] || formatCategoryName(d); }
+function difficultyDescription(d) { return { m1: 'Basic medical sciences', m2: 'Pathophysiology', clinical: 'Clinical applications', usmle: 'Board exam preparation', residency: 'Advanced specialty knowledge', api: 'Automatic topic puzzle', notes: 'Custom study notes', mini: 'Dense 5x5 crossword' }[d] || 'Medical crossword difficulty'; }
