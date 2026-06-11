@@ -1,8 +1,8 @@
 const DIFFICULTY_LABELS = {
     m1: 'M1 Level', m2: 'M2 Level', clinical: 'Clinical Years',
-    usmle: 'USMLE Level', residency: 'Residency'
+    usmle: 'USMLE Level', residency: 'Residency', api: 'API Data', notes: 'Notes', mini: 'Mini'
 };
-const DIFFICULTY_STARS = { m1: '★☆☆☆☆', m2: '★★☆☆☆', clinical: '★★★☆☆', usmle: '★★★★☆', residency: '★★★★★' };
+const DIFFICULTY_STARS = { m1: '★☆☆☆☆', m2: '★★☆☆☆', clinical: '★★★☆☆', usmle: '★★★★☆', residency: '★★★★★', api: '✦', notes: '✦', mini: '◆' };
 const CATEGORY_ICONS = {
     cardiology: '❤️', neurology: '🧠', pulmonology: '🫁', gastroenterology: '🍽️',
     nephrology: '🥛', endocrinology: '⚖️', hematology: '🩸', immunology: '🛡️',
@@ -54,11 +54,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const generatedPuzzles = generatePuzzles();
     localStorage.setItem('generatedPuzzles', JSON.stringify(generatedPuzzles));
+    const allPuzzles = [...getCustomPuzzleCards(), ...generatedPuzzles];
     renderStatsBar();
     renderReviewNudge();
+    renderCustomPuzzleMaker();
     renderDailyPuzzle(generatedPuzzles);
     renderAchievementsPreview();
-    initializeUI(generatedPuzzles);
+    initializeUI(allPuzzles);
 });
 
 function renderReviewNudge() {
@@ -133,9 +135,183 @@ function generatePuzzles() {
                 size: `Dynamic`, clueCount,
                 description: `${DIFFICULTY_LABELS[difficulty] || difficulty} crossword covering ${formatCategoryName(category)}.`
             });
+            generatedPuzzles.push({
+                id: `${category}-${difficulty}-mini`,
+                title: `${formatCategoryName(category)} ${shortDifficultyLabel(difficulty)} Mini`,
+                category, categoryLabel: formatCategoryName(category),
+                difficulty: 'mini',
+                difficultyLabel: 'Mini',
+                size: '5x5',
+                clueCount: 10,
+                description: `A compact NYT-style mini for ${formatCategoryName(category)} ${shortDifficultyLabel(difficulty)} practice.`
+            });
         }
     }
     return generatedPuzzles;
+}
+
+function getCustomPuzzleCards() {
+    return MedCrossProgress.getCustomPuzzles().map(p => ({
+        id: p.id,
+        title: p.title || 'Custom Puzzle',
+        category: 'custom',
+        categoryLabel: 'Custom',
+        difficulty: p.difficulty || 'custom',
+        difficultyLabel: p.difficulty === 'api' ? 'API' : 'Notes',
+        size: p.size || 'Custom',
+        clueCount: (p.data?.clues?.across?.length || 0) + (p.data?.clues?.down?.length || 0),
+        description: p.description || 'Generated from custom medical terms.'
+    }));
+}
+
+function renderCustomPuzzleMaker() {
+    const section = document.getElementById('notes-create-section');
+    if (!section) return;
+    const aiReady = typeof MedAI !== 'undefined' && MedAI.isConfigured();
+    const apiReady = typeof MedCrossAPISources !== 'undefined';
+    const apiOptions = apiReady
+        ? MedCrossAPISources.availableSources().map(source =>
+            `<option value="${source.value}">${source.label}${source.needsKey ? ' (keyed)' : ''}</option>`
+        ).join('')
+        : '';
+    section.innerHTML = `
+        <div class="notes-create-card">
+            <div>
+                <div class="notes-kicker">Custom practice</div>
+                <h2>Create a custom puzzle</h2>
+                <p>Paste notes or fetch medical terms from public data sources.</p>
+            </div>
+            <button id="open-notes-creator" class="notes-create-btn" type="button">Create Puzzle</button>
+        </div>
+        <div class="notes-modal" id="notes-modal" hidden>
+            <div class="notes-modal-content">
+                <div class="notes-modal-header">
+                    <h3>Create Custom Puzzle</h3>
+                    <button id="notes-close" type="button" aria-label="Close">x</button>
+                </div>
+                <div class="creator-tabs" role="tablist" aria-label="Custom puzzle source">
+                    <button class="creator-tab active" id="creator-notes-tab" type="button" data-mode="notes">Notes</button>
+                    <button class="creator-tab" id="creator-api-tab" type="button" data-mode="api">API Data</button>
+                </div>
+                <div class="creator-panel" id="creator-notes-panel">
+                    <textarea id="notes-input" class="notes-input" placeholder="Paste medical notes here..."></textarea>
+                </div>
+                <div class="creator-panel api-panel" id="creator-api-panel" hidden>
+                    <label class="creator-label" for="api-source">Source</label>
+                    <select id="api-source" class="creator-select" ${apiReady ? '' : 'disabled'}>
+                        ${apiOptions || '<option>No API sources available</option>'}
+                    </select>
+                    <label class="creator-label" for="api-query">Search topic</label>
+                    <input id="api-query" class="creator-input" type="text" placeholder="Examples: cardiomyopathy, diabetes, metformin">
+                    <p class="creator-help">ClinicalTables and RxNorm work without keys. Add a proxy URL in config.js for private keyed sources.</p>
+                </div>
+                <div class="notes-status" id="notes-status">${aiReady ? 'Gemini will extract 15-30 terms and clues.' : 'Add a Gemini API key in config.js to enable note extraction.'}</div>
+                <div class="notes-actions">
+                    <button id="notes-generate" class="notes-create-btn" type="button" ${aiReady ? '' : 'disabled'}>Generate from Notes</button>
+                    <button id="api-generate" class="notes-create-btn" type="button" hidden ${apiReady ? '' : 'disabled'}>Fetch and Build</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const modal = document.getElementById('notes-modal');
+    document.body.appendChild(modal);
+    const openButton = document.getElementById('open-notes-creator');
+    const closeButton = document.getElementById('notes-close');
+    const notesButton = document.getElementById('notes-generate');
+    const apiButton = document.getElementById('api-generate');
+    openButton.onclick = () => { modal.hidden = false; };
+    closeButton.onclick = () => { modal.hidden = true; };
+    notesButton.onclick = createPuzzleFromNotes;
+    apiButton.onclick = createPuzzleFromAPI;
+    document.querySelectorAll('.creator-tab').forEach(tab => {
+        tab.addEventListener('click', () => setCreatorMode(tab.dataset.mode, { aiReady, apiReady }));
+    });
+}
+
+function setCreatorMode(mode, { aiReady, apiReady }) {
+    const notesMode = mode === 'notes';
+    document.getElementById('creator-notes-tab').classList.toggle('active', notesMode);
+    document.getElementById('creator-api-tab').classList.toggle('active', !notesMode);
+    document.getElementById('creator-notes-panel').hidden = !notesMode;
+    document.getElementById('creator-api-panel').hidden = notesMode;
+    document.getElementById('notes-generate').hidden = !notesMode;
+    document.getElementById('api-generate').hidden = notesMode;
+    document.getElementById('notes-status').textContent = notesMode
+        ? (aiReady ? 'Gemini will extract 15-30 terms and clues.' : 'Add a Gemini API key in config.js to enable note extraction.')
+        : (apiReady ? 'Fetch 5-30 terms from a medical data source and build a puzzle.' : 'No API source client is loaded.');
+}
+
+async function createPuzzleFromNotes() {
+    const input = document.getElementById('notes-input');
+    const status = document.getElementById('notes-status');
+    const btn = document.getElementById('notes-generate');
+    const notes = input.value.trim();
+    if (notes.length < 120) {
+        status.textContent = 'Paste at least a paragraph of notes so there is enough material.';
+        return;
+    }
+    btn.disabled = true;
+    status.textContent = 'Extracting crossword terms...';
+    try {
+        const entries = await MedAI.extractPuzzleTermsFromNotes(notes);
+        openCustomPuzzleFromEntries(entries, {
+            idPrefix: 'custom-notes',
+            title: `Notes Puzzle ${new Date().toLocaleDateString()}`,
+            sourceTitle: 'Notes',
+            difficulty: 'notes',
+            description: 'Generated from your pasted study notes.',
+            status
+        });
+    } catch (e) {
+        status.textContent = e.message || 'Could not create a puzzle from those notes.';
+        btn.disabled = false;
+    }
+}
+
+async function createPuzzleFromAPI() {
+    const source = document.getElementById('api-source').value;
+    const query = document.getElementById('api-query').value.trim();
+    const status = document.getElementById('notes-status');
+    const btn = document.getElementById('api-generate');
+    btn.disabled = true;
+    status.textContent = 'Fetching medical terms...';
+    try {
+        const entries = await MedCrossAPISources.fetchEntries({ source, query, limit: 30 });
+        openCustomPuzzleFromEntries(entries, {
+            idPrefix: 'custom-api',
+            title: `API Puzzle: ${query}`,
+            sourceTitle: query,
+            difficulty: 'api',
+            description: `Generated from ${formatCategoryName(source)} API results for "${query}".`,
+            status
+        });
+    } catch (e) {
+        status.textContent = e.message || 'Could not fetch enough usable terms from that source.';
+        btn.disabled = false;
+    }
+}
+
+function openCustomPuzzleFromEntries(entries, options) {
+    options.status.textContent = 'Building puzzle grid...';
+    const generator = new CrosswordGenerator({});
+    const data = generator.generateFromEntries(entries, { title: options.sourceTitle });
+    const id = `${options.idPrefix}-${Date.now()}`;
+    const puzzle = {
+        id,
+        title: options.title,
+        category: 'custom',
+        difficulty: options.difficulty,
+        size: `${data.cols}x${data.rows}`,
+        description: options.description,
+        data,
+        sourceEntries: entries,
+        createdAt: new Date().toISOString()
+    };
+    MedCrossProgress.saveCustomPuzzle(puzzle);
+    localStorage.setItem('selectedPuzzleId', id);
+    options.status.textContent = 'Puzzle ready. Opening it now...';
+    window.location.href = `puzzle.html?id=${encodeURIComponent(id)}&v=2`;
 }
 
 function renderStatsBar() {
@@ -234,10 +410,14 @@ function renderDifficultyCards(puzzles, currentFilters) {
 function renderFilterOptions(puzzles) {
     replaceOptions(document.getElementById('category-filter'), [
         { value: 'all', label: 'All Categories' },
+        { value: 'custom', label: 'Custom' },
         ...Object.keys(medicalCrosswordData).map(c => ({ value: c, label: formatCategoryName(c) }))
     ]);
     replaceOptions(document.getElementById('difficulty-filter'), [
         { value: 'all', label: 'All Difficulties' },
+        { value: 'notes', label: 'Notes' },
+        { value: 'api', label: 'API Data' },
+        { value: 'mini', label: 'Mini' },
         ...getDifficulties().map(d => ({ value: d, label: DIFFICULTY_LABELS[d] || formatCategoryName(d) }))
     ]);
 }
@@ -314,5 +494,5 @@ function getDifficulties() {
 }
 
 function formatCategoryName(v) { return v.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\b\w/g, c => c.toUpperCase()); }
-function shortDifficultyLabel(d) { return { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency' }[d] || formatCategoryName(d); }
-function difficultyDescription(d) { return { m1: 'Basic medical sciences', m2: 'Pathophysiology', clinical: 'Clinical applications', usmle: 'Board exam preparation', residency: 'Advanced specialty knowledge' }[d] || 'Medical crossword difficulty'; }
+function shortDifficultyLabel(d) { return { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency', api: 'API', notes: 'Notes', mini: 'Mini' }[d] || formatCategoryName(d); }
+function difficultyDescription(d) { return { m1: 'Basic medical sciences', m2: 'Pathophysiology', clinical: 'Clinical applications', usmle: 'Board exam preparation', residency: 'Advanced specialty knowledge', api: 'External data source', notes: 'Custom study notes', mini: 'Dense 5x5 crossword' }[d] || 'Medical crossword difficulty'; }

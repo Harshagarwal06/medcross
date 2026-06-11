@@ -28,6 +28,84 @@ class CrosswordGenerator {
         return this._legacyGenerate(category, difficulty);
     }
 
+    generateMiniCrossword(category, difficulty) {
+        if (!this.database[category]) {
+            throw new Error(`Unknown category: ${category}`);
+        }
+
+        const bank = this._buildMiniWordBank(category, difficulty);
+        if (bank.length < 10) {
+            throw new Error(`Not enough short medical terms for a mini crossword: ${category}`);
+        }
+
+        const byLen = this._indexByLength(bank);
+        const deadline = Date.now() + 600;
+
+        for (const template of this._miniTemplates()) {
+            if (Date.now() > deadline) break;
+            const size = template.length;
+            const slots = this._extractSlots(template);
+            if (!this._templateViable(slots, byLen)) continue;
+            this._buildCrossings(slots);
+
+            for (let attempt = 0; attempt < 3; attempt++) {
+                if (Date.now() > deadline) break;
+                const domains = {};
+                for (const s of slots) domains[s.id] = [...(byLen[s.len] || [])];
+
+                const filled = Array.from({ length: size }, () => Array(size).fill(null));
+                const assigned = {};
+                const used = new Set();
+                const order = this._slotOrder(slots, domains);
+
+                if (this._backtrack(0, order, null, domains, filled, assigned, used, deadline)) {
+                    const result = this._buildNYTResult(template, slots, assigned, size);
+                    result.mini = true;
+                    result.stats.mini = true;
+                    result.stats.nytStyle = true;
+                    return result;
+                }
+            }
+        }
+
+        return this._curatedMedicalMini();
+    }
+
+    generateFromEntries(entries, options = {}) {
+        const normalized = this._normalizeCustomEntries(entries);
+        if (normalized.length < 5) {
+            throw new Error('Add at least 5 crossword-ready terms to generate a puzzle.');
+        }
+
+        const customDb = {
+            custom: {
+                m1: normalized.map(e => ({ answer: e.answer, question: e.question }))
+            }
+        };
+        const generator = new CrosswordGenerator(customDb);
+        const result = generator.generateCrossword('custom', 'm1');
+        result.custom = true;
+        result.sourceTitle = options.title || 'Custom Notes';
+        return result;
+    }
+
+    _normalizeCustomEntries(entries) {
+        const seen = new Set();
+        const out = [];
+        for (const entry of Array.isArray(entries) ? entries : []) {
+            const answer = String(entry.answer || entry.word || '')
+                .replace(/[^a-z]/gi, '')
+                .toUpperCase();
+            const question = String(entry.question || entry.clue || '').trim();
+            if (answer.length < 3 || answer.length > 15 || !question || seen.has(answer)) continue;
+            const answerRegex = new RegExp(answer.split('').join('\\s*'), 'i');
+            if (answerRegex.test(question.replace(/[^a-z]/gi, '').toUpperCase())) continue;
+            seen.add(answer);
+            out.push({ answer, question });
+        }
+        return out.slice(0, 30);
+    }
+
     // =========================================================================
     // NYT-STYLE GENERATION
     // =========================================================================
@@ -270,8 +348,10 @@ class CrosswordGenerator {
 
         for (const cand of candidates) {
             // ── Place word ──────────────────────────────────────────────────
+            const previousCells = [];
             for (let i = 0; i < slot.cells.length; i++) {
                 const { r, c } = slot.cells[i];
+                previousCells.push({ r, c, value: filled[r][c] });
                 filled[r][c] = cand.word[i];
             }
             assigned[slot.id] = cand;
@@ -300,9 +380,8 @@ class CrosswordGenerator {
             }
 
             // ── Undo ────────────────────────────────────────────────────────
-            for (let i = 0; i < slot.cells.length; i++) {
-                const { r, c } = slot.cells[i];
-                filled[r][c] = null;
+            for (const cell of previousCells) {
+                filled[cell.r][cell.c] = cell.value;
             }
             delete assigned[slot.id];
             used.delete(cand.word);
@@ -395,6 +474,74 @@ class CrosswordGenerator {
         return Object.values(counts).filter(v => v >= 2).length;
     }
 
+    _miniTemplates() {
+        const fromRows = rows => rows.map(row => [...row].map(ch => ch === '#' ? 1 : 0));
+        return [
+            fromRows([
+                '.....',
+                '.....',
+                '.....',
+                '.....',
+                '.....'
+            ]),
+            fromRows([
+                '#...#',
+                '.....',
+                '.....',
+                '.....',
+                '#...#'
+            ])
+        ];
+    }
+
+    _curatedMedicalMini() {
+        this.grid = [
+            [0, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 0]
+        ];
+        this.solution = [
+            ['', 'A', 'L', 'S', ''],
+            ['A', 'C', 'U', 'T', 'E'],
+            ['L', 'U', 'M', 'E', 'N'],
+            ['S', 'T', 'E', 'N', 'T'],
+            ['', 'E', 'N', 'T', '']
+        ];
+        this.words = [
+            { word: 'ALS', row: 0, col: 1, direction: 'across', clue: 'Progressive motor neuron disease abbreviation' },
+            { word: 'ACUTE', row: 1, col: 0, direction: 'across', clue: 'Rapid in onset, as an illness' },
+            { word: 'LUMEN', row: 2, col: 0, direction: 'across', clue: 'Interior channel of a vessel or tube' },
+            { word: 'STENT', row: 3, col: 0, direction: 'across', clue: 'Device placed to keep a vessel open' },
+            { word: 'ENT', row: 4, col: 1, direction: 'across', clue: 'Ear, nose, and throat specialty' },
+            { word: 'ALS', row: 1, col: 0, direction: 'down', clue: 'Lou Gehrig disease abbreviation' },
+            { word: 'ACUTE', row: 0, col: 1, direction: 'down', clue: 'Opposite of chronic' },
+            { word: 'LUMEN', row: 0, col: 2, direction: 'down', clue: 'Open space inside a tubular organ' },
+            { word: 'STENT', row: 0, col: 3, direction: 'down', clue: 'Tube-like support used in angioplasty' },
+            { word: 'ENT', row: 1, col: 4, direction: 'down', clue: 'Specialist for sinus and throat problems' }
+        ];
+
+        return {
+            grid: this.grid,
+            solution: this.solution,
+            clues: this.processPlacedWordsIntoClues(),
+            rows: 5,
+            cols: 5,
+            mini: true,
+            stats: {
+                wordsPlaced: this.words.length,
+                totalWords: this.words.length,
+                compactness: 84,
+                intersections: 21,
+                checkedPct: 100,
+                nytStyle: true,
+                mini: true,
+                curatedFallback: true
+            }
+        };
+    }
+
     // ── Word-bank helpers ─────────────────────────────────────────────────────
 
     /** All usable words in a category across every difficulty level. */
@@ -412,6 +559,39 @@ class CrosswordGenerator {
             }
         }
         return bank;
+    }
+
+    _buildMiniWordBank(category, difficulty) {
+        const DIFFS = ['m1', 'm2', 'clinical', 'usmle', 'residency'];
+        const seen = new Set();
+        const bank = [];
+
+        const addEntry = (entry, sourceCategory, sourceDifficulty) => {
+            const word = String(entry.answer || '').replace(/[^a-z]/gi, '').toUpperCase();
+            const clue = String(entry.question || '').trim();
+            if (word.length < 3 || word.length > 5 || !clue || seen.has(word)) return;
+            seen.add(word);
+            bank.push({
+                word,
+                clue,
+                category: sourceCategory,
+                difficulty: sourceDifficulty,
+                score: sourceCategory === category ? 2 : 0
+            });
+        };
+
+        for (const diff of [difficulty, ...DIFFS].filter(Boolean)) {
+            for (const entry of (this.database[category]?.[diff] || [])) addEntry(entry, category, diff);
+        }
+
+        for (const cat of Object.keys(this.database)) {
+            if (cat === category) continue;
+            for (const diff of DIFFS) {
+                for (const entry of (this.database[cat]?.[diff] || [])) addEntry(entry, cat, diff);
+            }
+        }
+
+        return bank.sort((a, b) => b.score - a.score || a.word.localeCompare(b.word));
     }
 
     _indexByLength(bank) {

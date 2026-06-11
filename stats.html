@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="icon.svg">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
@@ -34,6 +34,16 @@
             </section>
 
             <section class="stats-block">
+                <h2>Focus Areas</h2>
+                <div class="weak-grid" id="weak-grid"></div>
+            </section>
+
+            <section class="stats-block">
+                <h2>Daily Challenge</h2>
+                <div class="daily-calendar" id="daily-calendar"></div>
+            </section>
+
+            <section class="stats-block">
                 <div class="review-header">
                     <h2>📚 Review Queue</h2>
                     <div class="review-actions">
@@ -52,8 +62,8 @@
     </div>
 
     <script src="medical-database.js?v=3"></script>
-    <script src="progress.js?v=3"></script>
-    <script src="stats.js?v=3"></script>
+    <script src="progress.js?v=9"></script>
+    <script src="stats.js?v=9"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

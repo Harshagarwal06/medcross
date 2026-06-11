@@ -1,22 +1,36 @@
-const PUZZLE_DIFFICULTY_LABELS = { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency' };
+const PUZZLE_DIFFICULTY_LABELS = { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency', notes: 'Notes', api: 'API', mini: 'Mini' };
 
 function goBack() { window.location.href = 'index.html'; }
 function getPuzzleIdFromUrl() { return new URLSearchParams(window.location.search).get('id'); }
 
 function getPuzzleById(puzzleId) {
+    if (puzzleId && puzzleId.startsWith('custom-')) {
+        const custom = MedCrossProgress.getCustomPuzzles().find(p => p.id === puzzleId);
+        if (custom) return custom;
+    }
+
     const cachedPuzzle = getCachedPuzzleById(puzzleId);
     if (cachedPuzzle && cachedPuzzle.data) return cachedPuzzle;
 
-    const [category, ...difficultyParts] = puzzleId.split('-');
+    const parts = puzzleId.split('-');
+    const isMini = parts[parts.length - 1] === 'mini';
+    if (isMini) parts.pop();
+    const [category, ...difficultyParts] = parts;
     const difficulty = difficultyParts.join('-');
     if (!medicalCrosswordData[category] || !medicalCrosswordData[category][difficulty]) return null;
 
     const generator = new CrosswordGenerator(medicalCrosswordData);
-    const generatedData = generator.generateCrossword(category, difficulty);
+    const generatedData = isMini
+        ? generator.generateMiniCrossword(category, difficulty)
+        : generator.generateCrossword(category, difficulty);
     const puzzle = {
         id: puzzleId,
-        title: `${formatPuzzleName(category)} ${PUZZLE_DIFFICULTY_LABELS[difficulty] || formatPuzzleName(difficulty)}`,
-        category, difficulty,
+        title: isMini
+            ? `${formatPuzzleName(category)} ${PUZZLE_DIFFICULTY_LABELS[difficulty] || formatPuzzleName(difficulty)} Mini`
+            : `${formatPuzzleName(category)} ${PUZZLE_DIFFICULTY_LABELS[difficulty] || formatPuzzleName(difficulty)}`,
+        category,
+        difficulty: isMini ? 'mini' : difficulty,
+        sourceDifficulty: difficulty,
         size: `${generatedData.cols}x${generatedData.rows}`,
         data: generatedData
     };
@@ -477,17 +491,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const reviewTerms = collectReviewTerms();
-        MedCrossProgress.addReviewTerms(reviewTerms);
-
-        const result = MedCrossProgress.markCompleted(selectedPuzzleId, elapsedSeconds, {
-            mistakes: mistakeCount, hintsUsed, revealsUsed, accuracy, score
+        const solveStats = { mistakes: mistakeCount, hintsUsed, revealsUsed, accuracy, score };
+        MedCrossProgress.addReviewTerms(reviewTerms, {
+            sourcePuzzle: puzzle.id,
+            category: puzzle.category,
+            difficulty: puzzle.difficulty
         });
+        MedCrossProgress.recordSolveBreakdown(puzzle, solveStats, reviewTerms);
+
+        const result = MedCrossProgress.markCompleted(selectedPuzzleId, elapsedSeconds, solveStats);
         if (puzzle && MedCrossProgress.getDailyPuzzleId) {
             // Daily completion is recorded by the homepage's daily id; mark if it matches.
             try {
                 const ids = JSON.parse(localStorage.getItem('generatedPuzzles') || '[]').map(p => p.id);
                 if (MedCrossProgress.getDailyPuzzleId(ids) === selectedPuzzleId) {
-                    MedCrossProgress.markDailyDone(selectedPuzzleId);
+                    MedCrossProgress.markDailyDone(selectedPuzzleId, { ...solveStats, timeSeconds: elapsedSeconds });
                 }
             } catch { /* ignore */ }
         }
@@ -512,7 +530,13 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if (needsReview && clue.answer && !seen.has(clue.answer)) {
                 seen.add(clue.answer);
-                terms.push({ term: clue.answer, clue: clue.clue, category: puzzle.category });
+                terms.push({
+                    term: clue.answer,
+                    clue: clue.clue,
+                    category: puzzle.category,
+                    difficulty: puzzle.difficulty,
+                    sourcePuzzle: puzzle.id
+                });
             }
         }
         return terms;

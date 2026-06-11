@@ -129,8 +129,78 @@ ${list}
 
 For EACH term write ONE sentence covering its core clinical meaning. Format as a numbered list matching the numbering above. Be brief and educational.`;
         return _callGemini(prompt, 400);
+    },
+
+    async extractPuzzleTermsFromNotes(notesText) {
+        const prompt =
+            `Extract crossword-ready medical vocabulary from these study notes.
+
+Return ONLY valid JSON: an array of objects with "answer" and "question".
+Rules:
+- 15 to 30 items.
+- answer must be one medical term, letters only after normalization, 3-15 letters.
+- question must be a concise crossword clue and must not include the answer.
+- Prefer high-yield clinical, anatomy, physiology, pathology, and pharmacology terms.
+
+Notes:
+${notesText.slice(0, 12000)}`;
+        const text = await _callGemini(prompt, 1800);
+        const jsonText = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```$/i, '').trim();
+        let parsed;
+        try {
+            parsed = JSON.parse(jsonText);
+        } catch {
+            const match = jsonText.match(/\[[\s\S]*\]/);
+            parsed = match ? JSON.parse(match[0]) : null;
+        }
+        if (!Array.isArray(parsed)) throw new Error('Gemini did not return usable term data.');
+        const seen = new Set();
+        const clean = [];
+        for (const item of parsed) {
+            const answer = String(item.answer || '').replace(/[^a-z]/gi, '').toUpperCase();
+            const question = String(item.question || '').trim();
+            if (answer.length < 3 || answer.length > 15 || !question || seen.has(answer)) continue;
+            if (question.toUpperCase().includes(answer)) continue;
+            seen.add(answer);
+            clean.push({ answer, question });
+        }
+        if (clean.length < 5) throw new Error('Not enough usable crossword terms were found. Try pasting more detailed notes.');
+        return clean.slice(0, 30);
+    },
+
+    async socraticHint({ clueText, category, knownLetters, stage = 1, answerLength = 0 }) {
+        const stageLabels = {
+            1: 'Ask one concept-check question that helps the student identify the topic.',
+            2: 'Give one clinical association or mechanism clue.',
+            3: 'Give one stronger word-pattern or differential clue, but do not state the answer.'
+        };
+        const prompt =
+            `You are a Socratic medical crossword tutor. Do not reveal the answer.
+
+Clue: "${clueText}"
+Category: ${category || 'medicine'}
+Known letters: ${knownLetters || 'none'}
+Answer length: ${answerLength || 'unknown'}
+Stage ${stage}: ${stageLabels[stage] || stageLabels[1]}
+
+Write 1-2 short sentences. Never state, spell, abbreviate, or directly define the answer.`;
+        return _callGemini(prompt, 180);
+    },
+
+    async flashcardExplain(term, clue, category) {
+        const prompt =
+            `Explain this medical flashcard in 2 concise sentences.
+
+Term: ${term}
+Clue: ${clue || 'not provided'}
+Category: ${category || 'medicine'}
+
+Cover what it means and one high-yield clinical association.`;
+        return _callGemini(prompt, 220);
     }
 };
+
+window.MedAI = MedAI;
 
 // ── Read the currently active clue from the DOM ───────────────────────────────
 function _getActiveClueMeta() {
@@ -249,6 +319,64 @@ function _addAIButton() {
     });
 }
 
+function _addTutorButton() {
+    const controls = document.getElementById('puzzle-controls');
+    if (!controls || document.getElementById('ai-tutor-btn')) return;
+
+    const btn = document.createElement('button');
+    btn.id = 'ai-tutor-btn';
+    btn.className = 'ai-explain-btn ai-tutor-btn';
+    btn.title = 'Guided Socratic hint chain';
+    btn.innerHTML = 'Tutor';
+
+    const actionMenu = document.getElementById('action-menu-container');
+    controls.insertBefore(btn, actionMenu);
+
+    btn.addEventListener('click', () => runTutorStage(1));
+}
+
+async function runTutorStage(stage) {
+    const { clueText, category } = _getActiveClueMeta();
+    if (!clueText) {
+        _showAIPanel('<p class="ai-notice">Select a clue first, then open Tutor.</p>');
+        return;
+    }
+    const word = _getActiveWordState();
+    _setAILoading(stage === 1 ? 'Starting guided hint...' : 'Building the next hint...');
+    try {
+        const text = await MedAI.socraticHint({
+            clueText,
+            category,
+            knownLetters: word.letters,
+            answerLength: word.length,
+            stage
+        });
+        const next = stage < 3
+            ? `<button class="ai-step-btn" data-stage="${stage + 1}" type="button">Next hint</button>`
+            : `<button class="ai-step-btn" id="ai-reveal-word" type="button">Reveal active word</button>`;
+        _showAIPanel(`
+            <div class="ai-clue-context">Tutor stage ${stage} for: <em>${clueText}</em></div>
+            <div class="ai-answer-text">${text.replace(/\n/g, '<br>')}</div>
+            <div class="ai-step-actions">${next}</div>`);
+        document.querySelectorAll('.ai-step-btn[data-stage]').forEach(stepBtn => {
+            stepBtn.addEventListener('click', () => runTutorStage(Number(stepBtn.dataset.stage)));
+        });
+        const reveal = document.getElementById('ai-reveal-word');
+        if (reveal) {
+            reveal.addEventListener('click', () => {
+                const select = document.getElementById('action-select');
+                const apply = document.getElementById('apply-action');
+                if (select && apply) {
+                    select.value = 'reveal-word';
+                    apply.click();
+                }
+            });
+        }
+    } catch (e) {
+        _showAIPanel(`<p class="ai-error">${e.message}</p>`);
+    }
+}
+
 // ── Hook into the hint button to show an AI nudge alongside the letter reveal ─
 function _hookHintButton() {
     const hintBtn = document.getElementById('hint-button');
@@ -340,6 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     _createAIPanel();
     _addAIButton();
+    _addTutorButton();
     _hookHintButton();
     _watchCongratsModal();
     console.log(`[MedAI] ✅ Gemini AI active (${_geminiModel}).`);

@@ -30,10 +30,18 @@ const MedCrossProgress = (() => {
                 streak: { current: 0, longest: 0, lastDay: null },
                 achievements: {},      // id -> ISO unlock date
                 review: [],            // [{ term, clue, category, addedAt }]
+                breakdown: { categories: {}, difficulties: {} },
+                dailyHistory: {},
+                customPuzzles: [],
                 ...m
             };
         } catch {
-            return { streak: { current: 0, longest: 0, lastDay: null }, achievements: {}, review: [] };
+            return {
+                streak: { current: 0, longest: 0, lastDay: null },
+                achievements: {}, review: [],
+                breakdown: { categories: {}, difficulties: {} },
+                dailyHistory: {}, customPuzzles: []
+            };
         }
     }
 
@@ -281,24 +289,45 @@ const MedCrossProgress = (() => {
         if (r.due == null) r.due = _dayKey();      // legacy items are due now
         if (r.reps == null) r.reps = 0;
         if (r.lapses == null) r.lapses = 0;
+        if (r.missedCount == null) r.missedCount = 1;
+        if (r.firstMissedAt == null) r.firstMissedAt = r.addedAt || new Date().toISOString();
+        if (r.lastMissedAt == null) r.lastMissedAt = r.addedAt || r.firstMissedAt;
+        if (r.sourcePuzzle == null) r.sourcePuzzle = '';
+        if (r.difficulty == null) r.difficulty = '';
+        if (r.lastResult == null) r.lastResult = null;
         return r;
     }
 
-    function addReviewTerms(terms) {
+    function addReviewTerms(terms, context = {}) {
         if (!Array.isArray(terms) || terms.length === 0) return;
         const meta = _loadMeta();
-        const existing = new Set(meta.review.map(r => r.term));
         const today = _dayKey();
         for (const t of terms) {
-            if (!t || !t.term || existing.has(t.term)) continue;
+            if (!t || !t.term) continue;
+            const term = t.term;
+            const existing = meta.review.find(r => r.term === term);
+            if (existing) {
+                _normalizeReviewItem(existing);
+                existing.missedCount += 1;
+                existing.lastMissedAt = new Date().toISOString();
+                existing.sourcePuzzle = t.sourcePuzzle || context.sourcePuzzle || existing.sourcePuzzle;
+                existing.difficulty = t.difficulty || context.difficulty || existing.difficulty;
+                existing.category = t.category || context.category || existing.category;
+                continue;
+            }
             meta.review.push({
-                term: t.term,
+                term,
                 clue: t.clue || '',
-                category: t.category || '',
+                category: t.category || context.category || '',
                 addedAt: new Date().toISOString(),
+                firstMissedAt: new Date().toISOString(),
+                lastMissedAt: new Date().toISOString(),
+                sourcePuzzle: t.sourcePuzzle || context.sourcePuzzle || '',
+                difficulty: t.difficulty || context.difficulty || '',
+                missedCount: 1,
+                lastResult: null,
                 box: 1, due: today, reps: 0, lapses: 0
             });
-            existing.add(t.term);
         }
         // Keep the queue bounded.
         if (meta.review.length > 200) meta.review = meta.review.slice(-200);
@@ -330,9 +359,12 @@ const MedCrossProgress = (() => {
         item.reps += 1;
         if (correct) {
             item.box = Math.min(MAX_BOX, item.box + 1);
+            item.lastResult = 'got';
         } else {
             item.box = 1;
             item.lapses += 1;
+            item.missedCount = (item.missedCount || 1) + 1;
+            item.lastResult = 'missed';
         }
         item.due = _addDays(today, LEITNER_INTERVALS[item.box]);
         item.lastGraded = new Date().toISOString();
@@ -368,9 +400,9 @@ const MedCrossProgress = (() => {
     // ---------------------------------------------------------------------
     // Daily puzzle (deterministic pick from the date)
     // ---------------------------------------------------------------------
-    function getDailyPuzzleId(puzzleIds) {
+    function getDailyPuzzleId(puzzleIds, date = new Date()) {
         if (!Array.isArray(puzzleIds) || puzzleIds.length === 0) return null;
-        const key = _dayKey();
+        const key = _dayKey(date);
         let hash = 0;
         for (let i = 0; i < key.length; i++) hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
         const sorted = [...puzzleIds].sort();
@@ -382,11 +414,100 @@ const MedCrossProgress = (() => {
         return meta.dailyDoneDay === _dayKey() && meta.dailyDoneId === puzzleId;
     }
 
-    function markDailyDone(puzzleId) {
+    function markDailyDone(puzzleId, stats = {}) {
         const meta = _loadMeta();
-        meta.dailyDoneDay = _dayKey();
+        const today = _dayKey();
+        meta.dailyDoneDay = today;
         meta.dailyDoneId = puzzleId;
+        meta.dailyHistory[today] = {
+            puzzleId,
+            completedAt: new Date().toISOString(),
+            timeSeconds: stats.timeSeconds || null,
+            accuracy: typeof stats.accuracy === 'number' ? stats.accuracy : null,
+            score: typeof stats.score === 'number' ? stats.score : null
+        };
         _saveMeta(meta);
+    }
+
+    function getDailyHistory(days = 21, puzzleIds = []) {
+        const meta = _loadMeta();
+        const today = new Date();
+        const history = [];
+        for (let i = days - 1; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(today.getDate() - i);
+            const key = _dayKey(d);
+            history.push({
+                day: key,
+                puzzleId: getDailyPuzzleId(puzzleIds, d),
+                completed: Boolean(meta.dailyHistory[key]),
+                stats: meta.dailyHistory[key] || null,
+                today: i === 0
+            });
+        }
+        return history;
+    }
+
+    function _emptyBreakdown() {
+        return { solves: 0, accuracyTotal: 0, scoreTotal: 0, mistakes: 0, hints: 0, reveals: 0, reviewTerms: 0 };
+    }
+
+    function _updateBucket(map, key, stats, reviewCount) {
+        if (!key) return;
+        if (!map[key]) map[key] = _emptyBreakdown();
+        const b = map[key];
+        b.solves += 1;
+        b.accuracyTotal += typeof stats.accuracy === 'number' ? stats.accuracy : 100;
+        b.scoreTotal += typeof stats.score === 'number' ? stats.score : 0;
+        b.mistakes += stats.mistakes || 0;
+        b.hints += stats.hintsUsed || 0;
+        b.reveals += stats.revealsUsed || 0;
+        b.reviewTerms += reviewCount || 0;
+    }
+
+    function recordSolveBreakdown(puzzle, stats = {}, reviewTerms = []) {
+        if (!puzzle) return;
+        const meta = _loadMeta();
+        if (!meta.breakdown) meta.breakdown = { categories: {}, difficulties: {} };
+        const reviewCount = Array.isArray(reviewTerms) ? reviewTerms.length : 0;
+        _updateBucket(meta.breakdown.categories, puzzle.category, stats, reviewCount);
+        _updateBucket(meta.breakdown.difficulties, puzzle.difficulty, stats, reviewCount);
+        _saveMeta(meta);
+    }
+
+    function _rankWeak(map) {
+        return Object.entries(map || {})
+            .filter(([, b]) => b.solves > 0)
+            .map(([key, b]) => {
+                const avgAccuracy = Math.round(b.accuracyTotal / b.solves);
+                const avgScore = Math.round(b.scoreTotal / b.solves);
+                const weakness = (100 - avgAccuracy) + b.reviewTerms * 5 + b.mistakes * 2 + b.hints + b.reveals * 2;
+                return { key, solves: b.solves, avgAccuracy, avgScore, reviewTerms: b.reviewTerms, weakness };
+            })
+            .sort((a, b) => b.weakness - a.weakness)
+            .slice(0, 3);
+    }
+
+    function getWeakAreas() {
+        const meta = _loadMeta();
+        return {
+            categories: _rankWeak(meta.breakdown?.categories),
+            difficulties: _rankWeak(meta.breakdown?.difficulties)
+        };
+    }
+
+    function saveCustomPuzzle(puzzle) {
+        if (!puzzle || !puzzle.id) return null;
+        const meta = _loadMeta();
+        const current = Array.isArray(meta.customPuzzles) ? meta.customPuzzles : [];
+        meta.customPuzzles = [puzzle, ...current.filter(p => p.id !== puzzle.id)].slice(0, 25);
+        _saveMeta(meta);
+        return puzzle;
+    }
+
+    function getCustomPuzzles() {
+        const meta = _loadMeta();
+        return Array.isArray(meta.customPuzzles) ? meta.customPuzzles : [];
     }
 
     // Settings (dark mode, pencil mode, etc.)
@@ -412,6 +533,8 @@ const MedCrossProgress = (() => {
         getAchievements, ACHIEVEMENTS,
         addReviewTerms, getReviewQueue, getDueReviewTerms, gradeReviewTerm,
         getReviewStats, removeReviewTerm, clearReviewQueue,
-        getDailyPuzzleId, isDailyDone, markDailyDone
+        getDailyPuzzleId, isDailyDone, markDailyDone, getDailyHistory,
+        recordSolveBreakdown, getWeakAreas,
+        saveCustomPuzzle, getCustomPuzzles
     };
 })();

@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderOverview();
     renderAchievements();
     renderSpecialties();
+    renderWeakAreas();
+    renderDailyCalendar();
     renderReviewQueue();
 
     document.getElementById('clear-review').addEventListener('click', () => {
@@ -100,6 +102,54 @@ function renderSpecialties() {
     }).join('');
 }
 
+function allPuzzleIds() {
+    const ids = [];
+    for (const cat of Object.keys(medicalCrosswordData)) {
+        for (const diff of Object.keys(medicalCrosswordData[cat])) ids.push(`${cat}-${diff}`);
+    }
+    return ids;
+}
+
+function renderWeakAreas() {
+    const el = document.getElementById('weak-grid');
+    if (!el) return;
+    const weak = MedCrossProgress.getWeakAreas();
+    const rows = [
+        ...weak.categories.map(w => ({ ...w, type: 'Specialty', label: catName(w.key), action: `Review ${w.reviewTerms || 0} ${catName(w.key)} term${w.reviewTerms === 1 ? '' : 's'}` })),
+        ...weak.difficulties.map(w => ({ ...w, type: 'Level', label: DIFF_SHORT[w.key] || catName(w.key), action: `Try another ${DIFF_SHORT[w.key] || catName(w.key)} puzzle` }))
+    ].slice(0, 6);
+    if (!rows.length) {
+        el.innerHTML = '<div class="review-empty">Solve a few puzzles to unlock personalized focus areas.</div>';
+        return;
+    }
+    el.innerHTML = rows.map(w => `
+        <div class="weak-card">
+            <div class="weak-type">${w.type}</div>
+            <div class="weak-title">${w.label}</div>
+            <div class="weak-meta">${w.solves} solve${w.solves === 1 ? '' : 's'} · ${w.avgAccuracy}% avg accuracy · ${w.avgScore} avg score</div>
+            <div class="weak-action">${w.action}</div>
+        </div>
+    `).join('');
+}
+
+function renderDailyCalendar() {
+    const el = document.getElementById('daily-calendar');
+    if (!el) return;
+    const days = MedCrossProgress.getDailyHistory(21, allPuzzleIds());
+    el.innerHTML = `
+        <div class="daily-calendar-strip">
+            ${days.map(d => {
+                const label = new Date(d.day + 'T00:00:00').toLocaleDateString(undefined, { weekday: 'short', day: 'numeric' });
+                return `<div class="daily-day ${d.completed ? 'done' : ''} ${d.today ? 'today' : ''}" title="${label}${d.completed ? ' completed' : ''}">
+                    <span>${label.split(' ')[0]}</span>
+                    <strong>${label.split(' ').slice(1).join(' ')}</strong>
+                </div>`;
+            }).join('')}
+        </div>
+        <div class="daily-calendar-note">Completed days are highlighted. Today’s puzzle remains deterministic and works offline.</div>
+    `;
+}
+
 const BOX_LABELS = { 1: 'New', 2: 'Learning', 3: 'Familiar', 4: 'Strong', 5: 'Mastered' };
 const TODAY_KEY = (() => {
     const d = new Date();
@@ -142,7 +192,8 @@ function renderReviewQueue() {
                     <span class="box-badge box-${item.box || 1}">${BOX_LABELS[item.box || 1]}</span>
                     ${isDue ? '<span class="due-badge">Due</span>' : ''}
                 </div>
-                <div class="review-clue">${item.clue}${item.category ? ' · ' + catName(item.category) : ''}</div>
+                <div class="review-clue">${item.clue}${item.category ? ' · ' + catName(item.category) : ''}${item.difficulty ? ' · ' + (DIFF_SHORT[item.difficulty] || catName(item.difficulty)) : ''}</div>
+                <div class="review-clue">Missed ${item.missedCount || 1}x${item.sourcePuzzle ? ' · Source: ' + item.sourcePuzzle : ''}${item.lastResult ? ' · Last: ' + item.lastResult : ''}</div>
             </div>
             <button class="review-remove" title="Mark as learned">✓ Learned</button>
         </div>`;

@@ -1,5 +1,5 @@
 // MedCross service worker — offline app shell (cache-first).
-const CACHE = 'medcross-v16';
+const CACHE = 'medcross-v22';
 const ASSETS = [
   './',
   'index.html',
@@ -10,6 +10,7 @@ const ASSETS = [
   'medical-database.js',
   'crossword-generator.js',
   'progress.js',
+  'medical-api-sources.js',
   'homepage.js',
   'script.js',
   'stats.js',

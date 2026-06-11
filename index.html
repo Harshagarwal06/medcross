@@ -8,7 +8,7 @@
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#667eea">
     <link rel="apple-touch-icon" href="icon.svg">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
@@ -26,6 +26,11 @@
         <div class="container">
             <!-- Review due nudge -->
             <div id="review-nudge"></div>
+
+            <!-- Custom Puzzle Creator -->
+            <section class="notes-create-section" id="notes-create-section">
+                <!-- Populated by JS -->
+            </section>
 
             <!-- Daily Puzzle -->
             <section class="daily-section" id="daily-section">
@@ -70,10 +75,13 @@
         </footer>
     </div>
 
+    <script src="config.js"></script>
     <script src="medical-database.js?v=3"></script>
-    <script src="crossword-generator.js?v=3"></script>
-    <script src="progress.js?v=3"></script>
-    <script src="homepage.js?v=3"></script>
+    <script src="crossword-generator.js?v=11"></script>
+    <script src="progress.js?v=10"></script>
+    <script src="medical-api-sources.js?v=6"></script>
+    <script src="homepage.js?v=14"></script>
+    <script src="gemini.js?v=10"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

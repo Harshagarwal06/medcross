@@ -27,13 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
         fill: document.getElementById('study-progress-fill'),
         done: document.getElementById('study-done'),
         doneSub: document.getElementById('study-done-sub'),
-        doneTitle: document.getElementById('study-done-title')
+        doneTitle: document.getElementById('study-done-title'),
+        dueTab: document.getElementById('study-due'),
+        allTab: document.getElementById('study-all'),
+        aiBtn: document.getElementById('flashcard-ai'),
+        aiText: document.getElementById('flashcard-ai-text')
     };
 
     // Build the session queue from due terms (shuffled).
-    let queue = shuffle(MedCrossProgress.getDueReviewTerms());
-    const sessionTotal = queue.length;
+    let mode = new URLSearchParams(window.location.search).get('mode') === 'all' ? 'all' : 'due';
+    let queue = [];
+    let sessionTotal = 0;
     let reviewed = 0, correct = 0;
+    let currentItem = null;
 
     function shuffle(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
@@ -50,13 +56,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function showCard() {
         if (queue.length === 0) return finish();
         const item = queue[0];
+        currentItem = item;
         els.front.textContent = item.clue || '(no clue)';
         els.answer.textContent = item.term;
-        els.category.textContent = item.category ? catName(item.category) : '';
+        const meta = [
+            item.category ? catName(item.category) : '',
+            item.difficulty ? catName(item.difficulty) : '',
+            item.missedCount ? `missed ${item.missedCount}x` : '',
+            item.sourcePuzzle ? `from ${item.sourcePuzzle}` : ''
+        ].filter(Boolean).join(' · ');
+        els.category.textContent = meta;
         els.back.hidden = true;
         els.card.classList.remove('flipped');
         els.showBtn.hidden = false;
         els.grade.hidden = true;
+        els.aiBtn.hidden = !(typeof MedAI !== 'undefined' && MedAI.isConfigured());
+        els.aiText.hidden = true;
+        els.aiText.textContent = '';
         updateMeta();
     }
 
@@ -90,18 +106,53 @@ document.addEventListener('DOMContentLoaded', () => {
         els.fill.style.width = '100%';
         els.done.hidden = false;
         if (sessionTotal === 0) {
-            els.doneTitle.textContent = 'Nothing due right now';
-            els.doneSub.textContent = 'Solve puzzles to add terms, or come back later for scheduled reviews.';
+            els.doneTitle.textContent = mode === 'due' ? 'Nothing due right now' : 'No cards yet';
+            els.doneSub.textContent = mode === 'due'
+                ? 'Switch to All to review ahead, solve puzzles to add terms, or come back later.'
+                : 'Terms you miss or reveal in puzzles will appear here.';
         } else {
             const acc = Math.round((correct / reviewed) * 100);
-            els.doneTitle.textContent = 'Session complete! 🎓';
+            els.doneTitle.textContent = 'Session complete!';
             els.doneSub.textContent = `You reviewed ${sessionTotal} term${sessionTotal === 1 ? '' : 's'} with ${acc}% first-try recall. Promoted cards return on a longer schedule.`;
+        }
+    }
+
+    function startSession(nextMode = mode) {
+        mode = nextMode;
+        queue = shuffle(mode === 'all' ? MedCrossProgress.getReviewQueue() : MedCrossProgress.getDueReviewTerms());
+        sessionTotal = queue.length;
+        reviewed = 0;
+        correct = 0;
+        currentItem = null;
+        els.card.hidden = false;
+        els.controls.hidden = false;
+        els.meta.hidden = false;
+        els.done.hidden = true;
+        els.dueTab.classList.toggle('active', mode === 'due');
+        els.allTab.classList.toggle('active', mode === 'all');
+        showCard();
+    }
+
+    async function explainCurrentCard() {
+        if (!currentItem || typeof MedAI === 'undefined' || !MedAI.isConfigured()) return;
+        els.aiBtn.disabled = true;
+        els.aiText.hidden = false;
+        els.aiText.textContent = 'Generating explanation...';
+        try {
+            els.aiText.textContent = await MedAI.flashcardExplain(currentItem.term, currentItem.clue, currentItem.category);
+        } catch (e) {
+            els.aiText.textContent = e.message || 'Could not load an explanation.';
+        } finally {
+            els.aiBtn.disabled = false;
         }
     }
 
     els.showBtn.addEventListener('click', reveal);
     els.gotBtn.addEventListener('click', () => grade(true));
     els.missedBtn.addEventListener('click', () => grade(false));
+    els.dueTab.addEventListener('click', () => startSession('due'));
+    els.allTab.addEventListener('click', () => startSession('all'));
+    els.aiBtn.addEventListener('click', explainCurrentCard);
     els.card.addEventListener('click', () => { if (els.back.hidden && queue.length) reveal(); });
 
     document.addEventListener('keydown', (e) => {
@@ -113,6 +164,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    if (sessionTotal === 0) finish();
-    else showCard();
+    startSession(mode);
 });

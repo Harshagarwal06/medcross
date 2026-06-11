@@ -756,7 +756,7 @@ section h2 {
 /* ============================================= */
 /* RESPONSIVE DESIGN */
 /* ============================================= */
-@media (max-width: 1200px) {
+@media (max-width: 979px) {
     #app-container {
         flex-direction: column;
         gap: 20px;
@@ -1215,6 +1215,132 @@ section h2 {
 .daily-card.done { filter: saturate(0.85); }
 
 /* ============================================================
+   Custom notes puzzle creator
+   ============================================================ */
+.notes-create-section { margin-bottom: 1.5rem; }
+.notes-create-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-left: 5px solid #1abc9c;
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.25rem;
+    box-shadow: var(--shadow-sm);
+}
+.notes-kicker {
+    color: #168f78;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+.notes-create-card h2 { margin: 0.15rem 0; color: var(--text-primary); font-size: 1.25rem; }
+.notes-create-card p { margin: 0; color: var(--text-secondary); font-size: 0.9rem; }
+.notes-create-btn {
+    border: none;
+    background: #1b1b1b;
+    color: #fff;
+    border-radius: var(--radius-md);
+    padding: 11px 18px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.notes-create-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.notes-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.45);
+    padding: 1rem;
+}
+.notes-modal-content {
+    width: min(720px, 96vw);
+    background: var(--card-bg-solid);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    padding: 1rem;
+}
+.notes-modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+.notes-modal-header h3 { margin: 0; color: var(--text-primary); }
+#notes-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+.creator-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+.creator-tab {
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 0.55rem 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+.creator-tab.active {
+    background: #1b1b1b;
+    border-color: #1b1b1b;
+    color: #fff;
+}
+.api-panel {
+    display: grid;
+    gap: 0.55rem;
+}
+.creator-label {
+    color: var(--text-primary);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+.creator-select,
+.creator-input {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    padding: 0.72rem 0.8rem;
+    font: inherit;
+    box-sizing: border-box;
+}
+.creator-help {
+    margin: 0.25rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+.notes-input {
+    width: 100%;
+    min-height: 240px;
+    resize: vertical;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    padding: 0.9rem;
+    font: inherit;
+    line-height: 1.45;
+    box-sizing: border-box;
+}
+.notes-status { color: var(--text-secondary); font-size: 0.86rem; margin: 0.75rem 0; }
+.notes-actions { display: flex; justify-content: flex-end; }
+
+/* ============================================================
    Achievements preview (homepage)
    ============================================================ */
 .achievements-preview { margin-bottom: 2.5rem; }
@@ -1356,6 +1482,59 @@ section h2 {
 .spec-bar-fill { height: 100%; background: var(--bg-gradient); border-radius: 999px; transition: width var(--transition); }
 .spec-meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem; }
 
+.weak-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1rem;
+}
+.weak-card {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+}
+.weak-type {
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.weak-title { color: var(--text-primary); font-size: 1.1rem; font-weight: 800; margin: 0.2rem 0; }
+.weak-meta { color: var(--text-secondary); font-size: 0.8rem; line-height: 1.45; }
+.weak-action {
+    margin-top: 0.7rem;
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 0.82rem;
+}
+
+.daily-calendar-strip {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+.daily-day {
+    min-height: 54px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    background: var(--input-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+}
+.daily-day.done {
+    background: var(--correct-bg);
+    color: var(--correct-text);
+    border-color: var(--correct-text);
+}
+.daily-day.today { outline: 2px solid var(--accent); outline-offset: 2px; }
+.daily-day strong { color: inherit; font-size: 0.9rem; }
+.daily-calendar-note { margin-top: 0.8rem; color: var(--text-secondary); font-size: 0.84rem; }
+
 .review-header { display: flex; align-items: center; justify-content: space-between; }
 .review-sub { color: var(--text-secondary); font-size: 0.85rem; margin: 0.25rem 0 1rem; }
 .clear-review-btn {
@@ -1466,6 +1645,22 @@ section h2 {
    Study (flashcard) mode
    ============================================================ */
 .study-container { max-width: 640px; }
+.study-mode-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+}
+.study-mode-tab {
+    flex: 1;
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.16);
+    color: #fff;
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.study-mode-tab.active { background: #fff; color: var(--accent-dark); }
 .study-progress-bar {
     height: 8px;
     background: var(--card-bg);
@@ -1514,6 +1709,23 @@ section h2 {
     letter-spacing: 0.06em;
 }
 .flashcard-category { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.4rem; }
+.flashcard-ai {
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 7px 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.flashcard-ai-text {
+    margin-top: 0.8rem;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    text-align: left;
+}
 
 .study-controls { margin-top: 1.5rem; }
 .study-btn {
@@ -1655,6 +1867,9 @@ body.puzzle-page #timer {
 /* ── App container: padding accounts for sticky header ── */
 body.puzzle-page #app-container {
     padding-top: 1.25rem;
+    max-width: min(1500px, calc(100vw - 2rem));
+    align-items: flex-start;
+    gap: 1.25rem;
 }
 
 /* ── NYT grid ── */
@@ -1856,39 +2071,92 @@ body.puzzle-page .progress-bar-container {
 
 /* ── Clue panel ── */
 body.puzzle-page #clues-container {
+    width: clamp(430px, 34vw, 560px);
     border: 1.5px solid var(--border-color);
     box-shadow: none;
+    background: var(--card-bg-solid);
+    border-radius: 8px;
+    max-height: calc(100vh - 98px);
+    position: sticky;
+    top: 76px;
+    overflow: hidden;
 }
 
 body.puzzle-page .clues-header {
     border-bottom: 2px solid #1b1b1b;
-    padding: 0.9rem 1.25rem 0.7rem;
+    padding: 0.85rem 1rem 0.7rem;
+    background: var(--card-bg-solid);
 }
 
 body.puzzle-page .clues-header h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 800;
-    letter-spacing: -0.2px;
+    letter-spacing: 0;
     color: var(--text-primary);
 }
 
+body.puzzle-page .clues-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+    min-height: 0;
+    padding: 0.75rem;
+    gap: 0.9rem;
+}
+
+body.puzzle-page .clue-column {
+    padding: 0;
+    min-height: auto;
+}
+
+body.puzzle-page .clue-column:first-child {
+    border-right: 0;
+}
+
 body.puzzle-page .clue-column-title {
-    font-size: 0.78rem;
+    position: sticky;
+    top: -0.75rem;
+    z-index: 1;
+    background: var(--card-bg-solid);
+    font-size: 0.74rem;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.06em;
     font-weight: 800;
     color: var(--text-secondary);
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.4rem;
-    margin-bottom: 0.6rem;
+    padding: 0.25rem 0 0.5rem;
+    margin: 0 0 0.45rem;
+    text-align: left;
+}
+
+body.puzzle-page .clues-list {
+    overflow: visible;
 }
 
 body.puzzle-page .clues-list li {
-    font-size: 0.87rem;
-    padding: 7px 9px;
-    border-radius: 4px;
-    border: 1.5px solid transparent;
-    line-height: 1.45;
+    display: grid;
+    grid-template-columns: 2.1rem 1fr;
+    column-gap: 0.55rem;
+    align-items: start;
+    font-size: 0.94rem;
+    padding: 0.62rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    line-height: 1.48;
+    margin-bottom: 0.35rem;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+}
+
+body.puzzle-page .clue-number-list {
+    font-weight: 800;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+body.puzzle-page .clue-active .clue-number-list {
+    color: #1b1b1b;
 }
 
 body.puzzle-page .clues-list li:hover {
@@ -1898,11 +2166,65 @@ body.puzzle-page .clues-list li:hover {
 
 /* Active clue: NYT yellow */
 body.puzzle-page .clue-active {
-    background-color: #fff9c2 !important;
-    border-color: #e5c200 !important;
+    background-color: #fff4a8 !important;
+    border-color: #d7b800 !important;
     color: #1b1b1b !important;
-    font-weight: 700 !important;
-    box-shadow: none !important;
+    font-weight: 800 !important;
+    box-shadow: inset 4px 0 0 #1b1b1b !important;
+}
+
+@media (min-width: 980px) {
+    body.puzzle-page #app-container {
+        flex-direction: row;
+        max-width: min(1500px, calc(100vw - 2rem));
+        align-items: flex-start;
+    }
+
+    body.puzzle-page #puzzle-container {
+        width: auto;
+        flex: 1 1 auto;
+    }
+
+    body.puzzle-page #clues-container {
+        width: clamp(420px, 36vw, 560px);
+        position: sticky;
+        top: 76px;
+        max-height: calc(100vh - 98px);
+    }
+
+    body.puzzle-page .clues-content {
+        max-height: none;
+    }
+}
+
+@media (max-width: 1200px) {
+    body.puzzle-page #app-container {
+        max-width: 900px;
+        align-items: stretch;
+    }
+
+    body.puzzle-page #clues-container {
+        width: 100%;
+        position: static;
+        max-height: none;
+    }
+
+    body.puzzle-page .clues-content {
+        max-height: 360px;
+    }
+}
+
+@media (max-width: 720px) {
+    body.puzzle-page .clues-content {
+        padding: 0.65rem;
+        gap: 0.75rem;
+    }
+
+    body.puzzle-page .clues-list li {
+        grid-template-columns: 1.85rem 1fr;
+        font-size: 0.9rem;
+        padding: 0.55rem 0.6rem;
+    }
 }
 
 /* ── Dark mode adjustments ── */
@@ -2043,6 +2365,20 @@ body.puzzle-page[data-theme="dark"] .clue-active {
 
 .ai-notice { font-size: 0.88rem; color: var(--text-secondary); }
 .ai-error  { font-size: 0.88rem; color: #c0392b; }
+.ai-step-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.8rem;
+}
+.ai-step-btn {
+    border: none;
+    background: #1b1b1b;
+    color: #fff;
+    border-radius: 5px;
+    padding: 7px 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
 
 /* AI Explain button in controls bar */
 body.puzzle-page .ai-explain-btn {
