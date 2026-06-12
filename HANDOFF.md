@@ -33,6 +33,13 @@ Latest known asset versions:
 - `stats.html`: `stats.js?v=12`
 - `study.html`: `study.js?v=11`
 
+## Deployment
+
+- Live on GitHub Pages: `https://harshagarwal06.github.io/medcross/` (repo `Harshagarwal06/medcross`, public, deploys from `main` branch root).
+- Deploy = push to `main`; Pages rebuilds automatically (~1 minute).
+- `config.js` is gitignored and verified absent from git history and the live site, so the deployed app runs key-less: AI buttons hidden, topic puzzles use public APIs, notes puzzles use local database matching.
+- To enable Gemini publicly later, add a serverless proxy (Cloudflare Workers / Netlify Functions) — never ship the key in frontend JS.
+
 ## API Key Setup
 
 Gemini reads the key from `config.js`:
