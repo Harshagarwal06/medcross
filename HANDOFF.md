@@ -25,12 +25,10 @@ python3 -m http.server 8787
 
 Latest known asset versions:
 
-- `sw.js`: `medcross-v45`
+- `sw.js`: `medcross-v48`
 - `index.html`: `style.css?v=21`, `crossword-generator.js?v=12`, `notes-import.js?v=1`, `homepage.js?v=25`, `gemini.js?v=15`
-- `puzzle.html`: `crossword-generator.js?v=12` (back button is now an inline SVG, not Lucide)
+- `puzzle.html`: `style.css?v=25`, `crossword-generator.js?v=12`, `script.js?v=17`, `gemini.js?v=15` (back button is inline SVG; page sets data-theme like the homepage; puzzle UI fully themed for light/dark)
 - `stats.html`: `stats.js?v=13`
-- `puzzle.html`: `script.js?v=17`, `gemini.js?v=15`
-- `stats.html`: `stats.js?v=12`
 - `study.html`: `study.js?v=11`
 
 ## Deployment
