@@ -9,6 +9,42 @@ Locally nothing changes: `config.public.js` only activates the proxy on the
 deployed host, so on `localhost` your gitignored `config.js` key is still used
 directly.
 
+---
+
+## ✅ Recommended: Cloudflare Pages Function (matches the current setup)
+
+You already have a Cloudflare **Pages** project at `medcross-ai.pages.dev`. The
+proxy now ships as a **Pages Function** at [`../functions/api/ai.js`](../functions/api/ai.js),
+so it deploys on that same domain automatically — no separate Worker needed.
+
+**Two steps to finish:**
+
+1. **Set the key as a secret on the Pages project.**
+   Cloudflare dashboard → your Pages project (`medcross-ai`) → **Settings →
+   Environment variables → Add variable**:
+   - Name: `GEMINI_API_KEY`
+   - Value: your Google AI Studio key
+   - Add it to **Production** (and Preview if you use it), **Encrypt**, Save.
+
+2. **Redeploy so the function + secret go live.**
+   - If the Pages project is **connected to the GitHub repo**: just push (the
+     latest commit already adds `functions/api/ai.js`), then in the Pages
+     project hit **Retry deployment** if it didn't auto-build.
+   - If you deployed by **manual upload**: re-upload the project folder so the
+     `functions/` directory is included.
+
+The proxy endpoint becomes `https://medcross-ai.pages.dev/api/ai`, which
+`config.public.js` already points to. Open the endpoint in a browser — a GET
+shows "MedCross AI proxy is running."
+
+> **Note:** GitHub Pages (`harshagarwal06.github.io/medcross`) cannot run
+> functions, so the AI calls from *either* site are routed to the Cloudflare
+> `pages.dev` function above. CORS already allows both origins.
+
+---
+
+## Alternative: standalone Cloudflare Worker
+
 ## Deploy on Cloudflare Workers (free, ~5 minutes)
 
 1. Sign in / create a free account at <https://dash.cloudflare.com>.
