@@ -8,21 +8,69 @@
     <link rel="manifest" href="manifest.webmanifest">
     <meta name="theme-color" content="#f5f7fb">
     <link rel="apple-touch-icon" href="icon.svg">
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=21">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <a href="stats.html" class="stats-link" id="stats-link" aria-label="View your stats">Stats</a>
+    <div class="ambient-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <i data-lucide="activity" class="brand-icon"></i>
+            <span>MedCross</span>
+        </div>
+        <div class="nav-actions">
+            <a href="stats.html" class="btn btn-outline" id="stats-link" aria-label="View your stats">
+                <i data-lucide="bar-chart-2"></i> Stats
+            </a>
+        </div>
+    </nav>
 
     <div id="homepage">
-        <header class="main-header">
-            <h1>MedCross</h1>
-            <p>Interactive Medical Crossword Puzzles for Education</p>
+        <header class="hero-section">
+            <div class="hero-badge">Medical Education Reimagined</div>
+            <h1 class="hero-title">Master Medicine with <span class="text-gradient">MedCross</span></h1>
+            <p class="hero-subtitle">Interactive clinical crossword puzzles designed for medical students, residents, and professionals.</p>
+            <div class="hero-actions">
+                <a href="#puzzles-section" class="btn btn-primary">Browse Puzzles</a>
+                <button type="button" class="btn btn-outline" id="hero-create-puzzle">Create Topic Puzzle</button>
+            </div>
             <div class="stats-bar" id="stats-bar">
                 <!-- Populated by JS -->
             </div>
         </header>
 
         <div class="container">
+            <!-- Puzzle Grid -->
+            <section class="puzzles-section" id="puzzles-section">
+                <h2>Available Puzzles</h2>
+                <div class="controls-bar">
+                    <div class="search-wrapper">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="puzzle-search" class="search-input" placeholder="Search puzzles by name or category...">
+                    </div>
+                    <div class="puzzles-filter">
+                        <div class="select-wrapper">
+                            <select id="category-filter"></select>
+                            <i data-lucide="chevron-down" class="select-icon"></i>
+                        </div>
+                        <div class="select-wrapper">
+                            <select id="difficulty-filter"></select>
+                            <i data-lucide="chevron-down" class="select-icon"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="puzzles-grid" class="puzzles-grid">
+                    <!-- Puzzles will be populated by JavaScript -->
+                </div>
+            </section>
+
             <!-- Review due nudge -->
             <div id="review-nudge"></div>
 
@@ -52,21 +100,6 @@
                 <h2>Select Difficulty Level</h2>
                 <div id="difficulty-grid" class="difficulty-grid"></div>
             </section>
-
-            <!-- Puzzle Grid -->
-            <section class="puzzles-section">
-                <h2>Available Puzzles</h2>
-                <div class="search-container">
-                    <input type="text" id="puzzle-search" class="search-input" placeholder="Search puzzles by name or category...">
-                </div>
-                <div class="puzzles-filter">
-                    <select id="category-filter"></select>
-                    <select id="difficulty-filter"></select>
-                </div>
-                <div id="puzzles-grid" class="puzzles-grid">
-                    <!-- Puzzles will be populated by JavaScript -->
-                </div>
-            </section>
         </div>
 
         <footer style="text-align:center; padding:2rem; color:var(--text-muted); font-size:0.85rem;">
@@ -76,10 +109,11 @@
 
     <script src="config.js"></script>
     <script src="medical-database.js?v=3"></script>
-    <script src="crossword-generator.js?v=11"></script>
+    <script src="crossword-generator.js?v=12"></script>
     <script src="progress.js?v=10"></script>
     <script src="medical-api-sources.js?v=7"></script>
-    <script src="homepage.js?v=21"></script>
+    <script src="notes-import.js?v=1"></script>
+    <script src="homepage.js?v=25"></script>
     <script src="gemini.js?v=15"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>

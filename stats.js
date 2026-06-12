@@ -2,6 +2,7 @@ const DIFFICULTY_ORDER = ['m1', 'm2', 'clinical', 'usmle', 'residency'];
 const DIFF_SHORT = { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency' };
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) window.lucide.createIcons();
     const settings = MedCrossProgress.getSettings();
     if (settings.darkMode) document.documentElement.setAttribute('data-theme', 'dark');
     const toggle = document.getElementById('theme-toggle');
@@ -92,11 +93,13 @@ function renderAchievements() {
     const achievements = MedCrossProgress.getAchievements();
     el.innerHTML = achievements.map(a => `
         <div class="ach-tile ${a.unlocked ? 'unlocked' : 'locked'}">
+            <div class="ach-tile-icon"><i data-lucide="${a.icon}"></i></div>
             <div class="ach-tile-name">${a.name}</div>
             <div class="ach-tile-desc">${a.desc}</div>
             ${a.unlocked ? `<div class="ach-tile-date">Unlocked ${new Date(a.unlockedAt).toLocaleDateString()}</div>` : ''}
         </div>
     `).join('');
+    if (window.lucide) window.lucide.createIcons({ root: el });
 }
 
 function renderSpecialties() {

@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let mode = new URLSearchParams(window.location.search).get('mode') === 'all' ? 'all' : 'due';
     let queue = [];
     let sessionTotal = 0;
-    let reviewed = 0, correct = 0;
+    let completed = 0, firstTryCorrect = 0;
+    let missedThisSession = new Set();
     let currentItem = null;
 
     function shuffle(arr) {
@@ -79,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateMeta() {
         const remaining = queue.length;
-        els.meta.textContent = `${reviewed} reviewed · ${remaining} remaining`;
-        const pct = sessionTotal ? Math.round((reviewed / sessionTotal) * 100) : 100;
+        els.meta.textContent = `${completed} completed · ${remaining} in queue`;
+        const pct = sessionTotal ? Math.round((completed / sessionTotal) * 100) : 100;
         els.fill.style.width = `${pct}%`;
     }
 
@@ -94,9 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function grade(isCorrect) {
         const item = queue.shift();
         MedCrossProgress.gradeReviewTerm(item.term, isCorrect);
-        reviewed++;
-        if (isCorrect) correct++;
-        else queue.push(item); // missed cards come back later in the session
+        if (isCorrect) {
+            if (!missedThisSession.has(item.term)) firstTryCorrect++;
+            completed++;
+        } else {
+            missedThisSession.add(item.term);
+            queue.push(item); // missed cards come back later in the session
+        }
         showCard();
     }
 
@@ -112,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? 'Switch to All to review ahead, solve puzzles to add terms, or come back later.'
                 : 'Terms you miss or reveal in puzzles will appear here.';
         } else {
-            const acc = Math.round((correct / reviewed) * 100);
+            const acc = Math.round((firstTryCorrect / sessionTotal) * 100);
             els.doneTitle.textContent = 'Session complete!';
             els.doneSub.textContent = `You reviewed ${sessionTotal} term${sessionTotal === 1 ? '' : 's'} with ${acc}% first-try recall. Promoted cards return on a longer schedule.`;
         }
@@ -122,8 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
         mode = nextMode;
         queue = shuffle(mode === 'all' ? MedCrossProgress.getReviewQueue() : MedCrossProgress.getDueReviewTerms());
         sessionTotal = queue.length;
-        reviewed = 0;
-        correct = 0;
+        completed = 0;
+        firstTryCorrect = 0;
+        missedThisSession = new Set();
         currentItem = null;
         els.card.hidden = false;
         els.controls.hidden = false;

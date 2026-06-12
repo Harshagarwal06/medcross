@@ -201,15 +201,15 @@ const MedCrossProgress = (() => {
     // Achievements
     // ---------------------------------------------------------------------
     const ACHIEVEMENTS = [
-        { id: 'first-solve', icon: '🎯', name: 'First Steps', desc: 'Complete your first puzzle.' },
-        { id: 'flawless', icon: '💎', name: 'Flawless', desc: 'Solve a puzzle with 100% accuracy and no reveals.' },
-        { id: 'no-help', icon: '🧠', name: 'Unaided', desc: 'Solve a puzzle without using any hints or reveals.' },
-        { id: 'speed-demon', icon: '⚡', name: 'Speed Demon', desc: 'Solve any puzzle in under 2 minutes.' },
-        { id: 'streak-3', icon: '🔥', name: 'On Fire', desc: 'Reach a 3-day solving streak.' },
-        { id: 'streak-7', icon: '📅', name: 'Weekly Warrior', desc: 'Reach a 7-day solving streak.' },
-        { id: 'ten-solved', icon: '🏅', name: 'Dedicated', desc: 'Complete 10 puzzles.' },
-        { id: 'specialist', icon: '🩺', name: 'Specialist', desc: 'Complete every difficulty in a single specialty.' },
-        { id: 'high-scorer', icon: '🌟', name: 'High Scorer', desc: 'Earn a score of 900 or more on a puzzle.' }
+        { id: 'first-solve', icon: 'target', name: 'First Steps', desc: 'Complete your first puzzle.' },
+        { id: 'flawless', icon: 'gem', name: 'Flawless', desc: 'Solve a puzzle with 100% accuracy and no reveals.' },
+        { id: 'no-help', icon: 'brain', name: 'Unaided', desc: 'Solve a puzzle without using any hints or reveals.' },
+        { id: 'speed-demon', icon: 'zap', name: 'Speed Demon', desc: 'Solve any puzzle in under 2 minutes.' },
+        { id: 'streak-3', icon: 'flame', name: 'On Fire', desc: 'Reach a 3-day solving streak.' },
+        { id: 'streak-7', icon: 'calendar', name: 'Weekly Warrior', desc: 'Reach a 7-day solving streak.' },
+        { id: 'ten-solved', icon: 'medal', name: 'Dedicated', desc: 'Complete 10 puzzles.' },
+        { id: 'specialist', icon: 'activity', name: 'Specialist', desc: 'Complete every difficulty in a single specialty.' },
+        { id: 'high-scorer', icon: 'star', name: 'High Scorer', desc: 'Earn a score of 900 or more on a puzzle.' }
     ];
 
     function getAchievements() {

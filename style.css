@@ -63,6 +63,37 @@ body {
     0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
+@keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Ambient Background Blobs */
+.ambient-blobs {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: float 10s ease-in-out infinite;
+}
+.blob-1 {
+    top: -10%; left: -10%;
+    width: 50vw; height: 50vw;
+    background: radial-gradient(circle, rgba(107, 216, 203, 0.4), transparent 70%);
+    animation-delay: 0s;
+}
+.blob-2 {
+    bottom: -20%; right: -10%;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle, rgba(41, 161, 149, 0.3), transparent 70%);
+    animation-delay: -5s;
+}
 
 /* ============================================= */
 /* HOMEPAGE STYLES */
@@ -71,35 +102,95 @@ body {
     min-height: 100vh;
 }
 
-/* Header Styles */
-.main-header {
-    background: var(--card-bg);
-    backdrop-filter: blur(16px);
+/* Top Navigation */
+.top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: rgba(11, 19, 38, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+}
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+.nav-brand .brand-icon {
+    color: var(--accent);
+}
+.nav-actions {
+    display: flex;
+    gap: 1rem;
+}
+.btn-outline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
     border: 1px solid var(--border-color);
-    padding: 2rem 0;
-    text-align: center;
-    box-shadow: var(--shadow-md);
-    animation: fadeIn 0.5s ease;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-.main-header h1 {
-    font-size: 3rem;
+/* Hero Section */
+.hero-section {
+    padding: 6rem 2rem;
+    text-align: center;
+    animation: fadeInUp 0.8s ease;
+}
+.hero-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(107, 216, 203, 0.1);
+    color: var(--accent);
+    border: 1px solid rgba(107, 216, 203, 0.2);
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.hero-title {
+    font-size: 4rem;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
     line-height: 1.1;
 }
-
-.main-header p {
-    font-size: 1.2rem;
+.text-gradient {
+    background: linear-gradient(135deg, #89f5e7, #29a195);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hero-subtitle {
+    font-size: 1.25rem;
     color: var(--text-muted);
-    font-weight: 300;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /* Container */
 .container {
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
 }
@@ -1287,6 +1378,56 @@ section h2 {
     font-size: 0.82rem;
     line-height: 1.4;
 }
+
+/* Controls Bar and Wrappers */
+.controls-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 300px;
+}
+.search-wrapper .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    width: 20px;
+    height: 20px;
+}
+
+.select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.select-wrapper .select-icon {
+    position: absolute;
+    right: 1rem;
+    color: var(--text-muted);
+    pointer-events: none;
+    width: 16px;
+    height: 16px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
 .notes-input {
     width: 100%;
     min-height: 240px;
@@ -1302,6 +1443,68 @@ section h2 {
 }
 .notes-status { color: var(--text-secondary); font-size: 0.86rem; margin: 0.75rem 0; }
 .notes-actions { display: flex; justify-content: flex-end; }
+
+/* Notes file upload */
+.notes-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+}
+.notes-upload-btn {
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 0.5rem 0.85rem;
+    font: inherit;
+    font-weight: 800;
+    font-size: 0.86rem;
+    cursor: pointer;
+}
+.notes-upload-btn:hover { border-color: var(--text-primary); }
+.notes-upload-hint { color: var(--text-muted); font-size: 0.8rem; }
+.notes-file-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+.notes-file-list:not(:empty) { margin-bottom: 0.6rem; }
+.notes-file-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 100%;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border-radius: 999px;
+    padding: 0.3rem 0.45rem 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.notes-file-name {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.notes-file-remove {
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font: inherit;
+    font-weight: 800;
+    line-height: 1;
+    padding: 0.1rem 0.3rem;
+    cursor: pointer;
+}
+.notes-file-remove:hover { color: var(--text-primary); }
+#creator-notes-panel.drag-over .notes-input {
+    border-color: var(--text-primary);
+    border-style: dashed;
+}
 
 /* ============================================================
    Achievements preview (homepage)
@@ -2698,7 +2901,7 @@ section h2 {
 .notes-input,
 body.puzzle-page #action-select {
     border: 1px solid var(--border-color);
-    background: #ffffff;
+    background: var(--input-bg);
     color: var(--text-primary);
     border-radius: 8px;
 }
@@ -2808,23 +3011,23 @@ footer {
     justify-content: center;
     min-height: 40px;
     padding: 0 0.9rem;
-    background: #ffffff !important;
-    color: #122033 !important;
-    border: 1px solid #dbe4ea !important;
+    background: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
     border-radius: 8px;
     box-shadow: var(--shadow-sm);
 }
 
 .stats-back:hover {
-    background: #f8fafc;
+    background: var(--highlight-bg);
     transform: translateY(-1px);
 }
 
 .stats-block {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: none;
+    box-shadow: var(--shadow-md);
     padding: 1.25rem;
     margin-bottom: 1rem;
 }
@@ -2845,10 +3048,10 @@ footer {
 .spec-card,
 .review-item,
 .weak-card {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: none;
+    box-shadow: var(--shadow-sm);
 }
 
 .ov-card {
@@ -2878,13 +3081,13 @@ footer {
 }
 
 .ach-tile.locked {
-    opacity: 1;
-    background: #f8fafc;
+    opacity: 0.6;
+    background: var(--card-bg);
 }
 
 .ach-tile.unlocked,
 .spec-card.complete {
-    border-color: rgba(22, 127, 122, 0.45);
+    border-color: var(--accent);
 }
 
 .ach-tile-name,
@@ -2929,7 +3132,7 @@ footer {
 .clear-review-btn,
 .review-remove,
 .flashcard-ai {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
 }
@@ -2965,8 +3168,8 @@ footer {
 }
 
 .study-mode-tab.active {
-    background: #ffffff;
-    color: var(--accent-dark);
+    background: var(--card-bg);
+    color: var(--accent);
     box-shadow: var(--shadow-sm);
 }
 
@@ -2995,7 +3198,7 @@ footer {
 
 .flashcard-ai-text {
     color: var(--text-secondary);
-    background: #f8fafc;
+    background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
@@ -3079,11 +3282,12 @@ footer {
 .app-dialog {
     width: min(92vw, 430px);
     padding: 1.35rem;
-    background: #ffffff;
+    background: var(--card-bg);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
     border-radius: 10px;
     box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(20px);
 }
 
 .app-dialog h2 {
@@ -3107,7 +3311,7 @@ footer {
     border-radius: 8px;
     padding: 0.8rem;
     color: var(--text-primary);
-    background: #f8fafc;
+    background: var(--input-bg);
     font: inherit;
     line-height: 1.45;
 }
@@ -3134,4 +3338,176 @@ footer {
     .study-done-actions {
         flex-direction: column;
     }
+}
+
+/* Homepage usability pass: make puzzle discovery visible immediately. */
+.ambient-blobs {
+    display: none;
+}
+
+.hero-section {
+    padding: 2.4rem 2rem 1.25rem;
+}
+
+.hero-badge {
+    margin-bottom: 0.8rem;
+}
+
+.hero-title {
+    font-size: clamp(2.15rem, 5vw, 4rem);
+    line-height: 1.05;
+    margin-bottom: 0.8rem;
+}
+
+.hero-subtitle {
+    margin: 0 auto 1rem;
+    max-width: 660px;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    min-height: 42px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    background: var(--accent);
+    color: #ffffff;
+    border: 1px solid var(--accent);
+    box-shadow: none;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+}
+
+.hero-section .stats-bar {
+    padding-top: 0;
+}
+
+#homepage > .container {
+    padding-top: 0.75rem;
+}
+
+#review-nudge {
+    margin-bottom: 1rem;
+}
+
+.puzzles-section {
+    scroll-margin-top: 5rem;
+    margin-bottom: 1.75rem;
+}
+
+.puzzles-section h2 {
+    margin-bottom: 0.8rem;
+}
+
+.controls-bar {
+    margin-bottom: 1rem;
+}
+
+.category-section,
+.difficulty-section,
+.achievements-preview {
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 680px) {
+    .hero-section {
+        padding: 1rem 1rem 0.75rem;
+    }
+
+    .hero-badge {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.08;
+        margin-bottom: 0.55rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.45;
+        margin-bottom: 0.75rem;
+    }
+
+    .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-bottom: 0;
+    }
+
+    .hero-actions .btn,
+    .hero-actions button {
+        width: 100%;
+        min-height: 40px;
+        padding: 0.55rem 0.65rem;
+        font-size: 0.86rem;
+        white-space: nowrap;
+    }
+
+    .hero-section .stats-bar {
+        display: none;
+    }
+
+    .puzzles-section h2 {
+        margin-bottom: 0.55rem;
+    }
+
+    .controls-bar {
+        gap: 0.65rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .puzzle-card {
+        padding: 1rem;
+    }
+}
+
+/* Keep the core app surface immediately readable. */
+.top-nav {
+    background: rgba(255, 255, 255, 0.94);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-brand,
+.top-nav .btn-outline {
+    color: var(--text-primary);
+}
+
+.top-nav .btn-outline {
+    background: #ffffff;
+}
+
+.hero-section,
+.puzzles-section,
+.notes-create-section,
+.daily-section,
+.achievements-preview,
+.category-section,
+.difficulty-section,
+.category-card,
+.difficulty-card,
+.puzzle-card {
+    animation: none !important;
+    opacity: 1 !important;
 }

@@ -16,6 +16,14 @@ const CATEGORY_DESCRIPTIONS = {
     pharmacology: 'Drugs and mechanisms', anatomy: 'Body structures and landmarks',
     fmt: 'Fecal microbiota transplantation'
 };
+const CATEGORY_LUCIDE_ICONS = {
+    cardiology: 'heart-pulse', neurology: 'brain', pulmonology: 'wind', gastroenterology: 'apple',
+    nephrology: 'droplets', endocrinology: 'scale', hematology: 'droplet', immunology: 'shield',
+    rheumatology: 'activity', infectiousDisease: 'bug', oncology: 'ribbon', psychiatry: 'message-circle',
+    dermatology: 'search', orthopedics: 'bone', obstetricsGynecology: 'baby', pediatrics: 'smile',
+    geriatrics: 'users', emergencyMedicine: 'ambulance', pharmacology: 'pill', anatomy: 'user',
+    fmt: 'microscope'
+};
 // Unique gradients per category
 const CATEGORY_GRADIENTS = {
     cardiology: 'linear-gradient(135deg, #e74c3c, #c0392b)', neurology: 'linear-gradient(135deg, #3498db, #2980b9)',
@@ -32,6 +40,7 @@ const CATEGORY_GRADIENTS = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.lucide) window.lucide.createIcons();
     const generatedPuzzles = generatePuzzles();
     localStorage.setItem('generatedPuzzles', JSON.stringify(generatedPuzzles));
     const allPuzzles = [...getCustomPuzzleCards(), ...generatedPuzzles];
@@ -68,7 +77,8 @@ function renderDailyPuzzle(puzzles) {
     const done = MedCrossProgress.isDailyDone(dailyId);
     section.innerHTML = `
         <div class="daily-card ${done ? 'done' : ''}">
-            <div class="daily-badge">${done ? 'Completed Today' : 'Puzzle of the Day'}</div>
+            <div class="daily-badge"><i data-lucide="${done ? 'check-circle' : 'calendar'}"></i> ${done ? 'Completed Today' : 'Puzzle of the Day'}</div>
+            <div class="daily-icon"><i data-lucide="${CATEGORY_LUCIDE_ICONS[daily.category] || 'activity'}"></i></div>
             <div class="daily-info">
                 <h3>${daily.title}</h3>
                 <p>${daily.clueCount} clues · ${shortDifficultyLabel(daily.difficulty)} · ${formatCategoryName(daily.category)}</p>
@@ -77,6 +87,7 @@ function renderDailyPuzzle(puzzles) {
         </div>
     `;
     section.querySelector('.daily-start').addEventListener('click', () => startPuzzle(dailyId));
+    if (window.lucide) window.lucide.createIcons({ root: section });
 }
 
 function renderAchievementsPreview() {
@@ -86,8 +97,8 @@ function renderAchievementsPreview() {
     const unlockedCount = achievements.filter(a => a.unlocked).length;
     section.innerHTML = `
         <div class="ach-preview-header">
-            <h2>Achievements <span class="ach-count">${unlockedCount}/${achievements.length}</span></h2>
-            <a href="stats.html" class="ach-viewall">View all</a>
+            <h2><i data-lucide="award"></i> Achievements <span class="ach-count">${unlockedCount}/${achievements.length}</span></h2>
+            <a href="stats.html" class="ach-viewall">View all <i data-lucide="arrow-right"></i></a>
         </div>
         <div class="ach-preview-row">
             ${achievements.map(a => `
@@ -98,6 +109,7 @@ function renderAchievementsPreview() {
             `).join('')}
         </div>
     `;
+    if (window.lucide) window.lucide.createIcons({ root: section });
 }
 
 function generatePuzzles() {
@@ -167,16 +179,22 @@ function renderCustomPuzzleMaker() {
                     <button class="creator-tab" id="creator-api-tab" type="button" data-mode="api">Topic</button>
                 </div>
                 <div class="creator-panel" id="creator-notes-panel">
-                    <textarea id="notes-input" class="notes-input" placeholder="Paste medical notes here..."></textarea>
+                    <div class="notes-upload-row">
+                        <button id="notes-upload-btn" class="notes-upload-btn" type="button">Upload notes</button>
+                        <input id="notes-file-input" type="file" accept=".txt,.md,.markdown,.csv,.pdf,.docx,text/plain,application/pdf" multiple hidden>
+                        <span class="notes-upload-hint">.txt, .md, .pdf, .docx — or drop files here</span>
+                    </div>
+                    <div class="notes-file-list" id="notes-file-list"></div>
+                    <textarea id="notes-input" class="notes-input" placeholder="Paste medical notes here, or upload files above..."></textarea>
                 </div>
                 <div class="creator-panel api-panel" id="creator-api-panel" hidden>
                     <label class="creator-label" for="api-query">Topic</label>
                     <input id="api-query" class="creator-input" type="text" placeholder="Examples: asthma, renal failure, beta blockers, ECG interpretation">
                     <p class="creator-help">MedCross searches medical APIs automatically and uses Gemini to improve the word bank when your key is configured.</p>
                 </div>
-                <div class="notes-status" id="notes-status">${aiReady ? 'Gemini will extract 15-30 terms and clues.' : 'Add a Gemini API key in config.js to enable note extraction.'}</div>
+                <div class="notes-status" id="notes-status">${notesStatusCopy(aiReady)}</div>
                 <div class="notes-actions">
-                    <button id="notes-generate" class="notes-create-btn" type="button" ${aiReady ? '' : 'disabled'}>Generate from Notes</button>
+                    <button id="notes-generate" class="notes-create-btn" type="button">Generate from Notes</button>
                     <button id="api-generate" class="notes-create-btn" type="button" hidden ${apiReady || aiReady ? '' : 'disabled'}>Build from Topic</button>
                 </div>
             </div>
@@ -186,15 +204,91 @@ function renderCustomPuzzleMaker() {
     const modal = document.getElementById('notes-modal');
     document.body.appendChild(modal);
     const openButton = document.getElementById('open-notes-creator');
+    const heroCreateButton = document.getElementById('hero-create-puzzle');
     const closeButton = document.getElementById('notes-close');
     const notesButton = document.getElementById('notes-generate');
     const apiButton = document.getElementById('api-generate');
     openButton.onclick = () => { modal.hidden = false; };
+    if (heroCreateButton) {
+        heroCreateButton.onclick = () => {
+            modal.hidden = false;
+            setCreatorMode('api', { aiReady, apiReady });
+            document.getElementById('api-query')?.focus();
+        };
+    }
     closeButton.onclick = () => { modal.hidden = true; };
     notesButton.onclick = createPuzzleFromNotes;
     apiButton.onclick = createPuzzleFromAPI;
     document.querySelectorAll('.creator-tab').forEach(tab => {
         tab.addEventListener('click', () => setCreatorMode(tab.dataset.mode, { aiReady, apiReady }));
+    });
+    initNotesUpload();
+}
+
+function notesStatusCopy(aiReady) {
+    return aiReady
+        ? 'Upload files or paste notes. Gemini will extract 15-30 terms and clues.'
+        : 'Upload files or paste notes. Without a Gemini key, terms are matched from the built-in medical database.';
+}
+
+// Uploaded note files for the current creator session: { name, text, chars }
+const uploadedNoteFiles = [];
+
+function initNotesUpload() {
+    const uploadBtn = document.getElementById('notes-upload-btn');
+    const fileInput = document.getElementById('notes-file-input');
+    const panel = document.getElementById('creator-notes-panel');
+    if (!uploadBtn || !fileInput || !panel) return;
+
+    uploadBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+        addNoteFiles([...fileInput.files]);
+        fileInput.value = '';
+    });
+
+    panel.addEventListener('dragover', e => { e.preventDefault(); panel.classList.add('drag-over'); });
+    panel.addEventListener('dragleave', () => panel.classList.remove('drag-over'));
+    panel.addEventListener('drop', e => {
+        e.preventDefault();
+        panel.classList.remove('drag-over');
+        addNoteFiles([...(e.dataTransfer?.files || [])]);
+    });
+}
+
+async function addNoteFiles(files) {
+    if (!files.length) return;
+    const status = document.getElementById('notes-status');
+    for (const file of files) {
+        if (uploadedNoteFiles.some(f => f.name === file.name)) continue;
+        status.textContent = `Reading ${file.name}...`;
+        try {
+            uploadedNoteFiles.push(await MedCrossNotes.readFile(file));
+        } catch (e) {
+            status.textContent = e.message;
+            renderNoteFileChips();
+            return;
+        }
+    }
+    const total = uploadedNoteFiles.reduce((sum, f) => sum + f.chars, 0);
+    const size = total < 1000 ? `${total} characters` : `${Math.round(total / 1000)}k characters`;
+    status.textContent = `${uploadedNoteFiles.length} file${uploadedNoteFiles.length === 1 ? '' : 's'} loaded (${size}). Ready to generate.`;
+    renderNoteFileChips();
+}
+
+function renderNoteFileChips() {
+    const list = document.getElementById('notes-file-list');
+    if (!list) return;
+    list.innerHTML = uploadedNoteFiles.map((f, i) => `
+        <span class="notes-file-chip">
+            <span class="notes-file-name">${escapeHtml(f.name)}</span>
+            <button type="button" class="notes-file-remove" data-index="${i}" aria-label="Remove ${escapeHtml(f.name)}">x</button>
+        </span>
+    `).join('');
+    list.querySelectorAll('.notes-file-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+            uploadedNoteFiles.splice(Number(btn.dataset.index), 1);
+            renderNoteFileChips();
+        });
     });
 }
 
@@ -207,7 +301,7 @@ function setCreatorMode(mode, { aiReady, apiReady }) {
     document.getElementById('notes-generate').hidden = !notesMode;
     document.getElementById('api-generate').hidden = notesMode;
     document.getElementById('notes-status').textContent = notesMode
-        ? (aiReady ? 'Gemini will extract 15-30 terms and clues.' : 'Add a Gemini API key in config.js to enable note extraction.')
+        ? notesStatusCopy(aiReady)
         : (apiReady || aiReady ? '' : 'Add Gemini or load the API source client to create a topic puzzle.');
 }
 
@@ -215,21 +309,49 @@ async function createPuzzleFromNotes() {
     const input = document.getElementById('notes-input');
     const status = document.getElementById('notes-status');
     const btn = document.getElementById('notes-generate');
-    const notes = input.value.trim();
-    if (notes.length < 120) {
-        status.textContent = 'Paste at least a paragraph of notes so there is enough material.';
+    const combined = [...uploadedNoteFiles.map(f => f.text), input.value.trim()]
+        .filter(Boolean).join('\n\n');
+    if (combined.length < 120) {
+        status.textContent = 'Upload a notes file or paste at least a paragraph so there is enough material.';
         return;
     }
     btn.disabled = true;
-    status.textContent = 'Extracting crossword terms...';
+    status.textContent = 'Preparing notes...';
     try {
-        const entries = await MedAI.extractPuzzleTermsFromNotes(notes);
+        const prepared = MedCrossNotes.condense(combined);
+        const aiReady = typeof MedAI !== 'undefined' && MedAI.isConfigured();
+
+        let entries = MedCrossNotes.getCachedEntries(prepared);
+        if (entries) {
+            status.textContent = 'Reusing terms already extracted from these notes...';
+        } else if (aiReady) {
+            status.textContent = 'Extracting crossword terms with Gemini...';
+            try {
+                entries = await MedAI.extractPuzzleTermsFromNotes(prepared);
+            } catch (aiError) {
+                console.warn('[MedCross] Gemini notes extraction failed:', aiError.message);
+                status.textContent = 'Gemini was unavailable. Matching terms from the medical database...';
+                entries = MedCrossNotes.extractTermsLocally(prepared);
+            }
+        } else {
+            status.textContent = 'Matching terms from the built-in medical database...';
+            entries = MedCrossNotes.extractTermsLocally(prepared);
+        }
+
+        if (!entries || entries.length < 6) {
+            throw new Error(aiReady
+                ? 'Not enough crossword terms were found in those notes. Try more detailed notes.'
+                : 'Not enough known medical terms were found. Add a Gemini key in config.js for smarter extraction, or use more detailed notes.');
+        }
+        MedCrossNotes.cacheEntries(prepared, entries);
+
+        const firstFile = uploadedNoteFiles[0]?.name.replace(/\.[^.]+$/, '');
         openCustomPuzzleFromEntries(entries, {
             idPrefix: 'custom-notes',
-            title: `Notes Puzzle ${new Date().toLocaleDateString()}`,
-            sourceTitle: 'Notes',
+            title: firstFile ? `Notes Puzzle: ${firstFile}` : `Notes Puzzle ${new Date().toLocaleDateString()}`,
+            sourceTitle: firstFile || 'Notes',
             difficulty: 'notes',
-            description: 'Generated from your pasted study notes.',
+            description: firstFile ? `Generated from your uploaded notes (${firstFile}).` : 'Generated from your pasted study notes.',
             status
         });
     } catch (e) {
@@ -371,6 +493,7 @@ function renderCategoryCards(puzzles, currentFilters) {
         if (currentFilters.category === category) card.classList.add('active');
         card.dataset.category = category;
         card.innerHTML = `
+            <div class="category-icon"><i data-lucide="${CATEGORY_LUCIDE_ICONS[category] || 'activity'}"></i></div>
             <h3>${formatCategoryName(category)}</h3>
             <p>${CATEGORY_DESCRIPTIONS[category] || 'Medical specialty'}</p>
             <span class="puzzle-count">${puzzles.filter(p => p.category === category).length} puzzles</span>
@@ -383,6 +506,7 @@ function renderCategoryCards(puzzles, currentFilters) {
         });
         grid.appendChild(card);
     }
+    if (window.lucide) window.lucide.createIcons({ root: grid });
 }
 
 function renderDifficultyCards(puzzles, currentFilters) {
@@ -476,7 +600,7 @@ function createPuzzleCard(puzzle) {
         <p class="puzzle-description">${escapeHtml(puzzle.description)}</p>
         ${badgeHTML}
         <div class="puzzle-footer">
-            <span class="puzzle-size">${Number(puzzle.clueCount) || 0} clues</span>
+            <span class="puzzle-size">${puzzle.difficulty === 'mini' ? '5x5 grid' : `${Number(puzzle.clueCount) || 0} clues`}</span>
             <button class="start-button" type="button">${progress && progress.answers && progress.answers.length > 0 ? 'Resume' : 'Start Puzzle'}</button>
         </div>
     `;

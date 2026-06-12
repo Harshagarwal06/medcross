@@ -1,99 +1,260 @@
 # MedCross Handoff
 
-## Project Overview
+## Project State
 
-MedCross is a static Progressive Web App for medical crossword learning. It generates NYT-style medical crossword puzzles from a local medical terminology database, supports Gemini-powered study help, tracks progress in `localStorage`, and includes flashcard review, achievements, stats, and offline PWA support.
-
-Current project folder:
+MedCross is a static Progressive Web App for medical crossword learning in:
 
 ```bash
 /Users/harshagarwal/Desktop/MedCross
 ```
 
-## Run The App
+The app now supports built-in medical crosswords, mini crosswords, custom notes puzzles, automatic topic puzzles from public medical APIs plus Gemini enrichment, progress tracking, stats, spaced-repetition study, and AI help when a Gemini key is configured.
 
-Start the local static server from the project folder:
+The current local server is:
+
+```text
+http://127.0.0.1:8787
+```
+
+It is served with:
 
 ```bash
 cd /Users/harshagarwal/Desktop/MedCross
 python3 -m http.server 8787
 ```
 
-Open:
+Latest known asset versions:
 
-```text
-http://127.0.0.1:8787
-```
-
-The current local server was restarted from the renamed `MedCross` folder and returned `200 OK`.
+- `sw.js`: `medcross-v45`
+- `index.html`: `style.css?v=21`, `crossword-generator.js?v=12`, `notes-import.js?v=1`, `homepage.js?v=25`, `gemini.js?v=15`
+- `puzzle.html`: `crossword-generator.js?v=12` (back button is now an inline SVG, not Lucide)
+- `stats.html`: `stats.js?v=13`
+- `puzzle.html`: `script.js?v=17`, `gemini.js?v=15`
+- `stats.html`: `stats.js?v=12`
+- `study.html`: `study.js?v=11`
 
 ## API Key Setup
 
-Gemini features read the key from `config.js`:
+Gemini reads the key from `config.js`:
 
 ```js
 window.GEMINI_API_KEY = 'YOUR_KEY_HERE';
 ```
 
-`config.example.js` is the template. The real `config.js` should stay local and should not be committed if this project is later pushed to a public repo.
+`config.example.js` is the template. Keep the real `config.js` local. For public deployment, move Gemini or keyed medical API calls behind a backend proxy because frontend keys are visible to users.
 
-## Recent Implemented Features
+## What Is Done
 
-- Notes-to-puzzle flow: homepage has a "Create from Notes" UI. Users paste notes, Gemini extracts crossword-ready terms and clues, and the app generates a custom playable puzzle.
-- Custom puzzle generation: `CrosswordGenerator.generateFromEntries(entries, options)` builds puzzles from extracted `{ answer, question }` entries without inserting them into the main database.
-- Custom puzzle storage: custom notes puzzles are stored in `localStorage` through `MedCrossProgress.saveCustomPuzzle()` and loaded like normal puzzles.
-- Socratic Tutor mode: puzzle page adds a Tutor button with staged, spoiler-safe guided hints and an explicit reveal step.
-- Upgraded flashcards: review cards now preserve source puzzle, difficulty, missed count, last result, and support due/all study modes.
-- AI flashcard explanations: study cards can request short Gemini explanations when the API key is configured.
-- Weak-area analytics: stats page shows focus areas based on accuracy, score, mistakes, hints, reveals, and review-term count.
-- Daily challenge calendar: stats page shows a 21-day daily challenge history; daily completion now records solve stats.
-- Cache refresh: `sw.js` cache version and HTML asset query strings were bumped so browsers load the new files.
+### Homepage and UI Polish
 
-## Main Files Changed
+- The homepage now shows puzzle cards in the first viewport instead of burying them far below the hero.
+- Added hero actions:
+  - `Browse Puzzles`
+  - `Create Topic Puzzle`
+- `Create Topic Puzzle` opens the custom creator directly on the Topic tab and focuses the topic input.
+- Moved `Available Puzzles` above review, creator, daily, achievements, category, and difficulty sections.
+- Compact mobile hero so puzzle cards are visible on phones.
+- Disabled delayed fade animations for the core homepage app surface so cards and text are readable immediately.
+- Updated nav and homepage surfaces toward a cleaner professional look.
+- Removed or reduced emoji-heavy UI patterns across main pages.
 
-- `crossword-generator.js`: added custom entry normalization and puzzle generation.
-- `progress.js`: added custom puzzle storage, weak-area breakdowns, richer review metadata, and daily history.
-- `homepage.js` and `index.html`: added Create from Notes flow and custom puzzle listing.
-- `gemini.js`: added notes extraction, Socratic tutor hints, flashcard explanations, and Tutor button wiring.
-- `script.js` and `puzzle.html`: added custom puzzle loading and richer solve result recording.
-- `stats.js` and `stats.html`: added weak areas and daily calendar.
-- `study.js` and `study.html`: added due/all sessions and AI explanation UI.
-- `style.css`: added styling for the new creator, stats, calendar, tutor, and study UI.
-- `sw.js`: bumped cache version.
+### Topic Puzzle Generation
+
+- User can type a medical topic, e.g. `asthma`, and MedCross automatically gathers terms.
+- The user no longer has to choose an API manually.
+- Topic generation searches public medical sources through `medical-api-sources.js`:
+  - ClinicalTables conditions
+  - RxNorm drugs
+  - Optional proxy source if configured
+- If Gemini is configured, API results are refined/enriched through `MedAI.generateTopicPuzzleEntries()`.
+- If Gemini fails but API terms exist, the app falls back to API-derived entries.
+- Generated topic puzzles are stored as custom puzzles in `localStorage` and open as playable puzzles.
+
+### Notes-To-Puzzle
+
+- Notes flow exists in the custom puzzle creator and now supports file upload.
+- Users can paste notes or upload `.txt`, `.md`, `.csv`, `.pdf`, `.docx` files (button or drag-and-drop onto the notes panel); loaded files show as removable chips.
+- File parsing lives in `notes-import.js` (`MedCrossNotes`). PDF (pdf.js) and DOCX (mammoth) parsers are lazy-loaded from CDNs only when such a file is uploaded.
+- Before extraction, notes are condensed: noise lines dropped, repeated page headers/footers deduped, and long documents sampled evenly across their length (instead of head-truncating at 12k chars).
+- Extracted entries are cached in `localStorage` by content hash (`mcNotesEntryCache:v1`, LRU cap 8), so regenerating from the same notes skips the Gemini call.
+- If Gemini is unconfigured or fails, terms are matched locally against the built-in `medical-database.js` word bank, so notes puzzles work without an API key.
+- `CrosswordGenerator.generateFromEntries()` builds playable custom puzzles from extracted entries.
+- Puzzle title uses the first uploaded file's name (`Notes Puzzle: <filename>`).
+
+### Mini Crosswords
+
+- Added mini puzzle cards for every category/difficulty.
+- `CrosswordGenerator.generateMiniCrossword()` builds a compact 5x5 mini from random symmetric templates (`_makeMiniTemplate`), so black-square patterns vary per puzzle instead of one fixed layout.
+- Mini templates allow unchecked cells (every white cell must belong to at least one across/down word of length ≥ 3, whites connected, ≥ 40% checked). Fully-checked 5x5 grids were unfillable with medical vocabulary, which previously forced *every* specialty mini onto the curated fallback grid.
+- In a 100-run benchmark: 0 curated fallbacks, 63 distinct patterns, ~21 ms average generation.
+- If a specialty mini still cannot be generated, it uses a curated general medical fallback.
+- Homepage mini cards show `5x5 grid` instead of a hardcoded clue count (actual clue count now varies ~6-9).
+- Fallback minis now display honestly as:
+  - title: `Medical Mini`
+  - category: `General Medicine`
+  - difficulty: `Mini`
+- Homepage mini card copy explains: specialty terms are used when possible, with a general medical fallback.
+
+### Puzzle Playing Page
+
+- Clue panel readability was improved.
+- Right-side clues are easier to scan on desktop and stack properly on mobile.
+- Puzzle controls were cleaned up:
+  - `Check`
+  - `Reveal`
+  - `Hint`
+  - `Pencil`
+  - `Auto-check`
+  - `AI Explain`
+  - `Tutor`
+- Native `alert()` / `confirm()` / `prompt()` were removed from root JS/HTML.
+- In-app toast/dialog system added for:
+  - missing selected puzzle
+  - missing active cell
+  - reveal confirmation
+  - share fallback
+  - stats clear-review confirmation
+- Full `Reveal` no longer silently dead-ends the puzzle.
+  - It fills the grid.
+  - Stops the timer.
+  - Shows a `Puzzle Revealed` modal.
+  - Saves answers.
+  - Adds revealed terms to review.
+  - Does not count the puzzle as completed.
+
+### Stats and Review
+
+- Stats page was restyled to match the professional UI direction.
+- Stats sections:
+  - Overview
+  - Achievements
+  - By Specialty
+  - Focus Areas
+  - Daily Challenge
+  - Review Queue
+- Review queue rows are escaped before rendering, so generated/user content cannot inject markup.
+- Clear-review action now uses an in-app confirmation dialog.
+
+### Study Mode
+
+- Study page was restyled and cleaned.
+- Due/All tabs are working.
+- Flashcards show clue first, answer after reveal, then `Missed` / `Got it`.
+- AI flashcard explanations work when Gemini is configured.
+- Fixed study progress accounting:
+  - Missed cards return later in the same session.
+  - Missed attempts no longer count as completed.
+  - Progress now counts completed cards.
+  - First-try recall is based on cards answered correctly before any miss.
+- Current study script version is `study.js?v=11`.
+
+### Safety and Robust Rendering
+
+- Escaped dynamic user/generated text in homepage puzzle cards.
+- Puzzle clues render via text nodes instead of raw interpolated HTML.
+- Stats review queue escapes terms, clues, source puzzle names, and metadata.
+- Gemini/AI panel escapes model output and error messages before rendering line breaks.
+- Achievement modal descriptions are escaped.
+
+## Important Files
+
+- `index.html`: homepage structure, puzzle list now near the top.
+- `homepage.js`: puzzle listing, filters, daily card, custom creator, notes/topic generation.
+- `medical-api-sources.js`: public medical API helper for topic puzzle generation.
+- `crossword-generator.js`: full crossword generation, mini generation, custom entry generation.
+- `puzzle.html`: puzzle playing page shell.
+- `script.js`: puzzle loading, play controls, reveal/check/hint behavior, result modals, persistence.
+- `progress.js`: progress, custom puzzles, achievements, review queue, study scheduling, stats.
+- `stats.html` / `stats.js`: stats and review queue UI.
+- `study.html` / `study.js`: spaced-repetition flashcard study flow.
+- `gemini.js`: Gemini integration, notes extraction, topic enrichment, AI explain, Tutor, study explanations.
+- `style.css`: main design system and responsive polish.
+- `sw.js`: PWA cache list/version.
 
 ## Verification Performed
 
-- Ran JavaScript syntax checks with `node --check` for:
-  - `crossword-generator.js`
-  - `progress.js`
-  - `homepage.js`
-  - `gemini.js`
-  - `script.js`
-  - `stats.js`
-  - `study.js`
-- Checked local pages over HTTP with `curl -I`.
-- Browser smoke tested:
-  - Homepage renders puzzle cards and the Create from Notes section.
-  - Stats page renders weak-area and daily-calendar sections.
-  - Study page renders Due/All tabs and AI explanation controls.
-  - Puzzle page renders a generated crossword and the Tutor button.
-- Custom generator sample test produced a valid puzzle from sample medical terms.
+Recent browser checks:
+
+- Homepage:
+  - `212` puzzle cards rendered.
+  - Desktop first viewport showed visible puzzle cards.
+  - Mobile first viewport showed visible puzzle cards.
+  - No horizontal overflow.
+  - No browser warnings/errors.
+- Topic flow:
+  - Created and opened `Topic Puzzle: asthma`.
+  - Generated puzzle had `19` clues and no console warnings.
+- Puzzle page:
+  - Mini puzzle loaded with updated scripts.
+  - Full reveal showed `Puzzle Revealed`.
+  - Progress reached `100%`.
+  - Revealed terms appeared in review queue.
+- Mini fallback:
+  - Cached fallback mini normalized to `Medical Mini` / `General Medicine`.
+  - Mobile mini layout had no overflow and clues below the grid.
+- Stats:
+  - Review queue updated after reveal.
+  - Stats page rendered without console warnings.
+- Study:
+  - `Missed` keeps progress at `0%` and returns the card later.
+  - `Got it` advances progress correctly.
+  - Mobile study page has no horizontal overflow.
+
+Command checks:
+
+- Root JavaScript parse sweep passed:
+
+```bash
+for f in *.js; do node --check "$f" || exit 1; done
+```
+
+- Searches confirmed no root JS/HTML native browser dialogs remain:
+
+```bash
+rg -n "alert\(|confirm\(|prompt\(" *.js *.html
+```
+
+- Stale cache/version checks were run after each asset bump.
+
+## Current Dirty Worktree
+
+At the time this handoff was updated, these files were modified:
+
+```text
+homepage.js
+index.html
+progress.js
+puzzle.html
+stats.html
+stats.js
+study.html
+study.js
+style.css
+sw.js
+```
+
+The dirty state is expected. Do not reset it unless the user explicitly asks.
 
 ## Known Caveats
 
-- Live notes extraction depends on a valid Gemini API key in `config.js` and network access to the Gemini API.
-- API keys in frontend JavaScript are visible to users. For a public deployment, move Gemini/UMLS-style keyed requests behind a backend proxy.
-- Existing progress, custom puzzles, and review data are stored in browser `localStorage`; they do not sync across devices.
-- The current notes-to-puzzle v1 supports pasted notes only, not PDF upload.
+- The project is still static/local-first. Data is stored in browser `localStorage` and does not sync across devices.
+- Gemini and live topic enrichment depend on network access and a configured `config.js` key.
+- Frontend API keys are visible; use a backend proxy for public deployment.
+- The browser used during testing contains locally generated test puzzles, including duplicate `Topic Puzzle: asthma` cards. Those are stored in local browser state, not the source database.
+- Some icons currently depend on the Lucide CDN loaded from `https://unpkg.com/lucide@latest`. For a reliable offline PWA, bundle icons locally or remove that dependency.
+- A full end-to-end regression suite does not exist yet.
 
 ## Recommended Next Tasks
 
-- Test the notes-to-puzzle flow with real lecture notes and the configured Gemini key.
-- Add export/import for custom puzzles and progress data.
-- Add a small backend proxy if deploying publicly, so API keys are not exposed.
-- Consider integrating free medical data sources:
-  - ClinicalTables for conditions and terminology without a key.
-  - RxNorm for pharmacology/drug puzzles.
-  - UMLS for richer definitions and semantic types, preferably through a backend proxy.
-- Add automated browser tests for homepage, custom puzzle creation, puzzle solving, stats, and study flows.
-- Add a visible message for network/API failures during notes extraction so users know whether the issue is key setup, quota, or connectivity.
+- Add automated browser smoke tests for:
+  - homepage puzzle visibility
+  - topic puzzle creation
+  - start/play puzzle
+  - reveal flow
+  - stats review queue
+  - study missed/got-it flow
+- Add a local clear/delete UI for custom generated puzzles so test topic cards can be removed without clearing all browser storage.
+- Bundle or replace Lucide CDN icons for offline reliability.
+- Add import/export for progress, review queue, and custom puzzles.
+- Consider a small backend proxy for Gemini and any keyed medical APIs before public deployment.
+- Continue a route-by-route final audit before marking the full "fully functional, no glitches, professional UI" goal complete.

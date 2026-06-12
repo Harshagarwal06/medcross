@@ -39,7 +39,7 @@ class CrosswordGenerator {
         }
 
         const byLen = this._indexByLength(bank);
-        const deadline = Date.now() + 600;
+        const deadline = Date.now() + 1200;
 
         for (const template of this._miniTemplates()) {
             if (Date.now() > deadline) break;
@@ -476,22 +476,128 @@ class CrosswordGenerator {
 
     _miniTemplates() {
         const fromRows = rows => rows.map(row => [...row].map(ch => ch === '#' ? 1 : 0));
-        return [
-            fromRows([
-                '.....',
-                '.....',
-                '.....',
-                '.....',
-                '.....'
-            ]),
-            fromRows([
-                '#...#',
-                '.....',
-                '.....',
-                '.....',
-                '#...#'
-            ])
-        ];
+        const templates = [];
+        const seen = new Set();
+        const add = t => {
+            if (!t) return;
+            const key = t.map(row => row.join('')).join('|');
+            if (!seen.has(key)) { seen.add(key); templates.push(t); }
+        };
+
+        // Random symmetric 5x5 layouts with a varying number of black cells,
+        // so each mini gets its own black-square pattern. Unlike full-size
+        // grids, minis allow unchecked cells (white runs of 1-2 in one
+        // direction) — medical vocabulary cannot fill a 100%-checked 5x5.
+        const blackCounts = [4, 5, 6, 6, 7, 8];
+        for (let i = 0; i < 12 && templates.length < 6; i++) {
+            add(this._makeMiniTemplate(5, blackCounts[Math.floor(Math.random() * blackCounts.length)]));
+        }
+        // More black cells → fewer/looser crossings → much easier to fill,
+        // so try the easiest layouts first and waste less of the deadline.
+        templates.sort((a, b) =>
+            b.flat().reduce((s, v) => s + v, 0) - a.flat().reduce((s, v) => s + v, 0));
+
+        // Known-good fallbacks in case none of the random layouts can be filled.
+        add(fromRows([
+            '#...#',
+            '.....',
+            '.....',
+            '.....',
+            '#...#'
+        ]));
+        add(fromRows([
+            '.....',
+            '.....',
+            '.....',
+            '.....',
+            '.....'
+        ]));
+        return templates;
+    }
+
+    /**
+     * Random 5x5 mini template: black cells placed with 180° rotational
+     * symmetry. Valid when every white cell is part of at least one across
+     * or down run of length ≥ 3 (runs of 1-2 in the other direction are
+     * allowed and become unchecked cells), whites are fully connected, and
+     * enough cells are checked that it still plays like a crossword.
+     */
+    _makeMiniTemplate(size, blackCount) {
+        for (let attempt = 0; attempt < 80; attempt++) {
+            const g = Array.from({ length: size }, () => Array(size).fill(0));
+            let placed = 0;
+            let guard = 0;
+            while (placed < blackCount && guard++ < 60) {
+                const r = Math.floor(Math.random() * size);
+                const c = Math.floor(Math.random() * size);
+                if (g[r][c]) continue;
+                const r2 = size - 1 - r;
+                const c2 = size - 1 - c;
+                g[r][c] = 1;
+                g[r2][c2] = 1;
+                placed += (r === r2 && c === c2) ? 1 : 2;
+            }
+            if (this._miniTemplateValid(g, size)) return g;
+        }
+        return null;
+    }
+
+    _miniTemplateValid(g, size) {
+        const coverage = Array.from({ length: size }, () => Array(size).fill(0));
+        let slotCount = 0;
+
+        const markRun = run => {
+            if (run.length >= 3) {
+                slotCount++;
+                for (const [r, c] of run) coverage[r][c]++;
+            }
+        };
+        for (let r = 0; r < size; r++) {
+            let run = [];
+            for (let c = 0; c <= size; c++) {
+                if (c < size && g[r][c] === 0) run.push([r, c]);
+                else { markRun(run); run = []; }
+            }
+        }
+        for (let c = 0; c < size; c++) {
+            let run = [];
+            for (let r = 0; r <= size; r++) {
+                if (r < size && g[r][c] === 0) run.push([r, c]);
+                else { markRun(run); run = []; }
+            }
+        }
+
+        let whites = 0;
+        let checked = 0;
+        let first = null;
+        for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c++) {
+                if (g[r][c] !== 0) continue;
+                whites++;
+                if (!first) first = [r, c];
+                if (coverage[r][c] === 0) return false; // orphan white cell
+                if (coverage[r][c] >= 2) checked++;
+            }
+        }
+        if (slotCount < 6 || whites < 15) return false;
+        if (checked / whites < 0.4) return false;
+
+        // All white cells must be orthogonally connected.
+        const seen = new Set([first.join(',')]);
+        const queue = [first];
+        while (queue.length) {
+            const [r, c] = queue.pop();
+            for (const [dr, dc] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+                const nr = r + dr, nc = c + dc;
+                const key = `${nr},${nc}`;
+                if (nr >= 0 && nr < size && nc >= 0 && nc < size &&
+                    g[nr][nc] === 0 && !seen.has(key)) {
+                    seen.add(key);
+                    queue.push([nr, nc]);
+                }
+            }
+        }
+        return seen.size === whites;
     }
 
     _curatedMedicalMini() {
