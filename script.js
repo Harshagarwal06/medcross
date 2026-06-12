@@ -398,7 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentDirection = bestDirectionForCell(cell);
             }
             highlightWord();
-            cell.querySelector('input').focus();
+            const input = cell.querySelector('input');
+            input.focus();
+            input.select(); // select any existing letter so typing overwrites and Backspace clears it
         });
 
         gridElement.addEventListener('input', (e) => {
@@ -454,16 +456,24 @@ document.addEventListener('DOMContentLoaded', () => {
         gridElement.addEventListener('keydown', (e) => {
             if (isSolved || timerPaused || !activeCell) return;
 
-            if (e.key === 'Backspace') {
+            if (e.key === 'Backspace' || e.key === 'Delete') {
+                e.preventDefault();
                 const input = activeCell.querySelector('input');
-                if (input.value === '') {
-                    e.preventDefault();
+                if (input.value !== '') {
+                    // Clear the current cell's letter regardless of caret position
+                    // (don't rely on native deletion, which fails if the caret sits
+                    // to the left of the character).
+                    input.value = '';
+                    activeCell.classList.remove('correct', 'incorrect', 'pencil');
+                } else if (e.key === 'Backspace') {
+                    // Already empty — step back and clear the previous cell.
                     moveToPreviousCell();
                     if (activeCell) {
                         activeCell.querySelector('input').value = '';
-                        activeCell.classList.remove('correct', 'incorrect');
+                        activeCell.classList.remove('correct', 'incorrect', 'pencil');
                     }
-                } else { activeCell.classList.remove('correct', 'incorrect'); }
+                }
+                if (!isGridFull()) keepTryingShown = false;
                 autoSaveProgress();
                 updateProgressBar();
                 return;

@@ -25,9 +25,9 @@ python3 -m http.server 8787
 
 Latest known asset versions:
 
-- `sw.js`: `medcross-v56`
+- `sw.js`: `medcross-v57`
 - `index.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `medical-api-sources.js?v=8`, `notes-import.js?v=1`, `homepage.js?v=27`, `homepage-filters.js?v=1`, `gemini.js?v=16`
-- `puzzle.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `script.js?v=19`, `gemini.js?v=16`
+- `puzzle.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `script.js?v=20`, `gemini.js?v=16`
 - `stats.html`: `style.css?v=27`, `progress.js?v=12`, `stats.js?v=15`
 - `study.html`: `style.css?v=27`, `progress.js?v=12`, `study.js?v=14`, `gemini.js?v=16`
 
