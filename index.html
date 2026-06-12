@@ -1,111 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MedCross — Interactive medical crossword puzzles for medical education. Practice cardiology, neurology, pharmacology, and more.">
-    <title>MedCross - Medical Crossword Puzzles</title>
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#f5f7fb">
-    <link rel="apple-touch-icon" href="icon.svg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=21">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>MedCross | Medical Education Reimagined</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css?v=24">
+    <!-- Theme init: runs before body renders to prevent flash of wrong theme -->
+    <script>
+        (function() {
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            var saved = localStorage.getItem('medcross-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#07111F",
+                        surface: "#111C2E",
+                        primary: "#67E8DC",
+                        "on-background": "#F8FAFC",
+                        "on-surface": "#F8FAFC",
+                        "on-surface-variant": "#94A3B8",
+                        "on-primary": "#07111F",
+                        "outline-variant": "rgba(255, 255, 255, 0.08)",
+                        "surface-bright": "#1a2a44",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.25rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["JetBrains Mono", "monospace"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(61, 73, 71, 0.3);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #88f5e7 0%, #29a195 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Make sure old vanilla CSS containers play nice */
+        .controls-bar { margin-bottom: 2rem; }
+        /* Theme toggle button */
+        #theme-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            flex-shrink: 0;
+            border: 1px solid var(--border, rgba(255,255,255,0.08));
+            background: var(--bg-card, #111C2E);
+            color: var(--text-muted, #94A3B8);
+        }
+        #theme-toggle:hover {
+            background: var(--accent-subtle, rgba(103,232,220,0.1));
+            color: var(--accent, #67E8DC);
+        }
+        #theme-toggle .material-symbols-outlined {
+            font-size: 20px;
+        }
+    </style>
 </head>
-<body>
-    <div class="ambient-blobs">
+<body class="homepage bg-background text-on-background min-h-screen relative">
+    <div class="ambient-blobs z-0 opacity-50">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
     </div>
 
-    <nav class="top-nav">
-        <div class="nav-brand">
-            <i data-lucide="activity" class="brand-icon"></i>
-            <span>MedCross</span>
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-12 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant shadow-sm" id="site-navbar">
+        <div class="flex items-center gap-4">
+            <i data-lucide="activity" class="text-primary h-6 w-6"></i>
+            <span class="font-headline text-xl font-bold text-primary tracking-tight">MedCross</span>
         </div>
-        <div class="nav-actions">
-            <a href="stats.html" class="btn btn-outline" id="stats-link" aria-label="View your stats">
-                <i data-lucide="bar-chart-2"></i> Stats
+        <div class="flex items-center gap-3">
+            <!-- Theme Toggle -->
+            <button id="theme-toggle" type="button" aria-label="Toggle light/dark mode" title="Toggle theme">
+                <span id="theme-icon" class="material-symbols-outlined">light_mode</span>
+            </button>
+            <a href="stats.html" class="bg-surface border border-outline-variant px-4 py-2 rounded-lg font-bold text-on-surface hover:bg-surface-bright transition-all flex items-center gap-2 text-sm" id="stats-link" aria-label="View your stats">
+                <i data-lucide="bar-chart-2" class="w-4 h-4"></i> Stats
             </a>
         </div>
     </nav>
 
-    <div id="homepage">
-        <header class="hero-section">
-            <div class="hero-badge">Medical Education Reimagined</div>
-            <h1 class="hero-title">Master Medicine with <span class="text-gradient">MedCross</span></h1>
-            <p class="hero-subtitle">Interactive clinical crossword puzzles designed for medical students, residents, and professionals.</p>
-            <div class="hero-actions">
-                <a href="#puzzles-section" class="btn btn-primary">Browse Puzzles</a>
-                <button type="button" class="btn btn-outline" id="hero-create-puzzle">Create Topic Puzzle</button>
+    <!-- Main Content Area -->
+    <main class="pt-24 pb-12 px-6 md:px-12 max-w-[1440px] mx-auto relative z-10" id="homepage">
+        
+        <!-- Hero Section with Background Texture -->
+        <header class="relative rounded-3xl overflow-hidden mb-10 min-h-[340px] flex flex-col justify-center px-8 md:px-12 bg-surface border border-outline-variant shadow-lg">
+            <!-- Background Image -->
+            <div class="absolute inset-0 z-0 mix-blend-overlay">
+                <img alt="Clinical Texture" class="w-full h-full object-cover opacity-30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVAgunlx1dWHwPmbUHdZDEVt8p-SSzL4RlydzPk-56-uEgTZkW7ysjWH9yeCAxqimqfBolFL9cv7J6gbd2lGazt4A7N0FEgGdGoAEuMpHLgm7FAyVIjjSN7TJY4ShEvUoOfMA2Y8WNOuxgcydU3Zv0M3MTh8b6lPB_70fyZ-FBDRVoEg2kKKVoPnqJu0kIwTZny07A6ks0SM7QEpujw2T0rvNqizZS87EzjUQqS_lb0M3MMY4Ziq0n5HBjjhLSSNVWm0f-KfHa4vLz"/>
             </div>
-            <div class="stats-bar" id="stats-bar">
+            <!-- Dark Overlay for Contrast -->
+            <div class="absolute inset-0 z-0 bg-background/60"></div>
+            
+            <div class="relative z-10 max-w-3xl flex flex-col md:flex-row gap-8 items-center py-10">
+                <div class="flex-1 text-center md:text-left">
+                    <span class="inline-block py-1 px-4 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold tracking-wide mb-6">Medical Education Reimagined</span>
+                    <h1 class="font-headline text-4xl md:text-5xl font-extrabold mb-4 text-on-background leading-tight">
+                        Master Medicine with <br/><span class="text-primary">MedCross.</span>
+                    </h1>
+                    <p class="text-on-surface-variant text-lg font-body max-w-md mb-8 mx-auto md:mx-0">
+                        Interactive clinical crossword puzzles designed for medical students, residents, and professionals.
+                    </p>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        <a href="#puzzles-section" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-primary/90 transition-all shadow-[0_0_15px_rgba(103,232,220,0.2)]">
+                            Browse Puzzles
+                            <span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+                        </a>
+                        <button type="button" id="hero-create-puzzle" class="bg-surface border border-outline-variant px-6 py-3 rounded-xl font-bold text-on-surface hover:bg-surface-bright transition-all">
+                            Create Topic Puzzle
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Stats Bar container in Hero -->
+            <div class="relative z-10 mt-auto border-t border-outline-variant pt-6 pb-2" id="stats-bar">
                 <!-- Populated by JS -->
             </div>
         </header>
 
-        <div class="container">
-            <!-- Puzzle Grid -->
-            <section class="puzzles-section" id="puzzles-section">
-                <h2>Available Puzzles</h2>
-                <div class="controls-bar">
-                    <div class="search-wrapper">
-                        <i data-lucide="search" class="search-icon"></i>
-                        <input type="text" id="puzzle-search" class="search-input" placeholder="Search puzzles by name or category...">
+        <!-- Search & Filter Bar -->
+        <div class="mb-8">
+            <div class="flex flex-col md:flex-row items-center bg-surface border border-outline-variant p-2 rounded-2xl">
+                <div class="relative flex-1 w-full">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+                    <input id="puzzle-search" class="w-full bg-transparent border-none py-3 pl-11 pr-4 text-on-surface focus:outline-none focus:ring-0 placeholder:text-on-surface-variant/60 font-body text-sm" placeholder="Search puzzles by name or category..." type="text"/>
+                </div>
+                <div class="flex gap-0 w-full md:w-auto divide-x divide-outline-variant">
+                    <div class="relative w-full md:w-44">
+                        <select id="category-filter" class="w-full appearance-none bg-transparent border-none py-3 px-4 text-on-surface-variant font-body text-sm cursor-pointer focus:outline-none focus:ring-0">
+                        </select>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[18px]">expand_more</span>
                     </div>
-                    <div class="puzzles-filter">
-                        <div class="select-wrapper">
-                            <select id="category-filter"></select>
-                            <i data-lucide="chevron-down" class="select-icon"></i>
-                        </div>
-                        <div class="select-wrapper">
-                            <select id="difficulty-filter"></select>
-                            <i data-lucide="chevron-down" class="select-icon"></i>
-                        </div>
+                    <div class="relative w-full md:w-44">
+                        <select id="difficulty-filter" class="w-full appearance-none bg-transparent border-none py-3 px-4 text-on-surface-variant font-body text-sm cursor-pointer focus:outline-none focus:ring-0">
+                        </select>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant text-[18px]">expand_more</span>
                     </div>
                 </div>
-                <div id="puzzles-grid" class="puzzles-grid">
-                    <!-- Puzzles will be populated by JavaScript -->
-                </div>
-            </section>
-
-            <!-- Review due nudge -->
-            <div id="review-nudge"></div>
-
-            <!-- Custom Puzzle Creator -->
-            <section class="notes-create-section" id="notes-create-section">
-                <!-- Populated by JS -->
-            </section>
-
-            <!-- Daily Puzzle -->
-            <section class="daily-section" id="daily-section">
-                <!-- Populated by JS -->
-            </section>
-
-            <!-- Achievements preview -->
-            <section class="achievements-preview" id="achievements-preview">
-                <!-- Populated by JS -->
-            </section>
-
-            <!-- Category Selection -->
-            <section class="category-section">
-                <h2>Select Medical Specialty</h2>
-                <div id="category-grid" class="category-grid"></div>
-            </section>
-
-            <!-- Difficulty Selection -->
-            <section class="difficulty-section">
-                <h2>Select Difficulty Level</h2>
-                <div id="difficulty-grid" class="difficulty-grid"></div>
-            </section>
+            </div>
         </div>
 
-        <footer style="text-align:center; padding:2rem; color:var(--text-muted); font-size:0.85rem;">
+        <!-- Dynamic Content Sections -->
+        <div id="review-nudge" class="mb-8"></div>
+        <section class="notes-create-section mb-8" id="notes-create-section"></section>
+        <section class="daily-section mb-8" id="daily-section"></section>
+        <section class="achievements-preview mb-8" id="achievements-preview"></section>
+
+        <!-- Puzzle Grid -->
+        <section class="puzzles-section mb-12 scroll-mt-24" id="puzzles-section">
+            <div class="flex justify-between items-end mb-4">
+                <div>
+                    <h2 class="font-headline text-3xl font-bold text-on-surface mb-1">Available Puzzles</h2>
+                    <p class="text-on-surface-variant font-body text-base">Refine your diagnostic accuracy with our challenges.</p>
+                </div>
+            </div>
+            <div id="puzzles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 puzzles-grid">
+                <!-- Puzzles will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Category Selection -->
+        <section class="category-section mb-12 scroll-mt-24">
+            <h2 class="font-headline text-3xl font-bold text-on-surface mb-6">Select Medical Specialty</h2>
+            <div id="category-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 category-grid"></div>
+        </section>
+
+        <!-- Difficulty Selection -->
+        <section class="difficulty-section mb-12 scroll-mt-24">
+            <h2 class="font-headline text-3xl font-bold text-on-surface mb-6">Select Difficulty Level</h2>
+            <div id="difficulty-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 difficulty-grid"></div>
+        </section>
+
+        <footer class="text-center py-8 text-on-surface-variant font-label text-sm border-t border-outline-variant mt-10">
             MedCross — Built for Medical Education
         </footer>
-    </div>
+    </main>
 
     <script src="config.js"></script>
     <script src="medical-database.js?v=3"></script>
@@ -115,6 +221,38 @@
     <script src="notes-import.js?v=1"></script>
     <script src="homepage.js?v=25"></script>
     <script src="gemini.js?v=15"></script>
-    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
+    <script>
+        lucide.createIcons();
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+        // ── Theme System ──
+        (function() {
+            var icon = document.getElementById('theme-icon');
+            var btn  = document.getElementById('theme-toggle');
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('medcross-theme', theme);
+                if (icon) {
+                    icon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+                }
+                if (btn) {
+                    var label = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+                    btn.setAttribute('aria-label', label);
+                    btn.setAttribute('title', label);
+                }
+            }
+            // Set initial icon based on saved/default theme
+            applyTheme(localStorage.getItem('medcross-theme') || 'dark');
+            if (btn) btn.addEventListener('click', function() {
+                var scrollX = window.scrollX;
+                var scrollY = window.scrollY;
+                var current = document.documentElement.getAttribute('data-theme');
+                applyTheme(current === 'dark' ? 'light' : 'dark');
+                window.scrollTo(scrollX, scrollY);
+            });
+            if (!window.location.hash) {
+                window.scrollTo(0, 0);
+            }
+        })();
+    </script>
 </body>
 </html>

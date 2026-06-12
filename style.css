@@ -153,6 +153,18 @@ body {
     padding: 6rem 2rem;
     text-align: center;
     animation: fadeInUp 0.8s ease;
+    position: relative;
+    overflow: hidden;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    background: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVAgunlx1dWHwPmbUHdZDEVt8p-SSzL4RlydzPk-56-uEgTZkW7ysjWH9yeCAxqimqfBolFL9cv7J6gbd2lGazt4A7N0FEgGdGoAEuMpHLgm7FAyVIjjSN7TJY4ShEvUoOfMA2Y8WNOuxgcydU3Zv0M3MTh8b6lPB_70fyZ-FBDRVoEg2kKKVoPnqJu0kIwTZny07A6ks0SM7QEpujw2T0rvNqizZS87EzjUQqS_lb0M3MMY4Ziq0n5HBjjhLSSNVWm0f-KfHa4vLz') center/cover no-repeat;
+    pointer-events: none;
 }
 .hero-badge {
     display: inline-block;
@@ -356,21 +368,22 @@ section h2 {
 }
 
 .puzzle-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    background: rgba(23, 31, 51, 0.7);
+    border: 1px solid rgba(61, 73, 71, 0.3);
     border-radius: var(--radius-xl);
     padding: 1.5rem;
     cursor: pointer;
-    transition: all var(--transition);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     animation: fadeInUp 0.5s ease both;
     backdrop-filter: blur(20px);
+    overflow: hidden;
 }
 
 .puzzle-card:hover {
     border-color: var(--accent);
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1), inset 0 1px 1px rgba(255,255,255,0.2);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.15);
 }
 
 .puzzle-header {
@@ -2760,21 +2773,7 @@ body {
     max-width: 1320px;
 }
 
-section {
-    background: #ffffff;
-    backdrop-filter: none;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    padding: 1.35rem;
-}
 
-section h2 {
-    text-align: left;
-    font-size: 1.15rem;
-    letter-spacing: -0.01em;
-    margin-bottom: 1rem;
-}
 
 .stats-link {
     top: 16px;
@@ -3510,4 +3509,423 @@ footer {
 .puzzle-card {
     animation: none !important;
     opacity: 1 !important;
+}
+
+/* ============================================================
+   Homepage dark-theme enforcement
+   Overrides the light-theme rules so they only apply to
+   puzzle.html / stats.html, NOT the dark navy homepage.
+   ============================================================ */
+
+body.homepage {
+    background: #07111F !important;
+    color: #F8FAFC !important;
+}
+
+/* Shared homepage layout guardrails.
+   The navbar is fixed, so the main content must reserve that space in
+   normal document flow before the hero renders. Theme rules below should
+   only alter visual treatment. */
+body.homepage {
+    --homepage-header-height: 4rem;
+    --homepage-top-gap: 2rem;
+}
+
+body.homepage #site-navbar {
+    height: var(--homepage-header-height);
+}
+
+body.homepage #homepage {
+    min-height: 100vh;
+    padding-top: calc(var(--homepage-header-height) + var(--homepage-top-gap)) !important;
+}
+
+body.homepage #homepage > header {
+    position: relative;
+    top: auto !important;
+    transform: none !important;
+    min-height: 340px;
+    height: auto;
+    max-height: none;
+    margin-top: 0 !important;
+    overflow: hidden;
+}
+
+body.homepage #stats-bar {
+    position: relative;
+    top: auto !important;
+    transform: none !important;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+}
+
+@media (max-width: 680px) {
+    body.homepage {
+        --homepage-top-gap: 1rem;
+    }
+
+    body.homepage #homepage {
+        padding-top: calc(var(--homepage-header-height) + var(--homepage-top-gap)) !important;
+    }
+}
+
+/* Kill the light-mode section wrapper style on homepage */
+body.homepage section {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* Kill white card backgrounds on homepage */
+body.homepage .category-card,
+body.homepage .difficulty-card,
+body.homepage .puzzle-card,
+body.homepage .notes-create-card,
+body.homepage .ach-chip,
+body.homepage .daily-card {
+    background: #111C2E !important;
+    color: #F8FAFC !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* Search / filter inputs stay dark */
+body.homepage .search-input,
+body.homepage .puzzles-filter select {
+    background: transparent !important;
+    color: #F8FAFC !important;
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* Un-jam the Tailwind start-button & notes-create-btn overrides */
+body.homepage .start-button,
+body.homepage .notes-create-btn,
+body.homepage .daily-start {
+    background: revert !important;
+    border-color: revert !important;
+    color: revert !important;
+}
+
+/* Section headings — high contrast on dark background */
+body.homepage .puzzles-section h2,
+body.homepage .category-section h2,
+body.homepage .difficulty-section h2 {
+    color: #F8FAFC !important;
+}
+
+/* Nav stays dark on homepage */
+body.homepage .top-nav {
+    background: rgba(17, 28, 46, 0.9) !important;
+    border-bottom-color: rgba(255,255,255,0.08) !important;
+}
+
+/* ============================================================
+   MEDCROSS THEME SYSTEM
+   Dark / Light mode via [data-theme] on <html>
+   ============================================================ */
+
+/* ── Dark theme CSS variables (default) ─────────────────────── */
+:root,
+[data-theme="dark"] {
+    --bg-main:              #07111F;
+    --bg-header:            #0F1A2B;
+    --bg-card:              #111C2E;
+    --bg-card-secondary:    #1A2A44;
+    --text-main:            #F8FAFC;
+    --text-muted:           #94A3B8;
+    --border:               rgba(255,255,255,0.08);
+    --border-strong:        rgba(255,255,255,0.15);
+    --accent:               #67E8DC;
+    --accent-hover:         #4DDDD0;
+    --accent-on:            #07111F;
+    --accent-subtle:        rgba(103,232,220,0.10);
+    --accent-subtle-border: rgba(103,232,220,0.30);
+    --btn-primary-bg:       #67E8DC;
+    --btn-primary-text:     #07111F;
+    --btn-secondary-bg:     #1A2A44;
+    --btn-secondary-text:   #F8FAFC;
+    --btn-secondary-border: rgba(255,255,255,0.08);
+    --input-bg:             #111C2E;
+    --input-border:         rgba(255,255,255,0.08);
+    --tag-bg:               rgba(103,232,220,0.10);
+    --tag-text:             #67E8DC;
+    --divider:              rgba(255,255,255,0.08);
+    --shadow:               0 4px 24px rgba(0,0,0,0.4);
+    --shadow-card:          0 2px 12px rgba(0,0,0,0.3);
+    --stat-badge-bg:        rgba(17,28,46,0.5);
+}
+
+/* ── Light theme CSS variables ───────────────────────────────── */
+[data-theme="light"] {
+    --bg-main:              #F5F7FB;
+    --bg-header:            #FFFFFF;
+    --bg-card:              #FFFFFF;
+    --bg-card-secondary:    #F1F5F9;
+    --text-main:            #0F172A;
+    --text-muted:           #64748B;
+    --border:               #DCE3EC;
+    --border-strong:        #CBD5E1;
+    --accent:               #14B8A6;
+    --accent-hover:         #0F9B8B;
+    --accent-on:            #FFFFFF;
+    --accent-subtle:        rgba(20,184,166,0.10);
+    --accent-subtle-border: rgba(20,184,166,0.35);
+    --btn-primary-bg:       #14B8A6;
+    --btn-primary-text:     #FFFFFF;
+    --btn-secondary-bg:     #FFFFFF;
+    --btn-secondary-text:   #111827;
+    --btn-secondary-border: #CBD5E1;
+    --input-bg:             #FFFFFF;
+    --input-border:         #CBD5E1;
+    --tag-bg:               rgba(20,184,166,0.10);
+    --tag-text:             #0F766E;
+    --divider:              #E2E8F0;
+    --shadow:               0 4px 24px rgba(0,0,0,0.07);
+    --shadow-card:          0 2px 12px rgba(0,0,0,0.06);
+    --stat-badge-bg:        #F8FAFC;
+}
+
+/* ============================================================
+   LIGHT MODE: Homepage Tailwind class overrides
+   Applied when [data-theme="light"] is set on <html>
+   Uses !important to beat the dark body.homepage overrides above
+   ============================================================ */
+
+/* ── Page & layout ────────────────────────────────────────────── */
+[data-theme="light"] body.homepage {
+    background: var(--bg-main) !important;
+    color: var(--text-main) !important;
+}
+
+[data-theme="light"] body.homepage nav {
+    background: rgba(255,255,255,0.95) !important;
+    border-bottom-color: var(--border) !important;
+    box-shadow: 0 1px 0 var(--border) !important;
+}
+
+[data-theme="light"] body.homepage section {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ── Tailwind bg-* overrides ──────────────────────────────────── */
+[data-theme="light"] body.homepage .bg-background      { background-color: var(--bg-main)  !important; }
+[data-theme="light"] body.homepage .bg-surface         { background-color: var(--bg-card)  !important; }
+[data-theme="light"] body.homepage .bg-surface-bright  { background-color: var(--bg-card-secondary) !important; }
+
+/* Transparent overlays */
+[data-theme="light"] body.homepage header.relative { box-shadow: 0 2px 20px rgba(0,0,0,0.06) !important; border-color: var(--border) !important; }
+[data-theme="light"] body.homepage .bg-background\/60 { background-color: rgba(245,247,251,0.50) !important; }
+[data-theme="light"] body.homepage .bg-surface\/50     { background-color: var(--stat-badge-bg) !important; }
+[data-theme="light"] body.homepage .bg-surface\/80     { background-color: rgba(255,255,255,0.95) !important; }
+[data-theme="light"] body.homepage .bg-primary\/5      { background-color: rgba(20,184,166,0.04) !important; }
+[data-theme="light"] body.homepage .bg-primary\/10     { background-color: rgba(20,184,166,0.10) !important; }
+[data-theme="light"] body.homepage .bg-primary\/20     { background-color: rgba(20,184,166,0.15) !important; }
+
+/* Primary accent */
+[data-theme="light"] body.homepage .bg-primary         { background-color: var(--btn-primary-bg) !important; }
+
+/* ── Text colors ──────────────────────────────────────────────── */
+[data-theme="light"] body.homepage .text-on-background { color: var(--text-main) !important; }
+[data-theme="light"] body.homepage .text-on-surface     { color: var(--text-main) !important; }
+[data-theme="light"] body.homepage .text-on-surface-variant { color: var(--text-muted) !important; }
+[data-theme="light"] body.homepage .text-on-primary    { color: var(--btn-primary-text) !important; }
+[data-theme="light"] body.homepage .text-primary       { color: var(--accent) !important; }
+
+/* ── Border colors ────────────────────────────────────────────── */
+[data-theme="light"] body.homepage .border-outline-variant { border-color: var(--border) !important; }
+[data-theme="light"] body.homepage .border-primary        { border-color: var(--accent) !important; }
+[data-theme="light"] body.homepage .border-primary\/20    { border-color: rgba(20,184,166,0.30) !important; }
+[data-theme="light"] body.homepage .border-primary\/50    { border-color: rgba(20,184,166,0.50) !important; }
+[data-theme="light"] body.homepage .divide-outline-variant > * + * { border-color: var(--border) !important; }
+
+/* ── Section headings ─────────────────────────────────────────── */
+[data-theme="light"] body.homepage .puzzles-section h2,
+[data-theme="light"] body.homepage .category-section h2,
+[data-theme="light"] body.homepage .difficulty-section h2 {
+    color: var(--text-main) !important;
+}
+
+/* ── Navbar links & buttons ───────────────────────────────────── */
+[data-theme="light"] body.homepage #stats-link {
+    background: var(--bg-card-secondary) !important;
+    border-color: var(--border) !important;
+    color: var(--text-main) !important;
+}
+[data-theme="light"] body.homepage #stats-link:hover {
+    background: var(--border) !important;
+}
+
+/* ── Theme toggle button ──────────────────────────────────────── */
+[data-theme="light"] #theme-toggle {
+    background: var(--bg-card-secondary) !important;
+    border-color: var(--border) !important;
+    color: var(--text-muted) !important;
+}
+[data-theme="light"] #theme-toggle:hover {
+    background: var(--accent-subtle) !important;
+    color: var(--accent) !important;
+}
+
+/* ── Hero section ─────────────────────────────────────────────── */
+[data-theme="light"] body.homepage header .text-on-background,
+[data-theme="light"] body.homepage header .text-on-surface,
+[data-theme="light"] body.homepage header h1 {
+    color: var(--text-main) !important;
+}
+/* Hero Create Topic Puzzle (secondary) button */
+[data-theme="light"] body.homepage #hero-create-puzzle {
+    background: var(--btn-secondary-bg) !important;
+    color: var(--btn-secondary-text) !important;
+    border-color: var(--btn-secondary-border) !important;
+}
+[data-theme="light"] body.homepage #hero-create-puzzle:hover {
+    background: var(--bg-card-secondary) !important;
+}
+
+/* ── Stats bar items ──────────────────────────────────────────── */
+[data-theme="light"] body.homepage #stats-bar > div {
+    background: var(--stat-badge-bg) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+[data-theme="light"] body.homepage #stats-bar .border-t { border-color: var(--border) !important; }
+
+/* ── Cards: Daily, Custom Practice, Achievements ─────────────── */
+[data-theme="light"] body.homepage .category-card,
+[data-theme="light"] body.homepage .difficulty-card,
+[data-theme="light"] body.homepage .puzzle-card,
+[data-theme="light"] body.homepage .notes-create-card,
+[data-theme="light"] body.homepage .ach-chip,
+[data-theme="light"] body.homepage .daily-card {
+    background: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+/* ── Puzzle card border-t divider ─────────────────────────────── */
+[data-theme="light"] body.homepage .puzzle-card .border-t { border-color: var(--border) !important; }
+
+/* Puzzle card hover */
+[data-theme="light"] body.homepage .puzzle-card:hover {
+    border-color: var(--accent) !important;
+    box-shadow: 0 10px 30px rgba(20,184,166,0.12) !important;
+}
+
+/* ── Play / action buttons inside cards ───────────────────────── */
+/* Start button: now secondary style in light mode */
+[data-theme="light"] body.homepage .start-button {
+    background: var(--bg-card-secondary) !important;
+    border-color: var(--border) !important;
+    color: var(--text-main) !important;
+}
+[data-theme="light"] body.homepage .start-button:hover,
+[data-theme="light"] body.homepage .hover\:bg-primary:hover {
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border-color: var(--btn-primary-bg) !important;
+}
+
+/* Daily start button */
+[data-theme="light"] body.homepage .daily-start {
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border: none !important;
+}
+[data-theme="light"] body.homepage .daily-start:hover {
+    background: var(--accent-hover) !important;
+}
+
+/* Notes create button */
+[data-theme="light"] body.homepage .notes-create-btn,
+[data-theme="light"] body.homepage #open-notes-creator {
+    background: var(--bg-card-secondary) !important;
+    border-color: var(--border) !important;
+    color: var(--text-main) !important;
+}
+[data-theme="light"] body.homepage #open-notes-creator:hover {
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border-color: var(--btn-primary-bg) !important;
+}
+
+/* ── Search / filter bar ──────────────────────────────────────── */
+[data-theme="light"] body.homepage .search-input,
+[data-theme="light"] body.homepage input[id="puzzle-search"] {
+    color: var(--text-main) !important;
+    background: transparent !important;
+}
+[data-theme="light"] body.homepage select {
+    color: var(--text-muted) !important;
+    background: transparent !important;
+}
+[data-theme="light"] body.homepage input::placeholder {
+    color: var(--text-muted) !important;
+}
+/* Search bar container */
+[data-theme="light"] body.homepage .mb-8 > div:first-child {
+    box-shadow: var(--shadow-card) !important;
+}
+
+/* ── Tags / chips ─────────────────────────────────────────────── */
+[data-theme="light"] body.homepage .bg-surface-bright.border-outline-variant\/50 {
+    background-color: var(--bg-card-secondary) !important;
+    border-color: var(--border) !important;
+    color: var(--text-muted) !important;
+}
+
+/* ── Achievement chips ────────────────────────────────────────── */
+/* Unlocked: keep accent */
+[data-theme="light"] body.homepage .bg-primary\/10.border-primary\/50 {
+    background: rgba(20,184,166,0.10) !important;
+    border-color: rgba(20,184,166,0.40) !important;
+    color: var(--text-main) !important;
+}
+/* Locked */
+[data-theme="light"] body.homepage .bg-surface-bright.border-outline-variant\/30 {
+    background: var(--bg-card-secondary) !important;
+    border-color: var(--border) !important;
+}
+
+/* ── Border-t lines ───────────────────────────────────────────── */
+[data-theme="light"] body.homepage .border-t { border-color: var(--border) !important; }
+
+/* ── Footer ───────────────────────────────────────────────────── */
+[data-theme="light"] body.homepage footer { color: var(--text-muted) !important; border-color: var(--border) !important; }
+
+
+/* ── Ambient blobs: slightly reduce opacity in light mode (keep layout intact) ── */
+[data-theme="light"] body.homepage .ambient-blobs { opacity: 0.15 !important; }
+
+
+/* ============================================================
+   Polish fixes — light mode targeted overrides
+   ============================================================ */
+
+/* Achievement chips: locked chips should look intentionally muted,
+   not like disabled form buttons. bg-transparent in light mode. */
+[data-theme="light"] body.homepage [class*="border-outline-variant"].bg-transparent {
+    background: transparent !important;
+    border-color: var(--border) !important;
+}
+
+/* Create Puzzle button: use primary teal in light mode for visibility */
+[data-theme="light"] body.homepage #open-notes-creator {
+    background: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+    border-color: var(--btn-primary-bg) !important;
+    box-shadow: 0 0 12px rgba(20,184,166,0.15) !important;
+}
+[data-theme="light"] body.homepage #open-notes-creator:hover {
+    background: var(--accent-hover) !important;
+    border-color: var(--accent-hover) !important;
+}
+
+
+/* Dark mode hero overlay stays dark */
+[data-theme="dark"] body.homepage .bg-background\/60 {
+    background-color: rgba(7,17,31,0.60) !important;
 }

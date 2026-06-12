@@ -76,14 +76,28 @@ function renderDailyPuzzle(puzzles) {
     if (!daily) { section.innerHTML = ''; return; }
     const done = MedCrossProgress.isDailyDone(dailyId);
     section.innerHTML = `
-        <div class="daily-card ${done ? 'done' : ''}">
-            <div class="daily-badge"><i data-lucide="${done ? 'check-circle' : 'calendar'}"></i> ${done ? 'Completed Today' : 'Puzzle of the Day'}</div>
-            <div class="daily-icon"><i data-lucide="${CATEGORY_LUCIDE_ICONS[daily.category] || 'activity'}"></i></div>
-            <div class="daily-info">
-                <h3>${daily.title}</h3>
-                <p>${daily.clueCount} clues · ${shortDifficultyLabel(daily.difficulty)} · ${formatCategoryName(daily.category)}</p>
+        <div class="relative bg-surface border border-outline-variant rounded-2xl p-5 md:p-6 flex flex-col md:flex-row gap-4 items-center shadow-sm transition-all hover:border-primary/50 group overflow-hidden">
+            <!-- Background glow -->
+            <div class="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+            
+            <div class="h-14 w-14 md:h-16 md:w-16 rounded-xl bg-surface-bright flex items-center justify-center shrink-0 border border-outline-variant text-primary group-hover:scale-105 transition-transform z-10">
+                <i data-lucide="${CATEGORY_LUCIDE_ICONS[daily.category] || 'activity'}" class="w-7 h-7"></i>
             </div>
-            <button class="daily-start" type="button">${done ? 'Play Again' : 'Play Today'}</button>
+            
+            <div class="flex-1 text-center md:text-left z-10">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 mb-2 rounded-full text-xs font-bold uppercase tracking-wider ${done ? 'bg-primary/20 text-primary' : 'bg-surface-bright border border-outline-variant text-on-surface'}">
+                    <i data-lucide="${done ? 'check-circle' : 'calendar'}" class="w-3.5 h-3.5"></i> 
+                    ${done ? 'Completed Today' : 'Puzzle of the Day'}
+                </div>
+                <h3 class="font-headline text-xl md:text-2xl font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">${escapeHtml(daily.title)}</h3>
+                <p class="text-on-surface-variant font-body text-sm">
+                    ${daily.clueCount} clues <span class="mx-1.5 opacity-40">•</span> ${shortDifficultyLabel(daily.difficulty)} <span class="mx-1.5 opacity-40">•</span> ${formatCategoryName(daily.category)}
+                </p>
+            </div>
+            
+            <button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold whitespace-nowrap shadow-[0_0_15px_rgba(103,232,220,0.2)] hover:bg-primary/90 active:scale-95 transition-all w-full md:w-auto daily-start z-10" type="button">
+                ${done ? 'Play Again' : 'Play Today'}
+            </button>
         </div>
     `;
     section.querySelector('.daily-start').addEventListener('click', () => startPuzzle(dailyId));
@@ -96,17 +110,37 @@ function renderAchievementsPreview() {
     const achievements = MedCrossProgress.getAchievements();
     const unlockedCount = achievements.filter(a => a.unlocked).length;
     section.innerHTML = `
-        <div class="ach-preview-header">
-            <h2><i data-lucide="award"></i> Achievements <span class="ach-count">${unlockedCount}/${achievements.length}</span></h2>
-            <a href="stats.html" class="ach-viewall">View all <i data-lucide="arrow-right"></i></a>
-        </div>
-        <div class="ach-preview-row">
-            ${achievements.map(a => `
-                <div class="ach-chip ${a.unlocked ? 'unlocked' : 'locked'}" title="${a.name}: ${a.desc}">
-                    <span class="ach-chip-icon">${a.unlocked ? '' : ''}</span>
-                    <span class="ach-chip-name">${a.name}</span>
+        <div class="bg-surface border border-outline-variant rounded-2xl p-4 md:p-5 shadow-sm scroll-mt-24">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="h-8 w-8 rounded-lg bg-surface-bright flex items-center justify-center text-primary border border-outline-variant">
+                        <i data-lucide="award" class="w-4 h-4"></i>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <h2 class="font-headline text-lg font-bold text-on-surface">Achievements</h2>
+                        <span class="text-[10px] font-label text-primary bg-primary/10 px-2 py-0.5 rounded uppercase tracking-wide font-bold">${unlockedCount}/${achievements.length} Unlocked</span>
+                    </div>
                 </div>
-            `).join('')}
+                <a href="stats.html" class="text-xs font-bold text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
+                    View all <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </a>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                ${achievements.map(a => `
+                    <div
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border transition-colors ${
+                            a.unlocked
+                                ? 'bg-primary/10 border-primary/40 text-on-surface'
+                                : 'bg-transparent border-outline-variant text-on-surface-variant'
+                        }"
+                        title="${a.name}: ${a.desc}"
+                        style="${a.unlocked ? '' : 'opacity:0.55;'}"
+                    >
+                        <i data-lucide="${a.unlocked ? 'unlock' : 'lock'}" class="w-3 h-3 ${a.unlocked ? 'text-primary' : 'text-on-surface-variant'}"></i>
+                        <span class="text-xs font-label font-bold">${a.name}</span>
+                    </div>
+                `).join('')}
+            </div>
         </div>
     `;
     if (window.lucide) window.lucide.createIcons({ root: section });
@@ -160,13 +194,20 @@ function renderCustomPuzzleMaker() {
     const aiReady = typeof MedAI !== 'undefined' && MedAI.isConfigured();
     const apiReady = typeof MedCrossAPISources !== 'undefined';
     section.innerHTML = `
-        <div class="notes-create-card">
-            <div>
-                <div class="notes-kicker">Custom practice</div>
-                <h2>Create a custom puzzle</h2>
-                <p>Paste notes or type any medical topic and MedCross will build the word bank.</p>
+        <div class="bg-surface border border-outline-variant rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+                    <span class="material-symbols-outlined text-[22px]" style="font-variation-settings:'FILL' 1">auto_awesome</span>
+                </div>
+                <div>
+                    <div class="text-[10px] font-label text-primary uppercase tracking-widest font-bold mb-0.5">Custom Practice</div>
+                    <h2 class="font-headline text-lg font-bold text-on-surface leading-tight">Create a custom puzzle</h2>
+                    <p class="text-xs font-body text-on-surface-variant mt-0.5">Paste notes or type any medical topic to build a tailored puzzle.</p>
+                </div>
             </div>
-            <button id="open-notes-creator" class="notes-create-btn" type="button">Create Puzzle</button>
+            <button id="open-notes-creator" class="bg-primary text-on-primary px-5 py-2 rounded-xl font-bold text-sm whitespace-nowrap hover:bg-primary/90 transition-all active:scale-95 shrink-0 shadow-[0_0_12px_rgba(103,232,220,0.15)]" type="button">
+                Create Puzzle
+            </button>
         </div>
         <div class="notes-modal" id="notes-modal" hidden>
             <div class="notes-modal-content">
@@ -441,12 +482,28 @@ function renderStatsBar() {
     const streak = MedCrossProgress.getStreak();
     const totalPuzzles = Object.keys(medicalCrosswordData).reduce((sum, cat) => sum + Object.keys(medicalCrosswordData[cat]).length, 0);
     const bar = document.getElementById('stats-bar');
+    bar.className = 'relative z-10 mt-auto border-t border-outline-variant pt-8 pb-2 grid grid-cols-2 md:grid-cols-5 gap-4';
     bar.innerHTML = `
-        <div class="stat-item"><div class="stat-value">${streak.current}</div><div class="stat-label">Day Streak</div></div>
-        <div class="stat-item"><div class="stat-value">${stats.totalCompleted}</div><div class="stat-label">Completed</div></div>
-        <div class="stat-item"><div class="stat-value">${totalPuzzles}</div><div class="stat-label">Total Puzzles</div></div>
-        <div class="stat-item"><div class="stat-value">${stats.averageAccuracy != null ? stats.averageAccuracy + '%' : '--'}</div><div class="stat-label">Avg Accuracy</div></div>
-        <div class="stat-item"><div class="stat-value">${stats.averageTime ? formatTime(stats.averageTime) : '--:--'}</div><div class="stat-label">Avg Time</div></div>
+        <div class="flex flex-col items-center justify-center p-4 bg-surface/50 rounded-xl border border-outline-variant backdrop-blur-sm">
+            <div class="text-3xl font-headline font-bold text-primary mb-1">${streak.current}</div>
+            <div class="text-xs font-label text-on-surface-variant uppercase tracking-wider">Day Streak</div>
+        </div>
+        <div class="flex flex-col items-center justify-center p-4 bg-surface/50 rounded-xl border border-outline-variant backdrop-blur-sm">
+            <div class="text-3xl font-headline font-bold text-on-surface mb-1">${stats.totalCompleted}</div>
+            <div class="text-xs font-label text-on-surface-variant uppercase tracking-wider">Completed</div>
+        </div>
+        <div class="hidden md:flex flex-col items-center justify-center p-4 bg-surface/50 rounded-xl border border-outline-variant backdrop-blur-sm">
+            <div class="text-3xl font-headline font-bold text-on-surface mb-1">${totalPuzzles}</div>
+            <div class="text-xs font-label text-on-surface-variant uppercase tracking-wider">Total Puzzles</div>
+        </div>
+        <div class="flex flex-col items-center justify-center p-4 bg-surface/50 rounded-xl border border-outline-variant backdrop-blur-sm">
+            <div class="text-3xl font-headline font-bold text-on-surface mb-1">${stats.averageAccuracy != null ? stats.averageAccuracy + '%' : '--'}</div>
+            <div class="text-xs font-label text-on-surface-variant uppercase tracking-wider">Avg Accuracy</div>
+        </div>
+        <div class="flex flex-col items-center justify-center p-4 bg-surface/50 rounded-xl border border-outline-variant backdrop-blur-sm">
+            <div class="text-3xl font-headline font-bold text-on-surface mb-1">${stats.averageTime ? formatTime(stats.averageTime) : '--:--'}</div>
+            <div class="text-xs font-label text-on-surface-variant uppercase tracking-wider">Avg Time</div>
+        </div>
     `;
 }
 
@@ -487,16 +544,17 @@ function renderCategoryCards(puzzles, currentFilters) {
     for (const category of Object.keys(medicalCrosswordData)) {
         const card = document.createElement('button');
         card.type = 'button';
-        card.className = 'category-card';
+        card.className = `flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 ${currentFilters.category === category ? 'bg-primary/10 border-primary shadow-[0_0_15px_rgba(103,232,220,0.15)] text-primary' : 'bg-surface border-outline-variant hover:border-primary/50 text-on-surface hover:-translate-y-1'}`;
         card.style.animationDelay = `${i * 0.05}s`;
         i++;
-        if (currentFilters.category === category) card.classList.add('active');
         card.dataset.category = category;
         card.innerHTML = `
-            <div class="category-icon"><i data-lucide="${CATEGORY_LUCIDE_ICONS[category] || 'activity'}"></i></div>
-            <h3>${formatCategoryName(category)}</h3>
-            <p>${CATEGORY_DESCRIPTIONS[category] || 'Medical specialty'}</p>
-            <span class="puzzle-count">${puzzles.filter(p => p.category === category).length} puzzles</span>
+            <div class="h-12 w-12 rounded-full mb-4 flex items-center justify-center ${currentFilters.category === category ? 'bg-primary text-on-primary' : 'bg-surface-bright text-on-surface-variant'}">
+                <i data-lucide="${CATEGORY_LUCIDE_ICONS[category] || 'activity'}" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-headline font-bold mb-1">${formatCategoryName(category)}</h3>
+            <p class="text-xs font-body text-on-surface-variant mb-3 text-center px-2 line-clamp-2">${CATEGORY_DESCRIPTIONS[category] || 'Medical specialty'}</p>
+            <span class="text-[10px] font-label font-bold uppercase tracking-wide bg-background px-3 py-1 rounded-full ${currentFilters.category === category ? 'text-primary' : 'text-on-surface-variant'}">${puzzles.filter(p => p.category === category).length} puzzles</span>
         `;
         card.addEventListener('click', () => {
             currentFilters.category = currentFilters.category === category ? 'all' : category;
@@ -516,14 +574,13 @@ function renderDifficultyCards(puzzles, currentFilters) {
     for (const difficulty of getDifficulties()) {
         const card = document.createElement('button');
         card.type = 'button';
-        card.className = 'difficulty-card';
+        card.className = `flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 ${currentFilters.difficulty === difficulty ? 'bg-primary/10 border-primary shadow-[0_0_15px_rgba(103,232,220,0.15)] text-primary' : 'bg-surface border-outline-variant hover:border-primary/50 text-on-surface hover:-translate-y-1'}`;
         card.style.animationDelay = `${i * 0.05}s`;
         i++;
-        if (currentFilters.difficulty === difficulty) card.classList.add('active');
         card.innerHTML = `
-            <h3>${DIFFICULTY_LABELS[difficulty] || formatCategoryName(difficulty)}</h3>
-            <p>${difficultyDescription(difficulty)}</p>
-            <div class="difficulty-stars">${DIFFICULTY_STARS[difficulty] || '★'}</div>
+            <h3 class="font-headline font-bold text-lg mb-2">${DIFFICULTY_LABELS[difficulty] || formatCategoryName(difficulty)}</h3>
+            <p class="text-sm font-body text-on-surface-variant text-center mb-4 line-clamp-2">${difficultyDescription(difficulty)}</p>
+            <div class="text-primary tracking-[0.2em] text-lg">${DIFFICULTY_STARS[difficulty] || '★'}</div>
         `;
         card.addEventListener('click', () => {
             currentFilters.difficulty = currentFilters.difficulty === difficulty ? 'all' : difficulty;
@@ -582,29 +639,48 @@ function displayPuzzles(puzzles, filters) {
 
 function createPuzzleCard(puzzle) {
     const card = document.createElement('article');
-    card.className = 'puzzle-card';
+    card.className = 'puzzle-card group bg-surface border border-outline-variant rounded-2xl p-5 hover:border-primary/50 hover:shadow-[0_10px_30px_rgba(103,232,220,0.1)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col cursor-pointer';
 
     const progress = MedCrossProgress.getProgress(puzzle.id);
     let badgeHTML = '';
     if (progress && progress.completed) {
-        badgeHTML = `<span class="completion-badge completed">Completed${progress.bestTime ? ' · ' + formatTime(progress.bestTime) : ''}</span>`;
+        badgeHTML = `<span class="bg-primary/10 text-primary border border-primary/20 text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">Completed${progress.bestTime ? ' · ' + formatTime(progress.bestTime) : ''}</span>`;
     } else if (progress && progress.answers && progress.answers.length > 0) {
-        badgeHTML = `<span class="completion-badge in-progress">In Progress</span>`;
+        badgeHTML = `<span class="bg-surface-bright text-on-surface text-[10px] px-2 py-1 border border-outline-variant rounded font-bold uppercase tracking-wider">In Progress</span>`;
     }
 
+    const isMini = puzzle.difficulty === 'mini';
+    const icon = isMini ? 'grid_3x3' : 'grid_on';
+    const btnText = progress && progress.answers && progress.answers.length > 0 ? 'Resume' : 'Play';
+    const clueCount = isMini ? '5x5 grid' : `${Number(puzzle.clueCount) || 0} clues`;
+
     card.innerHTML = `
-        <div class="puzzle-header">
-            <h3 class="puzzle-title">${escapeHtml(puzzle.title)}</h3>
-            <span class="puzzle-difficulty">${escapeHtml(shortDifficultyLabel(puzzle.difficulty))}</span>
+        <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-primary/10 transition-all"></div>
+        <div class="flex justify-between items-start mb-4 z-10">
+            <div class="h-10 w-10 rounded-lg bg-surface-bright flex items-center justify-center border border-outline-variant text-primary group-hover:scale-110 group-hover:bg-primary/10 transition-transform">
+                <span class="material-symbols-outlined text-[20px]">${icon}</span>
+            </div>
+            ${badgeHTML}
         </div>
-        <p class="puzzle-description">${escapeHtml(puzzle.description)}</p>
-        ${badgeHTML}
-        <div class="puzzle-footer">
-            <span class="puzzle-size">${puzzle.difficulty === 'mini' ? '5x5 grid' : `${Number(puzzle.clueCount) || 0} clues`}</span>
-            <button class="start-button" type="button">${progress && progress.answers && progress.answers.length > 0 ? 'Resume' : 'Start Puzzle'}</button>
+        <h3 class="font-headline text-lg font-bold text-on-surface mb-1.5 group-hover:text-primary transition-colors z-10">${escapeHtml(puzzle.title)}</h3>
+        <p class="text-on-surface-variant text-sm font-body mb-4 line-clamp-2 z-10 flex-1">${escapeHtml(puzzle.description)}</p>
+        
+        <div class="mt-auto z-10 flex flex-col gap-4">
+            <div class="flex flex-wrap gap-2">
+                <span class="bg-surface-bright border border-outline-variant/50 px-2 py-1 rounded text-[10px] font-label text-on-surface-variant uppercase tracking-wide">${escapeHtml(formatCategoryName(puzzle.category))}</span>
+                <span class="bg-surface-bright border border-outline-variant/50 px-2 py-1 rounded text-[10px] font-label ${isMini ? 'text-primary' : 'text-on-surface'} uppercase tracking-wide">${escapeHtml(shortDifficultyLabel(puzzle.difficulty))}</span>
+            </div>
+            <div class="flex items-center justify-between border-t border-outline-variant pt-3">
+                <span class="text-on-surface-variant text-xs font-label font-medium uppercase tracking-wider flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-primary/50"></span> ${clueCount}</span>
+                <button class="bg-surface border border-outline-variant text-on-surface px-4 py-1.5 rounded-lg font-bold text-sm flex items-center gap-1.5 hover:bg-primary hover:text-on-primary hover:border-primary group-active:scale-95 transition-all start-button hover:shadow-[0_0_15px_rgba(103,232,220,0.3)]" type="button">
+                    ${btnText}
+                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </button>
+            </div>
         </div>
     `;
-    card.querySelector('.start-button').addEventListener('click', () => startPuzzle(puzzle.id));
+    card.querySelector('.start-button').addEventListener('click', (e) => { e.stopPropagation(); startPuzzle(puzzle.id); });
+    card.addEventListener('click', () => startPuzzle(puzzle.id));
     return card;
 }
 
@@ -630,6 +706,27 @@ function escapeHtml(value) {
         "'": '&#39;'
     }[ch]));
 }
+
+// Micro-interactions and subtle atmospheric effects (from Stitch Redesign)
+document.addEventListener('mousemove', (e) => {
+    const panels = document.querySelectorAll('.puzzle-card');
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    panels.forEach(panel => {
+        const rect = panel.getBoundingClientRect();
+        const dx = x - (rect.left + rect.width / 2);
+        const dy = y - (rect.top + rect.height / 2);
+        
+        // Only apply if cursor is close
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 400) {
+            panel.style.boxShadow = `${dx/20}px ${dy/20}px 30px rgba(136,245,231,0.03)`;
+        } else {
+            panel.style.boxShadow = '';
+        }
+    });
+});
 
 function formatCategoryName(v) { return v.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\b\w/g, c => c.toUpperCase()); }
 function shortDifficultyLabel(d) { return { m1: 'M1', m2: 'M2', clinical: 'Clinical', usmle: 'USMLE', residency: 'Residency', api: 'Topic', notes: 'Notes', mini: 'Mini' }[d] || formatCategoryName(d); }

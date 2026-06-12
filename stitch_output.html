@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MedCross | Medical Education Reimagined</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#adc6ff",
+                        "on-tertiary": "#522126",
+                        "surface-container-low": "#131b2e",
+                        "surface-bright": "#31394d",
+                        "primary-container": "#29a195",
+                        "surface-tint": "#6bd8cb",
+                        "surface-container": "#171f33",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-container": "#ffb2b7",
+                        "on-tertiary-fixed-variant": "#6d363b",
+                        "on-secondary-fixed": "#001a42",
+                        "on-primary-container": "#005d55",
+                        "outline-variant": "#3d4947",
+                        "on-surface": "#dbe2fd",
+                        "error-container": "#93000a",
+                        "primary": "#88f5e7",
+                        "tertiary": "#ffd9db",
+                        "on-secondary-fixed-variant": "#2c4677",
+                        "on-secondary": "#122f5f",
+                        "secondary-container": "#2c4677",
+                        "on-secondary-container": "#9cb5ed",
+                        "inverse-on-surface": "#283044",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "primary-fixed": "#89f5e7",
+                        "surface-container-highest": "#2d3449",
+                        "background": "#0b1326",
+                        "on-background": "#dbe2fd",
+                        "primary-fixed-dim": "#6bd8cb",
+                        "on-tertiary-container": "#7b4147",
+                        "inverse-primary": "#006a62",
+                        "on-surface-variant": "#bcc9c6",
+                        "surface": "#0b1326",
+                        "on-primary": "#003732",
+                        "tertiary-fixed": "#ffdadb",
+                        "tertiary-fixed-dim": "#ffb2b7",
+                        "surface-container-lowest": "#060d20",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#2d3449",
+                        "on-primary-fixed": "#00201d",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#dbe2fd",
+                        "on-primary-fixed-variant": "#005049",
+                        "surface-container-high": "#222a3e",
+                        "on-tertiary-fixed": "#370c12",
+                        "surface-dim": "#0b1326",
+                        "on-error": "#690005",
+                        "outline": "#879391"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Manrope"],
+                        "label-lg": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(23, 31, 51, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(61, 73, 71, 0.3);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #88f5e7 0%, #29a195 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30 min-h-screen">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface-container/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm shadow-primary/5">
+<div class="flex items-center gap-4">
+<img alt="MedCross Logo" class="h-10 w-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5nn04e_w0pofTNI1y8GIrObJCK9DVLUSmc0SwHECryJEQZYi-KIFayLWd-pZD4O_PsWMX0RIffNnda2y0RVVoLt9qLXlbcMieAdChjntxAh725rZlyPQuRfM-SxSor3tmC89Ros5_tOpIjP8-3pnjv8D9d_suek01yyV-yY-kcgOG7inxn2A5sk-J5yrf8NGPoZwiNLC6MwQ5po6p0qk01tuArWizUxWbxae-CUxa-de9t-zF1Kyrr_J4yhGYfiKzpMCwlDGSr4jA"/>
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">MedCross</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-headline-sm text-label-lg transition-all" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-headline-sm text-label-lg" href="#">Courses</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-headline-sm text-label-lg" href="#">Puzzles</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-headline-sm text-label-lg" href="#">Library</a>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-all">settings</span>
+</div>
+<div class="h-10 w-10 rounded-full border-2 border-primary-container/30 overflow-hidden cursor-pointer active:scale-95 transition-transform">
+<img alt="Medical Practitioner Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a senior medical resident in a dark navy blue scrub, featuring a soft cinematic lighting profile against a blurred clinical background. The style is high-end, medical-grade professional photography with cool tones and a sharp focus on the practitioner's focused expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7xI4-rrSK9cJNlOUB3UEC7FeuHjjIaum4nty3hBr1CyQNu7HSmORynMfMv7Z2EeqjnROXiGUy2CXzf278-bEC8iLCsCMdu9o0ChI2a8mtf3BQXURXIYZ-MPRvoeEh7k8fetQO8W8uN_1CnAmLKumLiUQph1Q7C2WmspGYURxh8O-ZHaQ9g-ihhph_9p6qHDy3AMQF6HXSYo1v94FHjlGn6yDYcGKDMJROXG7cXsXNlb2A4jvQJbl9nR3yr1zA-dIajtcm3U3Gci--"/>
+</div>
+</div>
+</nav>
+<!-- Side Navigation (Desktop only) -->
+<aside class="fixed left-0 top-16 bottom-0 hidden lg:flex flex-col p-4 gap-2 w-64 bg-surface-container-low/90 backdrop-blur-2xl border-r border-outline-variant/20 z-40">
+<div class="flex items-center gap-3 p-3 mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">medical_services</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface font-bold">Dr. Smith</p>
+<p class="text-xs text-on-surface-variant font-medium">Senior Resident</p>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 bg-primary-container/20 text-primary rounded-xl p-3 transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-lg text-label-lg">Home</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:bg-surface-bright/10 hover:text-on-surface rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-lg text-label-lg">Curriculum</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:bg-surface-bright/10 hover:text-on-surface rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">medical_services</span>
+<span class="font-label-lg text-label-lg">Cases</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:bg-surface-bright/10 hover:text-on-surface rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-lg text-label-lg">Statistics</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 hover:bg-surface-bright/10 hover:text-on-surface rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-lg text-label-lg">Support</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant/20">
+<button class="w-full bg-primary-container text-on-primary-container py-3 rounded-xl font-bold font-label-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">grade</span>
+                Upgrade Pro
+            </button>
+<a class="flex items-center gap-3 text-on-surface-variant p-3 mt-4 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-lg text-label-lg">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pt-24 pb-12 lg:ml-64 px-margin-mobile md:px-margin-desktop relative">
+<!-- Hero Section with Background Texture -->
+<section class="relative rounded-[2rem] overflow-hidden mb-12 min-h-[400px] flex flex-col justify-center px-12 glass-panel">
+<div class="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
+<img alt="Clinical Texture" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVAgunlx1dWHwPmbUHdZDEVt8p-SSzL4RlydzPk-56-uEgTZkW7ysjWH9yeCAxqimqfBolFL9cv7J6gbd2lGazt4A7N0FEgGdGoAEuMpHLgm7FAyVIjjSN7TJY4ShEvUoOfMA2Y8WNOuxgcydU3Zv0M3MTh8b6lPB_70fyZ-FBDRVoEg2kKKVoPnqJu0kIwTZny07A6ks0SM7QEpujw2T0rvNqizZS87EzjUQqS_lb0M3MMY4Ziq0n5HBjjhLSSNVWm0f-KfHa4vLz"/>
+</div>
+<div class="relative z-10 max-w-2xl">
+<span class="inline-block py-1 px-4 rounded-full bg-primary/10 border border-primary/20 text-primary text-label-md font-label-md mb-6">NEW RELEASES AVAILABLE</span>
+<h1 class="font-headline-lg text-headline-lg md:text-[56px] md:leading-tight font-extrabold mb-6">
+                    Medical Education <br/><span class="hero-gradient">Reimagined.</span>
+</h1>
+<p class="text-on-surface-variant text-body-lg font-body-lg max-w-md mb-8">
+                    Master clinical reasoning through immersive crossword puzzles, cases, and interactive data visualizations designed for the modern practitioner.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-8 py-3.5 rounded-xl font-bold flex items-center gap-2 hover:shadow-[0_0_20px_rgba(136,245,231,0.3)] transition-all active:scale-95">
+                        Start Learning
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-surface-container-highest/50 backdrop-blur-md border border-outline-variant px-8 py-3.5 rounded-xl font-bold text-on-surface hover:bg-surface-bright/30 transition-all">
+                        View Curriculum
+                    </button>
+</div>
+</div>
+</section>
+<!-- Search & Filter Bar -->
+<section class="mb-12">
+<div class="flex flex-col lg:flex-row gap-4 items-center p-4 glass-panel rounded-2xl">
+<div class="relative flex-1 w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-xl py-3.5 pl-12 pr-4 text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-on-surface-variant/50" placeholder="Search for cases, puzzles, or topics..." type="text"/>
+</div>
+<div class="flex gap-4 w-full lg:w-auto">
+<div class="relative w-full lg:w-48">
+<select class="w-full appearance-none bg-surface-container-high border border-outline-variant/30 rounded-xl py-3.5 px-4 text-on-surface-variant font-medium cursor-pointer focus:outline-none focus:border-primary/50">
+<option>Category</option>
+<option>Cardiology</option>
+<option>Neurology</option>
+<option>Pediatrics</option>
+<option>Oncology</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+<div class="relative w-full lg:w-48">
+<select class="w-full appearance-none bg-surface-container-high border border-outline-variant/30 rounded-xl py-3.5 px-4 text-on-surface-variant font-medium cursor-pointer focus:outline-none focus:border-primary/50">
+<option>Difficulty</option>
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Advanced</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Puzzle Grid -->
+<section>
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Weekly Clinical Puzzles</h2>
+<p class="text-on-surface-variant font-body-md">Refine your diagnostic accuracy with our latest challenges.</p>
+</div>
+<button class="text-primary font-bold hover:underline flex items-center gap-1">
+                    View All
+                    <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group glass-panel rounded-[1.5rem] p-6 hover:border-primary/40 transition-all duration-300 relative overflow-hidden flex flex-col">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-primary/10 transition-all"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="h-12 w-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">grid_on</span>
+</div>
+<span class="bg-error-container text-on-error-container text-[10px] px-2 py-1 rounded font-bold uppercase tracking-wider">Hot</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Advanced Cardiology Crossword</h3>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-on-surface-variant">Cardiology</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-primary">Advanced</span>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="h-6 w-6 rounded-full border border-background" data-alt="Close up of medical resident eyes looking through microscopic lens, clinical laboratory environment, soft blue lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8xZAF5_gJbS4VheEQOLibBwQiHrg-z2vMRVKNxd3E7pO_gPUlp0AAowgZ_cGvqiv8GDhqTUKxbqtAcUs55A7d0l9lgXukNGGMEUZoLswGrEfKCKf8lEc16pCjPYepa_acnvzej4sfrJPLl9kwvz12_T1jfgOOERV7dFHrNyFfHpm2zO3j3RMIaYnMWFaW1RHtxSz7GKN8T77iEVH-tYo5rMfGmJgnZ-59OaF8Y8fUIqfRcMtJlj1VV8Hdi_w9eYeWbliBO9x-3nRY"/>
+<img class="h-6 w-6 rounded-full border border-background" data-alt="Clinical researcher in profile, white lab coat, high tech futuristic laboratory background with blue glowing accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBummFXnmWct1F4g0TECR5kdO4AmWkIsvPipXNb680JA836gPxoMa0BQ56IBQK7KzEwnSdVeL1UwIgvbu6tio9Z5gEKMwercCCDvRDzjDv_3aQpAsyCwTEO1XdIwu8tT-IAygRSlvxu1WOxYNmLspgWdhrJu9xaLr_x2u5u38wvryHufz8W3W9A0KHG4KqpabisE0ILO5ajxbT6cLnquKJRc6YLDnRa3QbtGIinvT58eK6h8cr1KsopGoS_noIKEPVOF5nPdoTIsUrr"/>
+<div class="h-6 w-6 rounded-full bg-surface-container-highest border border-background flex items-center justify-center text-[8px] font-bold">+12</div>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-bold flex items-center gap-2 group-active:scale-95 transition-all">
+                            Play
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group glass-panel rounded-[1.5rem] p-6 hover:border-primary/40 transition-all duration-300 relative overflow-hidden flex flex-col">
+<div class="flex justify-between items-start mb-6">
+<div class="h-12 w-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">neurology</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Neuro-Pathology Logic Case</h3>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-on-surface-variant">Neurology</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-secondary">Intermediate</span>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-on-surface-variant text-label-md font-label-md">Estimated: 15 mins</span>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-bold flex items-center gap-2 group-active:scale-95 transition-all">
+                            Play
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group glass-panel rounded-[1.5rem] p-6 hover:border-primary/40 transition-all duration-300 relative overflow-hidden flex flex-col">
+<div class="flex justify-between items-start mb-6">
+<div class="h-12 w-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">emergency</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">ER Triage Diagnostics</h3>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-on-surface-variant">Emergency</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-secondary">Intermediate</span>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-on-surface-variant text-label-md font-label-md">Estimated: 25 mins</span>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-bold flex items-center gap-2 group-active:scale-95 transition-all">
+                            Play
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group glass-panel rounded-[1.5rem] p-6 hover:border-primary/40 transition-all duration-300 relative overflow-hidden flex flex-col">
+<div class="flex justify-between items-start mb-6">
+<div class="h-12 w-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">child_care</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Pediatric Milestone Grid</h3>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-on-surface-variant">Pediatrics</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-secondary-fixed-dim">Beginner</span>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-on-surface-variant text-label-md font-label-md">Estimated: 10 mins</span>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-bold flex items-center gap-2 group-active:scale-95 transition-all">
+                            Play
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group glass-panel rounded-[1.5rem] p-6 hover:border-primary/40 transition-all duration-300 relative overflow-hidden flex flex-col">
+<div class="flex justify-between items-start mb-6">
+<div class="h-12 w-12 rounded-xl bg-primary-container/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">biotech</span>
+</div>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mb-2 group-hover:text-primary transition-colors">Molecular Oncology Quest</h3>
+<div class="flex flex-wrap gap-2 mt-auto">
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-on-surface-variant">Oncology</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg text-label-md font-label-md text-primary">Advanced</span>
+</div>
+<div class="mt-6 flex items-center justify-between">
+<span class="text-on-surface-variant text-label-md font-label-md">Estimated: 40 mins</span>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-lg font-bold flex items-center gap-2 group-active:scale-95 transition-all">
+                            Play
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Empty "Coming Soon" Card -->
+<div class="group border-2 border-dashed border-outline-variant/30 rounded-[1.5rem] p-6 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/30 transition-all">
+<span class="material-symbols-outlined text-[40px] text-on-surface-variant/30">add_circle</span>
+<p class="text-on-surface-variant font-medium">New puzzles released <br/>every Monday</p>
+</div>
+</div>
+</section>
+<!-- Stats Overview (Asymmetric Section) -->
+<section class="mt-16 grid grid-cols-1 xl:grid-cols-3 gap-6">
+<div class="xl:col-span-2 glass-panel rounded-[2rem] p-8">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface">Weekly Progress</h3>
+<div class="flex gap-2">
+<div class="h-2 w-8 rounded-full bg-primary"></div>
+<div class="h-2 w-8 rounded-full bg-primary-container/20"></div>
+</div>
+</div>
+<div class="h-48 flex items-end justify-between gap-2 md:gap-4 px-2">
+<!-- Fake Chart Bars -->
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[40%] hover:bg-primary/40 transition-all cursor-pointer relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">Mon</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[65%] hover:bg-primary/40 transition-all cursor-pointer relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">Tue</div>
+</div>
+<div class="flex-1 bg-primary rounded-t-lg h-[85%] relative group cursor-pointer shadow-[0_0_20px_rgba(136,245,231,0.2)]">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-[10px] font-bold text-primary">Wed</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[50%] hover:bg-primary/40 transition-all cursor-pointer relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">Thu</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[30%] hover:bg-primary/40 transition-all cursor-pointer relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">Fri</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[20%] hover:bg-primary/40 transition-all cursor-pointer relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">Sat</div>
+</div>
+<div class="flex-1 bg-primary/20 rounded-t-lg h-[10%] hover:bg-primary/40 transition-all cursor-pointer relative group">
+<div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface-container-high px-2 py-1 rounded text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">Sun</div>
+</div>
+</div>
+<div class="mt-8 flex justify-between text-on-surface-variant font-label-lg text-label-lg">
+<p>Accuracy Rate: <span class="text-primary font-bold">92.4%</span></p>
+<p>Global Rank: <span class="text-primary font-bold">#412</span></p>
+</div>
+</div>
+<div class="bg-primary text-on-primary rounded-[2rem] p-8 flex flex-col justify-between shadow-[0_10px_30px_rgba(41,161,149,0.2)]">
+<div>
+<span class="material-symbols-outlined text-[48px] mb-4">military_tech</span>
+<h3 class="font-headline-sm text-headline-sm font-extrabold mb-2">Clinical Mastermind</h3>
+<p class="text-on-primary/80 font-medium">You've completed 15 advanced cases this month. Keep it up!</p>
+</div>
+<div class="mt-8">
+<div class="w-full bg-on-primary/20 h-2 rounded-full mb-2 overflow-hidden">
+<div class="bg-on-primary h-full w-[75%]"></div>
+</div>
+<p class="text-[12px] font-bold text-right">3,450 / 5,000 XP to Tier 4</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Contextual FAB (Only on Dashboard) -->
+<button class="fixed bottom-8 right-8 h-16 w-16 rounded-2xl bg-primary text-on-primary shadow-[0_10px_40px_rgba(41,161,149,0.4)] flex items-center justify-center active:scale-90 transition-transform z-50 group">
+<span class="material-symbols-outlined text-[32px] group-hover:rotate-12 transition-transform">bolt</span>
+</button>
+<script>
+        // Micro-interactions and subtle atmospheric effects
+        document.addEventListener('mousemove', (e) => {
+            const panels = document.querySelectorAll('.glass-panel');
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            panels.forEach(panel => {
+                const rect = panel.getBoundingClientRect();
+                const dx = x - (rect.left + rect.width / 2);
+                const dy = y - (rect.top + rect.height / 2);
+                
+                // Only apply if cursor is close
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < 400) {
+                    panel.style.boxShadow = `${dx/20}px ${dy/20}px 30px rgba(136,245,231,0.03)`;
+                } else {
+                    panel.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body></html>
