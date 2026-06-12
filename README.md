@@ -37,12 +37,28 @@ cp config.example.js config.js   # then paste your key from https://aistudio.goo
 # Optional private/keyed data APIs:
 # set MEDCROSS_DATA_PROXY_URL in config.js to call your backend data proxy.
 # Public ClinicalTables and RxNorm puzzle generation works without keys.
+# For public AI deployment, set MEDCROSS_AI_PROXY_URL to a serverless proxy
+# and keep Gemini/provider keys on the server.
 
 # Serve (any static server works)
 python3 -m http.server 8787
 ```
 
 Open http://localhost:8787 and pick a puzzle.
+
+## Backup and tests
+
+The stats page includes local export/import/reset controls for progress, custom puzzles, and spaced-repetition history.
+
+Fast local checks:
+
+```bash
+for f in *.js; do node --check "$f" || exit 1; done
+node tests/security-static.test.js
+node tests/generator-quality.test.js
+```
+
+Optional browser smoke testing is documented in `tests/README.md`.
 
 ## Tech
 

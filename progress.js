@@ -45,6 +45,17 @@ const MedCrossProgress = (() => {
         }
     }
 
+    function _defaultMeta() {
+        return {
+            streak: { current: 0, longest: 0, lastDay: null },
+            achievements: {},
+            review: [],
+            breakdown: { categories: {}, difficulties: {} },
+            dailyHistory: {},
+            customPuzzles: []
+        };
+    }
+
     function _saveMeta(meta) {
         try {
             localStorage.setItem(META_KEY, JSON.stringify(meta));
@@ -295,6 +306,7 @@ const MedCrossProgress = (() => {
         if (r.sourcePuzzle == null) r.sourcePuzzle = '';
         if (r.difficulty == null) r.difficulty = '';
         if (r.lastResult == null) r.lastResult = null;
+        if (!Array.isArray(r.history)) r.history = [];
         return r;
     }
 
@@ -346,28 +358,65 @@ const MedCrossProgress = (() => {
             .filter(r => r.due <= today);
     }
 
+    const REVIEW_GRADES = {
+        again: { label: 'Again', result: 'again' },
+        hard: { label: 'Hard', result: 'hard' },
+        good: { label: 'Good', result: 'good' },
+        easy: { label: 'Easy', result: 'easy' }
+    };
+
+    function _normalizeGrade(grade) {
+        if (grade === true) return 'good';
+        if (grade === false) return 'again';
+        const clean = String(grade || '').toLowerCase();
+        return REVIEW_GRADES[clean] ? clean : 'good';
+    }
+
+    function _reviewIntervalForGrade(grade, box) {
+        if (grade === 'again') return 0;
+        const base = LEITNER_INTERVALS[box] || 0;
+        if (grade === 'hard') return Math.max(1, Math.floor(base / 2) || 1);
+        if (grade === 'easy') return Math.max(base + 2, Math.round(base * 1.5));
+        return base;
+    }
+
     /**
-     * Grade a term after recall. correct=true promotes it up a box,
-     * correct=false resets it to box 1. Returns the updated item.
+     * Grade a term after recall. Accepts legacy booleans or richer grades:
+     * again, hard, good, easy. Returns the updated item.
      */
-    function gradeReviewTerm(term, correct) {
+    function gradeReviewTerm(term, grade = 'good') {
         const meta = _loadMeta();
         const item = meta.review.find(r => r.term === term);
         if (!item) return null;
         _normalizeReviewItem(item);
         const today = _dayKey();
+        const normalizedGrade = _normalizeGrade(grade);
+        const previousBox = item.box;
         item.reps += 1;
-        if (correct) {
-            item.box = Math.min(MAX_BOX, item.box + 1);
-            item.lastResult = 'got';
-        } else {
+
+        if (normalizedGrade === 'again') {
             item.box = 1;
             item.lapses += 1;
             item.missedCount = (item.missedCount || 1) + 1;
-            item.lastResult = 'missed';
+        } else if (normalizedGrade === 'hard') {
+            item.box = Math.max(1, item.box);
+        } else if (normalizedGrade === 'easy') {
+            item.box = Math.min(MAX_BOX, item.box + 2);
+        } else {
+            item.box = Math.min(MAX_BOX, item.box + 1);
         }
-        item.due = _addDays(today, LEITNER_INTERVALS[item.box]);
+
+        item.lastResult = REVIEW_GRADES[normalizedGrade].result;
+        item.due = _addDays(today, _reviewIntervalForGrade(normalizedGrade, item.box));
         item.lastGraded = new Date().toISOString();
+        item.history.push({
+            at: item.lastGraded,
+            grade: normalizedGrade,
+            fromBox: previousBox,
+            toBox: item.box,
+            due: item.due
+        });
+        if (item.history.length > 50) item.history = item.history.slice(-50);
         _saveMeta(meta);
         return { ...item };
     }
@@ -395,6 +444,95 @@ const MedCrossProgress = (() => {
         const meta = _loadMeta();
         meta.review = [];
         _saveMeta(meta);
+    }
+
+    function exportData() {
+        return {
+            app: 'MedCross',
+            version: 1,
+            exportedAt: new Date().toISOString(),
+            progress: _load(),
+            meta: _loadMeta(),
+            settings: getSettings(),
+            theme: localStorage.getItem('medcross-theme') || null,
+            generatedPuzzles: _readJsonKey('generatedPuzzles', []),
+            notesEntryCache: _readJsonKey('mcNotesEntryCache:v1', {})
+        };
+    }
+
+    function _readJsonKey(key, fallback) {
+        try {
+            return JSON.parse(localStorage.getItem(key)) || fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
+    function _mergeByKey(current, incoming, key) {
+        const map = new Map();
+        for (const item of Array.isArray(current) ? current : []) {
+            if (item && item[key]) map.set(item[key], item);
+        }
+        for (const item of Array.isArray(incoming) ? incoming : []) {
+            if (item && item[key]) map.set(item[key], { ...(map.get(item[key]) || {}), ...item });
+        }
+        return [...map.values()];
+    }
+
+    function _mergeMeta(current, incoming) {
+        const base = { ..._defaultMeta(), ...current, ...incoming };
+        base.achievements = { ...(current.achievements || {}), ...(incoming.achievements || {}) };
+        base.dailyHistory = { ...(current.dailyHistory || {}), ...(incoming.dailyHistory || {}) };
+        base.breakdown = incoming.breakdown || current.breakdown || _defaultMeta().breakdown;
+        base.review = _mergeByKey(current.review, incoming.review, 'term');
+        base.customPuzzles = _mergeByKey(current.customPuzzles, incoming.customPuzzles, 'id')
+            .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+            .slice(0, 25);
+        return base;
+    }
+
+    function importData(payload, options = {}) {
+        if (!payload || payload.app !== 'MedCross') {
+            throw new Error('This does not look like a MedCross export file.');
+        }
+        const merge = options.merge !== false;
+        const currentProgress = _load();
+        const currentMeta = _loadMeta();
+        const nextProgress = merge ? { ...currentProgress, ...(payload.progress || {}) } : (payload.progress || {});
+        const nextMeta = merge ? _mergeMeta(currentMeta, payload.meta || {}) : { ..._defaultMeta(), ...(payload.meta || {}) };
+        _save(nextProgress);
+        _saveMeta(nextMeta);
+
+        if (payload.settings) saveSettings(merge ? { ...getSettings(), ...payload.settings } : payload.settings);
+        if (payload.theme === 'dark' || payload.theme === 'light') localStorage.setItem('medcross-theme', payload.theme);
+        if (Array.isArray(payload.generatedPuzzles)) {
+            const current = _readJsonKey('generatedPuzzles', []);
+            const next = merge ? _mergeByKey(current, payload.generatedPuzzles, 'id') : payload.generatedPuzzles;
+            localStorage.setItem('generatedPuzzles', JSON.stringify(next));
+        }
+        if (payload.notesEntryCache && typeof payload.notesEntryCache === 'object') {
+            const current = _readJsonKey('mcNotesEntryCache:v1', {});
+            const next = merge ? { ...current, ...payload.notesEntryCache } : payload.notesEntryCache;
+            localStorage.setItem('mcNotesEntryCache:v1', JSON.stringify(next));
+        }
+
+        return {
+            progressEntries: Object.keys(nextProgress).length,
+            reviewTerms: Array.isArray(nextMeta.review) ? nextMeta.review.length : 0,
+            customPuzzles: Array.isArray(nextMeta.customPuzzles) ? nextMeta.customPuzzles.length : 0
+        };
+    }
+
+    function clearAllData(options = {}) {
+        const keepSettings = Boolean(options.keepSettings);
+        const settings = keepSettings ? getSettings() : null;
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(META_KEY);
+        localStorage.removeItem('generatedPuzzles');
+        localStorage.removeItem('mcNotesEntryCache:v1');
+        if (!keepSettings) localStorage.removeItem('medcross-theme');
+        if (!keepSettings) localStorage.removeItem(SETTINGS_KEY);
+        else saveSettings(settings);
     }
 
     // ---------------------------------------------------------------------
@@ -532,9 +670,10 @@ const MedCrossProgress = (() => {
         getStreak,
         getAchievements, ACHIEVEMENTS,
         addReviewTerms, getReviewQueue, getDueReviewTerms, gradeReviewTerm,
-        getReviewStats, removeReviewTerm, clearReviewQueue,
+        getReviewStats, removeReviewTerm, clearReviewQueue, REVIEW_GRADES,
         getDailyPuzzleId, isDailyDone, markDailyDone, getDailyHistory,
         recordSolveBreakdown, getWeakAreas,
-        saveCustomPuzzle, getCustomPuzzles
+        saveCustomPuzzle, getCustomPuzzles,
+        exportData, importData, clearAllData
     };
 })();

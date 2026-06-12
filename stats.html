@@ -11,13 +11,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="stylesheet" href="style.css?v=27">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div id="stats-page">
         <header class="hero-section">
-            <button id="back-button" class="btn btn-icon" onclick="window.location.href='index.html'" aria-label="Go back">
+            <button id="back-button" class="btn btn-icon" type="button" aria-label="Go back">
                 <i data-lucide="arrow-left"></i>
             </button>
             <h1>Stats</h1>
@@ -26,6 +26,20 @@
 
         <div class="container">
             <section class="stats-overview" id="stats-overview"></section>
+
+            <section class="stats-block">
+                <div class="review-header">
+                    <h2>Data & Backup</h2>
+                    <div class="review-actions">
+                        <button id="export-data" class="study-now-btn" type="button">Export Data</button>
+                        <button id="import-data" class="clear-review-btn" type="button">Import</button>
+                        <button id="reset-data" class="clear-review-btn" type="button">Reset</button>
+                    </div>
+                </div>
+                <p class="review-sub">Back up local progress, custom puzzles, stats, and review history before switching devices or clearing browser data.</p>
+                <input id="import-data-file" type="file" accept="application/json,.json" hidden>
+                <div class="stats-notice" id="stats-notice" hidden></div>
+            </section>
 
             <section class="stats-block">
                 <h2>Achievements</h2>
@@ -66,8 +80,8 @@
     </div>
 
     <script src="medical-database.js?v=3"></script>
-    <script src="progress.js?v=10"></script>
-    <script src="stats.js?v=13"></script>
+    <script src="progress.js?v=12"></script>
+    <script src="stats.js?v=15"></script>
     <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});</script>
 </body>
 </html>

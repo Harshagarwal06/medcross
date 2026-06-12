@@ -25,18 +25,19 @@ python3 -m http.server 8787
 
 Latest known asset versions:
 
-- `sw.js`: `medcross-v48`
-- `index.html`: `style.css?v=21`, `crossword-generator.js?v=12`, `notes-import.js?v=1`, `homepage.js?v=25`, `gemini.js?v=15`
-- `puzzle.html`: `style.css?v=25`, `crossword-generator.js?v=12`, `script.js?v=17`, `gemini.js?v=15` (back button is inline SVG; page sets data-theme like the homepage; puzzle UI fully themed for light/dark)
-- `stats.html`: `stats.js?v=13`
-- `study.html`: `study.js?v=11`
+- `sw.js`: `medcross-v53`
+- `index.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `medical-api-sources.js?v=8`, `notes-import.js?v=1`, `homepage.js?v=27`, `homepage-filters.js?v=1`, `gemini.js?v=16`
+- `puzzle.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `script.js?v=18`, `gemini.js?v=16`
+- `stats.html`: `style.css?v=27`, `progress.js?v=12`, `stats.js?v=15`
+- `study.html`: `style.css?v=27`, `progress.js?v=12`, `study.js?v=14`, `gemini.js?v=16`
 
 ## Deployment
 
 - Live on GitHub Pages: `https://harshagarwal06.github.io/medcross/` (repo `Harshagarwal06/medcross`, public, deploys from `main` branch root).
 - Deploy = push to `main`; Pages rebuilds automatically (~1 minute).
 - `config.js` is gitignored and verified absent from git history and the live site, so the deployed app runs key-less: AI buttons hidden, topic puzzles use public APIs, notes puzzles use local database matching.
-- To enable Gemini publicly later, add a serverless proxy (Cloudflare Workers / Netlify Functions) — never ship the key in frontend JS.
+- **AI on the public site:** wired but needs a one-time proxy deploy. `gemini.js` already supports `window.MEDCROSS_AI_PROXY_URL`; `config.public.js` (committed, no secret) activates it only on the live host (local dev still uses the direct `config.js` key). Deploy `ai-proxy/cloudflare-worker.js` to a free Cloudflare Worker, set its `GEMINI_API_KEY` secret, paste the Worker URL into `config.public.js`, push. Full steps in `ai-proxy/README.md`. Until the URL is filled in, the live AI buttons stay hidden (no broken state, key never shipped).
+- Why the AI buttons "disappeared" on the live site: they only render when `MedAI.isConfigured()` is true (needs a key or proxy URL). The key is local-only by design, so the public site hid them. Locally they work as before.
 
 ## API Key Setup
 
@@ -160,11 +161,23 @@ window.GEMINI_API_KEY = 'YOUR_KEY_HERE';
 - Stats review queue escapes terms, clues, source puzzle names, and metadata.
 - Gemini/AI panel escapes model output and error messages before rendering line breaks.
 - Achievement modal descriptions are escaped.
+- `validation.js` now exposes `MedCrossValidation.validatePuzzle()` and `validateEntries()` for runtime warnings and generator tests.
+- `MedCrossProgress` now supports export/import/reset and richer review grading (`again`, `hard`, `good`, `easy`) with per-term history.
+- Public AI deployments can use `MEDCROSS_AI_PROXY_URL` so Gemini/provider keys stay server-side.
+- The service worker uses network-first loading for versioned same-origin assets and caches CDN `basic`/`cors`/`opaque` responses after first use for better offline reuse of fonts/icons/parsers/Tailwind.
+- Inline browser event handlers have been removed from root JS/HTML.
+
+### Test Helpers
+
+- `tests/security-static.test.js`: checks tracked files for frontend secrets, inline handlers, and CDN/offline caching guardrails.
+- `tests/generator-quality.test.js`: validates generated full and mini puzzles with `MedCrossValidation` and reports fallback/checked-cell metrics.
+- `tests/browser-smoke.js`: optional Playwright helper for homepage, stats, and study page smoke checks.
 
 ## Important Files
 
 - `index.html`: homepage structure, puzzle list now near the top.
 - `homepage.js`: puzzle listing, filters, daily card, custom creator, notes/topic generation.
+- `homepage-filters.js`: URL-driven homepage filter application for stats/focus-area deep links.
 - `medical-api-sources.js`: public medical API helper for topic puzzle generation.
 - `crossword-generator.js`: full crossword generation, mini generation, custom entry generation.
 - `puzzle.html`: puzzle playing page shell.
@@ -246,7 +259,7 @@ The dirty state is expected. Do not reset it unless the user explicitly asks.
 - Gemini and live topic enrichment depend on network access and a configured `config.js` key.
 - Frontend API keys are visible; use a backend proxy for public deployment.
 - The browser used during testing contains locally generated test puzzles, including duplicate `Topic Puzzle: asthma` cards. Those are stored in local browser state, not the source database.
-- Some icons currently depend on the Lucide CDN loaded from `https://unpkg.com/lucide@latest`. For a reliable offline PWA, bundle icons locally or remove that dependency.
+- Some homepage/runtime styling and parsers still originate from CDNs (Tailwind, fonts, Lucide, Material Symbols, pdf.js, Mammoth). The service worker now caches CDN responses after first use, but true first-load offline support still requires bundling or replacing those assets locally.
 - A full end-to-end regression suite does not exist yet.
 
 ## Recommended Next Tasks

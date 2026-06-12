@@ -457,8 +457,20 @@ async function createPuzzleFromAPI() {
 
 function openCustomPuzzleFromEntries(entries, options) {
     options.status.textContent = 'Building puzzle grid...';
+    if (typeof MedCrossValidation !== 'undefined') {
+        const entryValidation = MedCrossValidation.validateEntries(entries);
+        if (!entryValidation.valid) {
+            throw new Error('The extracted word bank has missing clues or unusable answers.');
+        }
+    }
     const generator = new CrosswordGenerator({});
     const data = generator.generateFromEntries(entries, { title: options.sourceTitle });
+    const validation = typeof MedCrossValidation !== 'undefined'
+        ? MedCrossValidation.validatePuzzle(data)
+        : null;
+    if (validation && !validation.valid) {
+        throw new Error('The generated grid failed validation. Try a richer set of notes or another topic.');
+    }
     const id = `${options.idPrefix}-${Date.now()}`;
     const puzzle = {
         id,
@@ -468,6 +480,7 @@ function openCustomPuzzleFromEntries(entries, options) {
         size: `${data.cols}x${data.rows}`,
         description: options.description,
         data,
+        validation,
         sourceEntries: options.sourceEntries || entries,
         createdAt: new Date().toISOString()
     };
@@ -513,11 +526,23 @@ function formatTime(s) {
 }
 
 function initializeUI(puzzles) {
-    let currentFilters = { category: 'all', difficulty: 'all', search: '' };
+    const params = new URLSearchParams(window.location.search);
+    let currentFilters = {
+        category: params.get('category') || 'all',
+        difficulty: params.get('difficulty') || 'all',
+        search: (params.get('q') || '').toLowerCase()
+    };
 
+    renderFilterOptions(puzzles);
+    const categorySelect = document.getElementById('category-filter');
+    const difficultySelect = document.getElementById('difficulty-filter');
+    if (![...categorySelect.options].some(o => o.value === currentFilters.category)) currentFilters.category = 'all';
+    if (![...difficultySelect.options].some(o => o.value === currentFilters.difficulty)) currentFilters.difficulty = 'all';
+    categorySelect.value = currentFilters.category;
+    difficultySelect.value = currentFilters.difficulty;
+    document.getElementById('puzzle-search').value = currentFilters.search;
     renderCategoryCards(puzzles, currentFilters);
     renderDifficultyCards(puzzles, currentFilters);
-    renderFilterOptions(puzzles);
 
     document.getElementById('category-filter').addEventListener('change', (e) => {
         currentFilters.category = e.target.value;

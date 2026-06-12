@@ -8,8 +8,7 @@
  * Optional config hooks:
  * - window.MEDCROSS_DATA_PROXY_URL can point at a backend that returns
  *   [{ answer, question }] for keyed/private sources.
- * - window.UMLS_API_KEY is reserved for that proxy flow. Do not expose it in
- *   a public frontend deployment.
+ * - Private provider keys belong inside that backend, not in browser code.
  */
 const MedCrossAPISources = (() => {
     const SOURCE_LABELS = {
@@ -28,7 +27,7 @@ const MedCrossAPISources = (() => {
             { value: 'rxnorm', label: SOURCE_LABELS.rxnorm, needsKey: false }
         ];
         if (isProxyConfigured()) {
-            base.push({ value: 'proxy', label: SOURCE_LABELS.proxy, needsKey: Boolean(window.UMLS_API_KEY) });
+            base.push({ value: 'proxy', label: SOURCE_LABELS.proxy, needsKey: false });
         }
         return base;
     }
@@ -123,7 +122,6 @@ const MedCrossAPISources = (() => {
         const url = new URL(window.MEDCROSS_DATA_PROXY_URL);
         url.searchParams.set('q', query);
         url.searchParams.set('limit', String(limit));
-        if (window.UMLS_API_KEY) url.searchParams.set('umlsKey', window.UMLS_API_KEY);
 
         const data = await fetchJson(url);
         const entries = Array.isArray(data) ? data : data.entries;

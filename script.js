@@ -185,6 +185,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function surfacePuzzleQualityWarnings() {
+        if (typeof MedCrossValidation === 'undefined') return;
+        const validation = MedCrossValidation.validatePuzzle(puzzleData);
+        puzzle.validation = validation;
+        if (!validation.warnings.length) return;
+        console.warn('[MedCross] Puzzle validation warnings:', validation);
+        if (!validation.valid) {
+            showToast('This puzzle has a structural issue. Try another puzzle if solving feels odd.', 'warning');
+            return;
+        }
+        const meaningful = validation.warnings.filter(w => w.severity !== 'info');
+        if (meaningful.length && validation.stats.checkedPct < 30) {
+            showToast('This generated grid has fewer crossings than usual.', 'info');
+        }
+    }
+
+    surfacePuzzleQualityWarnings();
     updateHeader(puzzle);
     applyGridSizing(puzzleData.grid.length, puzzleData.grid[0].length);
     initializePuzzle();
@@ -269,6 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function bindControls() {
+        document.getElementById('back-button')?.addEventListener('click', goBack);
         document.getElementById('check-button').addEventListener('click', checkGrid);
         document.getElementById('reveal-button').addEventListener('click', revealEntirePuzzle);
         document.getElementById('hint-button').addEventListener('click', useHint);
@@ -352,6 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.reload();
         });
         document.getElementById('modal-share').addEventListener('click', shareResults);
+        document.getElementById('modal-back-home')?.addEventListener('click', goBack);
     }
 
     function bindGridInteractions() {

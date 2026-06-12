@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.lucide) window.lucide.createIcons();
     const settings = MedCrossProgress.getSettings();
     if (settings.darkMode) document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('back-button')?.addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
     const toggle = document.getElementById('theme-toggle');
     if (toggle) {
         toggle.textContent = settings.darkMode ? 'Light' : 'Dark';
@@ -16,32 +19,98 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    bindDataControls();
+    renderAllStats();
+});
+
+function renderAllStats() {
     renderOverview();
     renderAchievements();
     renderSpecialties();
     renderWeakAreas();
     renderDailyCalendar();
     renderReviewQueue();
+}
 
+function bindDataControls() {
     document.getElementById('clear-review').addEventListener('click', async () => {
-        if (await showStatsConfirm()) {
+        if (await showStatsConfirm({
+            title: 'Clear Review Queue?',
+            body: 'This removes every term from your spaced-repetition queue.',
+            confirmText: 'Clear Queue'
+        })) {
             MedCrossProgress.clearReviewQueue();
-            renderReviewQueue();
+            renderAllStats();
+            showStatsNotice('Review queue cleared.');
         }
     });
-});
 
-function showStatsConfirm() {
+    document.getElementById('export-data')?.addEventListener('click', exportProgressData);
+    document.getElementById('import-data')?.addEventListener('click', () => {
+        document.getElementById('import-data-file')?.click();
+    });
+    document.getElementById('import-data-file')?.addEventListener('change', importProgressData);
+    document.getElementById('reset-data')?.addEventListener('click', async () => {
+        if (await showStatsConfirm({
+            title: 'Reset Local Data?',
+            body: 'This removes local progress, custom puzzles, stats, and review history on this browser. Export first if you want a backup.',
+            confirmText: 'Reset Data'
+        })) {
+            MedCrossProgress.clearAllData({ keepSettings: true });
+            renderAllStats();
+            showStatsNotice('Local progress data reset.');
+        }
+    });
+}
+
+function showStatsNotice(message) {
+    const el = document.getElementById('stats-notice');
+    if (!el) return;
+    el.textContent = message;
+    el.hidden = false;
+    setTimeout(() => { el.hidden = true; }, 3200);
+}
+
+function exportProgressData() {
+    const data = JSON.stringify(MedCrossProgress.exportData(), null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const stamp = new Date().toISOString().slice(0, 10);
+    link.href = url;
+    link.download = `medcross-backup-${stamp}.json`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    showStatsNotice('Backup exported.');
+}
+
+async function importProgressData(event) {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file) return;
+    try {
+        const payload = JSON.parse(await file.text());
+        const summary = MedCrossProgress.importData(payload, { merge: true });
+        renderAllStats();
+        showStatsNotice(`Imported ${summary.progressEntries} progress entries, ${summary.reviewTerms} review terms, and ${summary.customPuzzles} custom puzzles.`);
+    } catch (e) {
+        showStatsNotice(e.message || 'Could not import that backup file.');
+    }
+}
+
+function showStatsConfirm({ title, body, confirmText }) {
     return new Promise((resolve) => {
         const overlay = document.createElement('div');
         overlay.className = 'app-dialog-overlay active';
         overlay.innerHTML = `
             <div class="app-dialog" role="dialog" aria-modal="true" aria-labelledby="stats-dialog-title">
-                <h2 id="stats-dialog-title">Clear Review Queue?</h2>
-                <p>This removes every term from your spaced-repetition queue.</p>
+                <h2 id="stats-dialog-title">${escapeHtml(title)}</h2>
+                <p>${escapeHtml(body)}</p>
                 <div class="app-dialog-actions">
                     <button class="modal-btn modal-btn-secondary" data-dialog-cancel>Cancel</button>
-                    <button class="modal-btn modal-btn-primary" data-dialog-confirm>Clear Queue</button>
+                    <button class="modal-btn modal-btn-primary" data-dialog-confirm>${escapeHtml(confirmText || 'Continue')}</button>
                 </div>
             </div>
         `;
@@ -146,8 +215,22 @@ function renderWeakAreas() {
     if (!el) return;
     const weak = MedCrossProgress.getWeakAreas();
     const rows = [
-        ...weak.categories.map(w => ({ ...w, type: 'Specialty', label: catName(w.key), action: `Review ${w.reviewTerms || 0} ${catName(w.key)} term${w.reviewTerms === 1 ? '' : 's'}` })),
-        ...weak.difficulties.map(w => ({ ...w, type: 'Level', label: DIFF_SHORT[w.key] || catName(w.key), action: `Try another ${DIFF_SHORT[w.key] || catName(w.key)} puzzle` }))
+        ...weak.categories.map(w => ({
+            ...w,
+            type: 'Specialty',
+            label: catName(w.key),
+            action: `Practice ${catName(w.key)}`,
+            practiceHref: `index.html?category=${encodeURIComponent(w.key)}#puzzles-section`,
+            studyHref: `study.html?mode=all&category=${encodeURIComponent(w.key)}`
+        })),
+        ...weak.difficulties.map(w => ({
+            ...w,
+            type: 'Level',
+            label: DIFF_SHORT[w.key] || catName(w.key),
+            action: `Try another ${DIFF_SHORT[w.key] || catName(w.key)} puzzle`,
+            practiceHref: `index.html?difficulty=${encodeURIComponent(w.key)}#puzzles-section`,
+            studyHref: `study.html?mode=all&difficulty=${encodeURIComponent(w.key)}`
+        }))
     ].slice(0, 6);
     if (!rows.length) {
         el.innerHTML = '<div class="review-empty">Solve a few puzzles to unlock personalized focus areas.</div>';
@@ -155,10 +238,13 @@ function renderWeakAreas() {
     }
     el.innerHTML = rows.map(w => `
         <div class="weak-card">
-            <div class="weak-type">${w.type}</div>
-            <div class="weak-title">${w.label}</div>
+            <div class="weak-type">${escapeHtml(w.type)}</div>
+            <div class="weak-title">${escapeHtml(w.label)}</div>
             <div class="weak-meta">${w.solves} solve${w.solves === 1 ? '' : 's'} · ${w.avgAccuracy}% avg accuracy · ${w.avgScore} avg score</div>
-            <div class="weak-action">${w.action}</div>
+            <div class="weak-actions">
+                <a href="${escapeHtml(w.practiceHref)}">${escapeHtml(w.action)}</a>
+                <a href="${escapeHtml(w.studyHref)}">Study cards</a>
+            </div>
         </div>
     `).join('');
 }
@@ -197,14 +283,17 @@ function renderReviewQueue() {
     if (studyBtn) {
         if (stats.due > 0) {
             studyBtn.textContent = `Study Now (${stats.due} due)`;
+            studyBtn.href = 'study.html';
             studyBtn.classList.remove('disabled');
             studyBtn.removeAttribute('aria-disabled');
         } else if (stats.total > 0) {
-            studyBtn.textContent = 'All reviewed';
-            studyBtn.classList.add('disabled');
-            studyBtn.setAttribute('aria-disabled', 'true');
+            studyBtn.textContent = 'Review All';
+            studyBtn.href = 'study.html?mode=all';
+            studyBtn.classList.remove('disabled');
+            studyBtn.removeAttribute('aria-disabled');
         } else {
             studyBtn.textContent = 'Study Now';
+            studyBtn.href = '#';
             studyBtn.classList.add('disabled');
             studyBtn.setAttribute('aria-disabled', 'true');
         }

@@ -13,6 +13,7 @@
 
 // Key is supplied by config.js (gitignored) — see config.example.js.
 const GEMINI_API_KEY = window.GEMINI_API_KEY || 'YOUR_KEY_HERE';
+const GEMINI_PROXY_URL = window.MEDCROSS_AI_PROXY_URL || '';
 
 // Try current models in order — gemini-1.5-* is retired and now 404s.
 const _GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
@@ -20,6 +21,10 @@ let _geminiModel = _GEMINI_MODELS[0];
 
 // ── Core API call (with automatic model fallback) ────────────────────────────
 async function _callGemini(prompt, maxTokens = 280) {
+    if (GEMINI_PROXY_URL) {
+        return _callGeminiProxy(prompt, maxTokens);
+    }
+
     let lastError = null;
     const startIdx = _GEMINI_MODELS.indexOf(_geminiModel);
     for (let i = startIdx; i < _GEMINI_MODELS.length; i++) {
@@ -69,11 +74,28 @@ async function _callGemini(prompt, maxTokens = 280) {
     throw lastError || new Error('Gemini API request failed.');
 }
 
+async function _callGeminiProxy(prompt, maxTokens) {
+    const res = await fetch(GEMINI_PROXY_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, maxTokens, source: 'medcross' })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+        throw new Error(data.error || data.message || `AI proxy error ${res.status}`);
+    }
+    const text = typeof data === 'string'
+        ? data
+        : data.text || data.output || data.content || data.choices?.[0]?.message?.content || '';
+    if (!String(text).trim()) throw new Error('No response received from AI proxy.');
+    return String(text).trim();
+}
+
 // ── Public AI helpers ─────────────────────────────────────────────────────────
 const MedAI = {
 
     isConfigured() {
-        return GEMINI_API_KEY !== 'YOUR_KEY_HERE' && GEMINI_API_KEY.length > 10;
+        return Boolean(GEMINI_PROXY_URL) || (GEMINI_API_KEY !== 'YOUR_KEY_HERE' && GEMINI_API_KEY.length > 10);
     },
 
     /** Explain a clue's medical concept in plain English.

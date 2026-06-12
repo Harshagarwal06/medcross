@@ -22,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         controls: document.getElementById('study-controls'),
         showBtn: document.getElementById('show-answer'),
         grade: document.getElementById('study-grade'),
-        gotBtn: document.getElementById('grade-got'),
-        missedBtn: document.getElementById('grade-missed'),
+        gradeBtns: [...document.querySelectorAll('[data-grade]')],
         meta: document.getElementById('study-meta'),
         fill: document.getElementById('study-progress-fill'),
         done: document.getElementById('study-done'),
@@ -36,10 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Build the session queue from due terms (shuffled).
-    let mode = new URLSearchParams(window.location.search).get('mode') === 'all' ? 'all' : 'due';
+    const params = new URLSearchParams(window.location.search);
+    let mode = params.get('mode') === 'all' ? 'all' : 'due';
+    const filterCategory = params.get('category') || '';
+    const filterDifficulty = params.get('difficulty') || '';
     let queue = [];
     let sessionTotal = 0;
     let completed = 0, firstTryCorrect = 0;
+    let gradeCounts = { again: 0, hard: 0, good: 0, easy: 0 };
     let missedThisSession = new Set();
     let currentItem = null;
 
@@ -53,6 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function catName(v) {
         return (v || '').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function matchesFocusFilter(item) {
+        if (filterCategory && item.category !== filterCategory) return false;
+        if (filterDifficulty && item.difficulty !== filterDifficulty) return false;
+        return true;
     }
 
     function showCard() {
@@ -80,7 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateMeta() {
         const remaining = queue.length;
-        els.meta.textContent = `${completed} completed · ${remaining} in queue`;
+        const focus = filterCategory
+            ? ` · ${catName(filterCategory)} focus`
+            : filterDifficulty
+            ? ` · ${catName(filterDifficulty)} focus`
+            : '';
+        els.meta.textContent = `${completed} completed · ${remaining} in queue${focus}`;
         const pct = sessionTotal ? Math.round((completed / sessionTotal) * 100) : 100;
         els.fill.style.width = `${pct}%`;
     }
@@ -92,10 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
         els.grade.hidden = false;
     }
 
-    function grade(isCorrect) {
+    function grade(gradeName) {
         const item = queue.shift();
-        MedCrossProgress.gradeReviewTerm(item.term, isCorrect);
-        if (isCorrect) {
+        if (!item) return;
+        const normalized = ['again', 'hard', 'good', 'easy'].includes(gradeName) ? gradeName : 'good';
+        MedCrossProgress.gradeReviewTerm(item.term, normalized);
+        gradeCounts[normalized] = (gradeCounts[normalized] || 0) + 1;
+        if (normalized !== 'again') {
             if (!missedThisSession.has(item.term)) firstTryCorrect++;
             completed++;
         } else {
@@ -112,23 +129,34 @@ document.addEventListener('DOMContentLoaded', () => {
         els.fill.style.width = '100%';
         els.done.hidden = false;
         if (sessionTotal === 0) {
-            els.doneTitle.textContent = mode === 'due' ? 'Nothing due right now' : 'No cards yet';
+            const filtered = filterCategory || filterDifficulty;
+            els.doneTitle.textContent = mode === 'due' ? 'Nothing due right now' : (filtered ? 'No matching cards yet' : 'No cards yet');
             els.doneSub.textContent = mode === 'due'
                 ? 'Switch to All to review ahead, solve puzzles to add terms, or come back later.'
+                : filtered
+                ? 'Try a broader review session or solve more puzzles in this focus area.'
                 : 'Terms you miss or reveal in puzzles will appear here.';
         } else {
             const acc = Math.round((firstTryCorrect / sessionTotal) * 100);
+            const summary = [
+                `${gradeCounts.easy || 0} easy`,
+                `${gradeCounts.good || 0} good`,
+                `${gradeCounts.hard || 0} hard`,
+                `${gradeCounts.again || 0} again`
+            ].join(' · ');
             els.doneTitle.textContent = 'Session complete!';
-            els.doneSub.textContent = `You reviewed ${sessionTotal} term${sessionTotal === 1 ? '' : 's'} with ${acc}% first-try recall. Promoted cards return on a longer schedule.`;
+            els.doneSub.textContent = `You reviewed ${sessionTotal} term${sessionTotal === 1 ? '' : 's'} with ${acc}% first-try recall. ${summary}.`;
         }
     }
 
     function startSession(nextMode = mode) {
         mode = nextMode;
-        queue = shuffle(mode === 'all' ? MedCrossProgress.getReviewQueue() : MedCrossProgress.getDueReviewTerms());
+        const source = mode === 'all' ? MedCrossProgress.getReviewQueue() : MedCrossProgress.getDueReviewTerms();
+        queue = shuffle(source.filter(matchesFocusFilter));
         sessionTotal = queue.length;
         completed = 0;
         firstTryCorrect = 0;
+        gradeCounts = { again: 0, hard: 0, good: 0, easy: 0 };
         missedThisSession = new Set();
         currentItem = null;
         els.card.hidden = false;
@@ -154,20 +182,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    els.showBtn.addEventListener('click', reveal);
-    els.gotBtn.addEventListener('click', () => grade(true));
-    els.missedBtn.addEventListener('click', () => grade(false));
-    els.dueTab.addEventListener('click', () => startSession('due'));
-    els.allTab.addEventListener('click', () => startSession('all'));
-    els.aiBtn.addEventListener('click', explainCurrentCard);
-    els.card.addEventListener('click', () => { if (els.back.hidden && queue.length) reveal(); });
+    els.showBtn?.addEventListener('click', reveal);
+    els.gradeBtns.forEach(btn => btn.addEventListener('click', () => grade(btn.dataset.grade)));
+    els.dueTab?.addEventListener('click', () => startSession('due'));
+    els.allTab?.addEventListener('click', () => startSession('all'));
+    els.aiBtn?.addEventListener('click', explainCurrentCard);
+    els.card?.addEventListener('click', () => { if (els.back.hidden && queue.length) reveal(); });
+    document.querySelectorAll('[data-nav]').forEach(btn => {
+        btn.addEventListener('click', () => { window.location.href = btn.dataset.nav; });
+    });
 
     document.addEventListener('keydown', (e) => {
         if (els.done.hidden === false) return;
         if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!els.showBtn.hidden) reveal(); }
         else if (els.grade.hidden === false) {
-            if (e.key === '1' || e.key.toLowerCase() === 'x') grade(false);
-            else if (e.key === '2' || e.key.toLowerCase() === 'g') grade(true);
+            if (e.key === '1' || e.key.toLowerCase() === 'x') grade('again');
+            else if (e.key === '2' || e.key.toLowerCase() === 'h') grade('hard');
+            else if (e.key === '3' || e.key.toLowerCase() === 'g') grade('good');
+            else if (e.key === '4' || e.key.toLowerCase() === 'e') grade('easy');
         }
     });
 

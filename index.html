@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="style.css?v=24">
+    <link rel="stylesheet" href="style.css?v=27">
     <!-- Theme init: runs before body renders to prevent flash of wrong theme -->
     <script>
         (function() {
@@ -213,16 +213,20 @@
         </footer>
     </main>
 
+    <script src="config.public.js?v=1"></script>
+
     <script src="config.js"></script>
     <script src="medical-database.js?v=3"></script>
     <script src="crossword-generator.js?v=12"></script>
-    <script src="progress.js?v=10"></script>
-    <script src="medical-api-sources.js?v=7"></script>
+    <script src="validation.js?v=1"></script>
+    <script src="progress.js?v=12"></script>
+    <script src="medical-api-sources.js?v=8"></script>
     <script src="notes-import.js?v=1"></script>
-    <script src="homepage.js?v=25"></script>
-    <script src="gemini.js?v=15"></script>
+    <script src="homepage.js?v=27"></script>
+    <script src="homepage-filters.js?v=1"></script>
+    <script src="gemini.js?v=16"></script>
     <script>
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
         // ── Theme System ──
         (function() {
