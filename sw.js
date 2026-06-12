@@ -1,5 +1,5 @@
 // MedCross service worker — offline app shell (cache-first).
-const CACHE = 'medcross-v47';
+const CACHE = 'medcross-v48';
 const ASSETS = [
   './',
   'index.html',
