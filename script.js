@@ -407,11 +407,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!(input instanceof HTMLInputElement)) return;
             input.value = input.value.replace(/[^a-z0-9]/gi, '').toUpperCase().slice(0, 1);
             const cell = input.closest('.grid-cell');
+            let letterEntered = false;
             if (cell) {
                 activeCell = cell;
                 cell.classList.remove('correct', 'incorrect');
                 cell.classList.toggle('pencil', pencilMode && input.value !== '');
                 if (input.value) {
+                    letterEntered = true;
                     const r = parseInt(cell.dataset.row, 10), c = parseInt(cell.dataset.col, 10);
                     const isCorrect = input.value.toUpperCase() === puzzleData.solution[r][c];
                     if (!isCorrect) {
@@ -430,11 +432,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isGridFull()) keepTryingShown = false;
             updateProgressBar();
             autoSaveProgress();
-        });
 
-        gridElement.addEventListener('keyup', (e) => {
-            if (isSolved || timerPaused || !activeCell) return;
-            if (e.key.length === 1 && e.key.match(/[a-z0-9]/i)) {
+            // Advance on the `input` event — the instant a letter is committed —
+            // rather than waiting for keyup. With maxLength=1 inputs, a fast
+            // second keystroke would otherwise be rejected while focus is still
+            // on the just-filled cell, dropping letters. Moving focus here means
+            // the next keystroke always lands on the next empty cell.
+            if (letterEntered) {
                 if (checkPuzzleState()) {
                     finishPuzzle();
                     return;
