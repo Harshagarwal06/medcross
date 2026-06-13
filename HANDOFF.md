@@ -25,11 +25,11 @@ python3 -m http.server 8787
 
 Latest known asset versions:
 
-- `sw.js`: `medcross-v57`
-- `index.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `medical-api-sources.js?v=8`, `notes-import.js?v=1`, `homepage.js?v=27`, `homepage-filters.js?v=1`, `gemini.js?v=16`
-- `puzzle.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `script.js?v=20`, `gemini.js?v=16`
+- `sw.js`: `medcross-v58`
+- `index.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `medical-api-sources.js?v=8`, `notes-import.js?v=1`, `homepage.js?v=27`, `homepage-filters.js?v=1`, `gemini.js?v=17`
+- `puzzle.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `medical-database.js?v=4`, `validation.js?v=1`, `progress.js?v=12`, `script.js?v=20`, `gemini.js?v=17`
 - `stats.html`: `style.css?v=27`, `progress.js?v=12`, `stats.js?v=15`
-- `study.html`: `style.css?v=27`, `progress.js?v=12`, `study.js?v=14`, `gemini.js?v=16`
+- `study.html`: `style.css?v=27`, `progress.js?v=12`, `study.js?v=14`, `gemini.js?v=17`
 
 ## Deployment
 
@@ -127,6 +127,14 @@ window.GEMINI_API_KEY = 'YOUR_KEY_HERE';
   - Saves answers.
   - Adds revealed terms to review.
   - Does not count the puzzle as completed.
+
+### Clue Quality (in progress — resumable)
+
+- The built-in `medical-database.js` is mostly **auto-generated template clues**: ~3,300 of 4,200 entries reuse a generic string across many answers (e.g. "USMLE clue for neurology", "Mechanism linked to anatomy", "High yield pulmonology buzzword"). The *answers* are all real, good medical terms — only the clues are filler. Cardiology and `fmt` were hand-authored and are correct.
+- `tools/rewrite-clues.js` fixes this: it flags a clue as a template when the same question string is reused for **3+ different answers**, reuses any genuinely-unique clue that already exists for that answer, otherwise asks Gemini for a precise clue, **validates the clue never contains the answer / root**, and does targeted text replacement (clean diff). Results are cached in `tools/clue-cache.json` so it is **resumable** across the daily free-tier quota.
+- Status: **~480 clues rewritten so far**; ~2,200 unique answers remain. Halted by the Gemini **free-tier daily quota** (~250 req/day, shared across models → 429). User chose to stop here for now.
+- **To finish:** run `node tools/rewrite-clues.js` (regenerates only what's not cached). Free tier does ~250/day, so several runs over days; OR enable billing on the Gemini key for a one-shot (gemini-2.5-flash, ~5-10¢ total). Then bump `medical-database.js?v=` and the `sw.js` cache. `--apply` applies cached+reusable clues offline with no API calls; `--dry` previews.
+- Also tuned `gemini.js` (v17) AI prompts: Hint/Tutor never reveal the answer and avoid filler; Notes/Topic generation demands specific 4-12 word clues.
 
 ### Stats and Review
 
