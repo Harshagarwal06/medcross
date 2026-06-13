@@ -320,7 +320,7 @@ const medicalCrosswordData = {
         "answer": "REENTRY"
       },
       {
-        "question": "Valve calcification disease mechanism",
+        "question": "Pathologic deposition of mineral salts in soft tissues",
         "answer": "CALCIFICATION"
       }
     ],
@@ -814,173 +814,173 @@ const medicalCrosswordData = {
   "neurology": {
     "m1": [
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Central organ of the nervous system within the cranium",
         "answer": "BRAIN"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Electrically excitable cell transmitting nerve impulses",
         "answer": "NEURON"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Long projection carrying signals away from the cell body",
         "answer": "AXON"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Branched projection receiving incoming signals",
         "answer": "DENDRITE"
       },
       {
-        "question": "Common neurology body term",
+        "question": "Junction where impulses pass between two cells",
         "answer": "SYNAPSE"
       },
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Outer layer of gray matter in the cerebrum",
         "answer": "CORTEX"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Brainstem region regulating vital autonomic functions",
         "answer": "MEDULLA"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Brainstem part connecting cerebrum and cerebellum",
         "answer": "PONS"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Superior brainstem region for eye movement and hearing",
         "answer": "MIDBRAIN"
       },
       {
-        "question": "Common neurology body term",
+        "question": "Hindbrain structure coordinating movement and balance",
         "answer": "CEREBELLUM"
       },
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Relay station for sensory information to the cerebrum",
         "answer": "THALAMUS"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Brain region controlling pituitary and homeostasis",
         "answer": "HYPOTHALAMUS"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Mechanism linked to anatomy",
         "answer": "GANGLION"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Bundle of peripheral axons transmitting signals",
         "answer": "NERVE"
       },
       {
-        "question": "Common neurology body term",
+        "question": "Support cells of the nervous system",
         "answer": "GLIA"
       },
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Insulating sheath increasing action potential speed",
         "answer": "MYELIN"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Mechanism linked to anatomy",
         "answer": "SULCUS"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Cortical ridge separated by a sulcus",
         "answer": "GYRUS"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Lower chamber ejecting blood",
         "answer": "VENTRICLE"
       },
       {
-        "question": "Common neurology body term",
+        "question": "Three protective layers enclosing the CNS",
         "answer": "MENINGES"
       },
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Toughest outermost brain and cord covering",
         "answer": "DURA"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Middle weblike layer of brain and cord coverings",
         "answer": "ARACHNOID"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Innermost delicate layer adhering to the brain",
         "answer": "PIA"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Largest brain part, responsible for higher functions",
         "answer": "CEREBRUM"
       },
       {
-        "question": "Common neurology body term",
+        "question": "Relating to the largest part of the brain",
         "answer": "CEREBRAL"
       },
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Pertaining to the vertebral column's nerve cord",
         "answer": "SPINAL"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Involuntary, rapid response to a stimulus",
         "answer": "REFLEX"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Nerve fibers carrying efferent signals from CNS",
         "answer": "MOTOR"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Afferent neurons conveying information to CNS",
         "answer": "SENSORY"
       },
       {
-        "question": "Common neurology body term",
+        "question": "Cell body of a neuron, containing the nucleus",
         "answer": "SOMA"
       },
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Supportive non-neuronal cells of the nervous system",
         "answer": "NEUROGLIA"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Bundle of nerve fibers in the CNS",
         "answer": "TRACT"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Collection of neuronal cell bodies in the CNS",
         "answer": "NUCLEUS"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Light-sensitive tissue at the back of the eye",
         "answer": "RETINA"
       },
       {
-        "question": "Common neurology body term",
+        "question": "Cranial nerve II, transmitting visual information",
         "answer": "OPTIC"
       },
       {
-        "question": "Basic neurology anatomy term",
+        "question": "Testable anatomy board fact",
         "answer": "VAGUS"
       },
       {
-        "question": "Normal neurology physiology concept",
+        "question": "Disease process in anatomy",
         "answer": "PLEXUS"
       },
       {
-        "question": "Core neurology structure term",
+        "question": "Bundle of spinal nerve roots below the conus medullaris",
         "answer": "CAUDA"
       },
       {
-        "question": "Foundational neurology vocabulary item",
+        "question": "Relating to the nervous system",
         "answer": "NEURAL"
       },
       {
-        "question": "Common neurology body term",
+        "question": "System involved in emotion, motivation, and memory",
         "answer": "LIMBIC"
       }
     ],
     "m2": [
       {
-        "question": "neurology disease mechanism term",
+        "question": "Excess interstitial fluid accumulation",
         "answer": "EDEMA"
       },
       {
-        "question": "Common neurology pathology association",
+        "question": "Reduced blood supply to tissue",
         "answer": "ISCHEMIA"
       },
       {
@@ -996,11 +996,11 @@ const medicalCrosswordData = {
         "answer": "DEGENERATION"
       },
       {
-        "question": "neurology disease mechanism term",
+        "question": "Irreversible cell swelling death",
         "answer": "NECROSIS"
       },
       {
-        "question": "Common neurology pathology association",
+        "question": "Pathologic programmed cell death",
         "answer": "APOPTOSIS"
       },
       {
@@ -1016,7 +1016,7 @@ const medicalCrosswordData = {
         "answer": "GLIOSIS"
       },
       {
-        "question": "neurology disease mechanism term",
+        "question": "Presentation linked to pediatrics",
         "answer": "SEIZURE"
       },
       {
@@ -1028,7 +1028,7 @@ const medicalCrosswordData = {
         "answer": "MIGRAINE"
       },
       {
-        "question": "Disease process in neurology",
+        "question": "Volume ejected per beat",
         "answer": "STROKE"
       },
       {
@@ -1036,7 +1036,7 @@ const medicalCrosswordData = {
         "answer": "TREMOR"
       },
       {
-        "question": "neurology disease mechanism term",
+        "question": "Rheumatic fever neurologic manifestation",
         "answer": "CHOREA"
       },
       {
@@ -1056,7 +1056,7 @@ const medicalCrosswordData = {
         "answer": "PLEGIA"
       },
       {
-        "question": "neurology disease mechanism term",
+        "question": "Mechanism linked to geriatrics",
         "answer": "NEUROPATHY"
       },
       {
@@ -1076,7 +1076,7 @@ const medicalCrosswordData = {
         "answer": "MENINGITIS"
       },
       {
-        "question": "neurology disease mechanism term",
+        "question": "Mechanism linked to pulmonology",
         "answer": "ABSCESS"
       },
       {
@@ -1084,19 +1084,19 @@ const medicalCrosswordData = {
         "answer": "HYDROCEPHALUS"
       },
       {
-        "question": "Pathophysiology term in neurology",
+        "question": "Localized vessel wall dilation",
         "answer": "ANEURYSM"
       },
       {
-        "question": "Disease process in neurology",
+        "question": "Calf clot clinical concern",
         "answer": "THROMBOSIS"
       },
       {
-        "question": "Mechanism linked to neurology",
+        "question": "Traveling intravascular clot",
         "answer": "EMBOLUS"
       },
       {
-        "question": "neurology disease mechanism term",
+        "question": "Low oxygen state in tissue",
         "answer": "HYPOXIA"
       },
       {
@@ -1116,7 +1116,7 @@ const medicalCrosswordData = {
         "answer": "ENTROPY"
       },
       {
-        "question": "neurology disease mechanism term",
+        "question": "Neuronal damage from excessive neurotransmitter stimulation",
         "answer": "EXCITOTOXICITY"
       },
       {
@@ -1158,7 +1158,7 @@ const medicalCrosswordData = {
         "answer": "VERTIGO"
       },
       {
-        "question": "Bedside neurology clinical term",
+        "question": "Temporary loss of consciousness",
         "answer": "SYNCOPE"
       },
       {
@@ -1274,7 +1274,7 @@ const medicalCrosswordData = {
         "answer": "MRI"
       },
       {
-        "question": "Presentation linked to neurology",
+        "question": "Emergency clot dissolving therapy",
         "answer": "THROMBOLYSIS"
       },
       {
@@ -1474,7 +1474,7 @@ const medicalCrosswordData = {
         "answer": "COILING"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "Surgical treatment for cerebral aneurysms",
         "answer": "CLIPPING"
       },
       {
@@ -1494,7 +1494,7 @@ const medicalCrosswordData = {
         "answer": "VNS"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "Device draining CSF from ventricles",
         "answer": "EVD"
       },
       {
@@ -1506,7 +1506,7 @@ const medicalCrosswordData = {
         "answer": "MONITORING"
       },
       {
-        "question": "Rare procedural neurology term",
+        "question": "Catheter visualization of coronary arteries",
         "answer": "ANGIOGRAPHY"
       },
       {
@@ -1514,7 +1514,7 @@ const medicalCrosswordData = {
         "answer": "MYELOGRAPHY"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "Surgical creation of an opening into a subarachnoid space",
         "answer": "CISTERNOSTOMY"
       },
       {
@@ -1534,7 +1534,7 @@ const medicalCrosswordData = {
         "answer": "NEURECTOMY"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "MRI technique mapping white matter pathways",
         "answer": "TRACTOGRAPHY"
       },
       {
@@ -1554,7 +1554,7 @@ const medicalCrosswordData = {
         "answer": "EMBOLECTOMY"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "Blood flow through brain tissue",
         "answer": "PERFUSION"
       },
       {
@@ -1566,7 +1566,7 @@ const medicalCrosswordData = {
         "answer": "VASOSPASM"
       },
       {
-        "question": "Rare procedural neurology term",
+        "question": "Pathologic vessel inflammation",
         "answer": "VASCULITIS"
       },
       {
@@ -1574,7 +1574,7 @@ const medicalCrosswordData = {
         "answer": "CAVERNOMA"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "Congenital tangle of abnormal vessels in the brain",
         "answer": "AVM"
       },
       {
@@ -1594,7 +1594,7 @@ const medicalCrosswordData = {
         "answer": "PARANEOPLASTIC"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "Chaotic, rapid eye movements, often paraneoplastic",
         "answer": "OPSOCLONUS"
       },
       {
@@ -1614,7 +1614,7 @@ const medicalCrosswordData = {
         "answer": "COMMISSURE"
       },
       {
-        "question": "Specialized neurology vocabulary item",
+        "question": "Crossing of nerve fibers from one side to the other",
         "answer": "DECUSSATION"
       },
       {
@@ -1626,169 +1626,169 @@ const medicalCrosswordData = {
   "pulmonology": {
     "m1": [
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Primary organ of respiration",
         "answer": "LUNG"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Large airway extending from the trachea",
         "answer": "BRONCHUS"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Smallest airway lacking cartilage",
         "answer": "BRONCHIOLE"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Single functional unit of gas exchange in the lung",
         "answer": "ALVEOLUS"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "Serous membrane surrounding the lungs and thoracic cavity",
         "answer": "PLEURA"
       },
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Windpipe supported by C-shaped hyaline cartilage rings",
         "answer": "TRACHEA"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Voice box superior to the windpipe",
         "answer": "LARYNX"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Throat, shared by both respiratory and digestive systems",
         "answer": "PHARYNX"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Primary muscle of quiet breathing, innervated by phrenic nerve",
         "answer": "DIAPHRAGM"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "Bony structure protecting thoracic organs",
         "answer": "RIB"
       },
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Manubrium, body, and xiphoid process make up this bone",
         "answer": "STERNUM"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Fellowship level pediatrics clue",
         "answer": "SURFACTANT"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Gas transported by hemoglobin for cellular metabolism",
         "answer": "OXYGEN"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Element found in the waste product of cellular respiration",
         "answer": "CARBON"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "Compound exhaled as a metabolic waste product",
         "answer": "DIOXIDE"
       },
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Presentation linked to pediatrics",
         "answer": "VENTILATION"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Blood flow through brain tissue",
         "answer": "PERFUSION"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Passive movement of gases across the alveolar-capillary membrane",
         "answer": "DIFFUSION"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Process of gas exchange between an organism and its environment",
         "answer": "RESPIRATION"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "Active process involving muscle contraction to draw air in",
         "answer": "INSPIRATION"
       },
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Passive process of air leaving the lungs during quiet breathing",
         "answer": "EXPIRATION"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Volume of air moved in and out during a normal breath",
         "answer": "TIDAL"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Total lung capacity minus residual volume",
         "answer": "VITAL"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Volume exhaled in the first second of a forced breath",
         "answer": "FEV"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "Total volume exhaled during a maximally forced breath",
         "answer": "FVC"
       },
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Maximum speed of exhalation, often measured at home",
         "answer": "PEAKFLOW"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Pulmonary function test measuring lung volumes and flow rates",
         "answer": "SPIROMETRY"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Thin vessel for gas exchange",
         "answer": "CAPILLARY"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Hair-like structures clearing mucus in airways",
         "answer": "CILIA"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "Protective intestinal gel layer",
         "answer": "MUCUS"
       },
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Mucus expectorated from the respiratory tract",
         "answer": "SPUTUM"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Entry point for vessels and airways into the lung",
         "answer": "HILUM"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Uppermost part of the lung, susceptible to TB",
         "answer": "APEX"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Inferior surface of the lung, resting on the diaphragm",
         "answer": "BASE"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "Large anatomical division of the lung",
         "answer": "LOBE"
       },
       {
-        "question": "Basic pulmonology anatomy term",
+        "question": "Bronchopulmonary unit supplied by a tertiary bronchus",
         "answer": "SEGMENT"
       },
       {
-        "question": "Normal pulmonology physiology concept",
+        "question": "Functional unit distal to a terminal bronchiole",
         "answer": "ACINUS"
       },
       {
-        "question": "Core pulmonology structure term",
+        "question": "Cell lining the alveoli, type II produces surfactant",
         "answer": "PNEUMOCYTE"
       },
       {
-        "question": "Foundational pulmonology vocabulary item",
+        "question": "Inflammation causing sharp chest pain with breathing",
         "answer": "PLEURITIS"
       },
       {
-        "question": "Common pulmonology body term",
+        "question": "RSV infection common in infants",
         "answer": "BRONCHIOLITIS"
       }
     ],
     "m2": [
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Reversible airway obstruction with bronchial hyperresponsiveness",
         "answer": "ASTHMA"
       },
       {
@@ -1808,19 +1808,19 @@ const medicalCrosswordData = {
         "answer": "PNEUMONIA"
       },
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Collapsed lung tissue often due to airway obstruction",
         "answer": "ATELECTASIS"
       },
       {
-        "question": "Common pulmonology pathology association",
+        "question": "Carcinoid right sided valve lesion",
         "answer": "FIBROSIS"
       },
       {
-        "question": "Pathophysiology term in pulmonology",
+        "question": "Excess interstitial fluid accumulation",
         "answer": "EDEMA"
       },
       {
-        "question": "Disease process in pulmonology",
+        "question": "Swelling from fluid retention",
         "answer": "EFFUSION"
       },
       {
@@ -1828,11 +1828,11 @@ const medicalCrosswordData = {
         "answer": "PNEUMOTHORAX"
       },
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Blood accumulation within the pleural space",
         "answer": "HEMOTHORAX"
       },
       {
-        "question": "Common pulmonology pathology association",
+        "question": "Lung clot causing sudden dyspnea",
         "answer": "EMBOLISM"
       },
       {
@@ -1848,7 +1848,7 @@ const medicalCrosswordData = {
         "answer": "ACIDOSIS"
       },
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Pathophysiology term in nephrology",
         "answer": "ALKALOSIS"
       },
       {
@@ -1868,7 +1868,7 @@ const medicalCrosswordData = {
         "answer": "SARCOIDOSIS"
       },
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Lung fibrosis from inhaling crystalline silica",
         "answer": "SILICOSIS"
       },
       {
@@ -1888,11 +1888,11 @@ const medicalCrosswordData = {
         "answer": "ARDS"
       },
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Life threatening systemic infection response",
         "answer": "SEPSIS"
       },
       {
-        "question": "Common pulmonology pathology association",
+        "question": "Immune response driving tissue swelling",
         "answer": "INFLAMMATION"
       },
       {
@@ -1900,7 +1900,7 @@ const medicalCrosswordData = {
         "answer": "GRANULOMA"
       },
       {
-        "question": "Disease process in pulmonology",
+        "question": "Irreversible cell swelling death",
         "answer": "NECROSIS"
       },
       {
@@ -1908,7 +1908,7 @@ const medicalCrosswordData = {
         "answer": "ABSCESS"
       },
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Alveolar spaces filled with fluid or exudate",
         "answer": "CONSOLIDATION"
       },
       {
@@ -1928,7 +1928,7 @@ const medicalCrosswordData = {
         "answer": "BRONCHOSPASM"
       },
       {
-        "question": "pulmonology disease mechanism term",
+        "question": "Relating to the lungs or respiratory system",
         "answer": "PULMONARY"
       },
       {
@@ -1936,7 +1936,7 @@ const medicalCrosswordData = {
         "answer": "LOBULAR"
       },
       {
-        "question": "Pathophysiology term in pulmonology",
+        "question": "Wall between cardiac chambers",
         "answer": "SEPTUM"
       },
       {
@@ -1954,7 +1954,7 @@ const medicalCrosswordData = {
         "answer": "COUGH"
       },
       {
-        "question": "Common pulmonology symptom sign",
+        "question": "Shortness of breath on exertion",
         "answer": "DYSPNEA"
       },
       {
@@ -1966,7 +1966,7 @@ const medicalCrosswordData = {
         "answer": "HEMOPTYSIS"
       },
       {
-        "question": "Presentation linked to pulmonology",
+        "question": "Blue discoloration from hypoxemia",
         "answer": "CYANOSIS"
       },
       {
@@ -1974,7 +1974,7 @@ const medicalCrosswordData = {
         "answer": "TACHYPNEA"
       },
       {
-        "question": "Common pulmonology symptom sign",
+        "question": "Breathing difficulty lying flat",
         "answer": "ORTHOPNEA"
       },
       {
@@ -1998,11 +1998,11 @@ const medicalCrosswordData = {
         "answer": "CLUBBING"
       },
       {
-        "question": "pulmonology diagnosis treatment term",
+        "question": "Low oxygen state in tissue",
         "answer": "HYPOXIA"
       },
       {
-        "question": "Clinical clue in pulmonology",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
@@ -2054,11 +2054,11 @@ const medicalCrosswordData = {
         "answer": "BRONCHOSCOPY"
       },
       {
-        "question": "Common pulmonology symptom sign",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
-        "question": "pulmonology diagnosis treatment term",
+        "question": "Laboratory growth of organisms",
         "answer": "CULTURE"
       },
       {
@@ -2066,7 +2066,7 @@ const medicalCrosswordData = {
         "answer": "CXR"
       },
       {
-        "question": "Presentation linked to pulmonology",
+        "question": "Traveling intravascular clot",
         "answer": "EMBOLUS"
       },
       {
@@ -2078,7 +2078,7 @@ const medicalCrosswordData = {
         "answer": "PREDNISONE"
       },
       {
-        "question": "pulmonology diagnosis treatment term",
+        "question": "Major risk factor for gut imbalance",
         "answer": "ANTIBIOTIC"
       },
       {
@@ -2124,7 +2124,7 @@ const medicalCrosswordData = {
         "answer": "PNEUMOCOCCUS"
       },
       {
-        "question": "Testable pulmonology board fact",
+        "question": "Encapsulated enteric pathogen",
         "answer": "KLEBSIELLA"
       },
       {
@@ -2236,7 +2236,7 @@ const medicalCrosswordData = {
         "answer": "PLEURITIC"
       },
       {
-        "question": "Classic board association in pulmonology",
+        "question": "Pulmonary risk with upper delivery",
         "answer": "ASPIRATION"
       },
       {
@@ -2286,7 +2286,7 @@ const medicalCrosswordData = {
         "answer": "MEDIASTINOSCOPY"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Surgical removal of a lung segment",
         "answer": "LOBECTOMY"
       },
       {
@@ -2306,7 +2306,7 @@ const medicalCrosswordData = {
         "answer": "TRANSBRONCHIAL"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Frozen tissue sampling method for lung disease",
         "answer": "CRYOBIOPSY"
       },
       {
@@ -2326,11 +2326,11 @@ const medicalCrosswordData = {
         "answer": "BAL"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Presentation linked to gastroenterology",
         "answer": "TRANSPLANT"
       },
       {
-        "question": "Fellowship level pulmonology clue",
+        "question": "Temporary external cardiac support",
         "answer": "ECMO"
       },
       {
@@ -2346,7 +2346,7 @@ const medicalCrosswordData = {
         "answer": "BAROTRAUMA"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Lung injury from excessive ventilator tidal volumes",
         "answer": "VOLUTRAUMA"
       },
       {
@@ -2366,7 +2366,7 @@ const medicalCrosswordData = {
         "answer": "DRIVINGPRESSURE"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Pertaining to the muscular tube connecting pharynx to stomach",
         "answer": "ESOPHAGEAL"
       },
       {
@@ -2386,7 +2386,7 @@ const medicalCrosswordData = {
         "answer": "VASOREACTIVITY"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Prostacyclin analogue for managing pulmonary hypertension",
         "answer": "TREPROSTINIL"
       },
       {
@@ -2406,7 +2406,7 @@ const medicalCrosswordData = {
         "answer": "RIOCUIGUAT"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Potent vasoconstrictor peptide in vascular tone",
         "answer": "ENDOTHELIN"
       },
       {
@@ -2426,7 +2426,7 @@ const medicalCrosswordData = {
         "answer": "LOBAR"
       },
       {
-        "question": "Specialized pulmonology vocabulary item",
+        "question": "Space between alveoli and capillaries in the lungs",
         "answer": "INTERSTITIAL"
       },
       {
@@ -2438,169 +2438,169 @@ const medicalCrosswordData = {
   "gastroenterology": {
     "m1": [
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "Oral cavity, site of initial digestion",
         "answer": "MOUTH"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "Muscular organ for taste, speech, and swallowing",
         "answer": "TONGUE"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Throat, shared by both respiratory and digestive systems",
         "answer": "PHARYNX"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "Muscular tube transporting food to the stomach",
         "answer": "ESOPHAGUS"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "J-shaped organ where protein digestion begins",
         "answer": "STOMACH"
       },
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "First small intestinal segment",
         "answer": "DUODENUM"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "Middle small intestinal segment",
         "answer": "JEJUNUM"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Terminal small bowel segment",
         "answer": "ILEUM"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "First pouch of large intestine",
         "answer": "CECUM"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "Large bowel target region",
         "answer": "COLON"
       },
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "Distal bowel delivery site",
         "answer": "RECTUM"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "External end of alimentary canal",
         "answer": "ANUS"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Largest internal organ, detoxifies blood and produces bile",
         "answer": "LIVER"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "Pear-shaped organ storing and concentrating bile",
         "answer": "GALLBLADDER"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "Organ producing digestive enzymes and hormones like insulin",
         "answer": "PANCREAS"
       },
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "Lymphoid organ filtering blood and removing old red cells",
         "answer": "SPLEEN"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "Digestive fluid entering duodenum",
         "answer": "BILE"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Acidic fluid entering the duodenum from the gaster",
         "answer": "CHYME"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "Protein catalyst in digestion",
         "answer": "ENZYME"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "Enzyme initiating carbohydrate breakdown in saliva",
         "answer": "AMYLASE"
       },
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "Enzyme essential for fat digestion in the small intestine",
         "answer": "LIPASE"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "Pancreatic enzyme cleaving proteins into smaller peptides",
         "answer": "TRYPSIN"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Chief cells secrete this protein-digesting enzyme precursor",
         "answer": "PEPSIN"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "Hormone stimulating acid secretion by parietal cells",
         "answer": "GASTRIN"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "Duodenal hormone stimulating bicarbonate release from the pancreas",
         "answer": "SECRETIN"
       },
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "Inner lining of the gut",
         "answer": "MUCOSA"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "Mechanism linked to anatomy",
         "answer": "SEROSA"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Fold of peritoneum attaching the intestine to posterior abdominal wall",
         "answer": "MESENTERY"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "Serous membrane lining the abdominal cavity",
         "answer": "PERITONEUM"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "Fatty apron-like fold of peritoneum covering abdominal organs",
         "answer": "OMENTUM"
       },
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "Finger-like projection increasing surface area in the small intestine",
         "answer": "VILLUS"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "Invagination between intestinal projections containing stem cells",
         "answer": "CRYPT"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Testable anatomy board fact",
         "answer": "PORTAL"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "Fellowship level pediatrics clue",
         "answer": "HEPATIC"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "Pertaining to the small intestine or its nervous system",
         "answer": "ENTERIC"
       },
       {
-        "question": "Basic gastroenterology anatomy term",
+        "question": "Wave-like muscular contractions propelling food",
         "answer": "PERISTALSIS"
       },
       {
-        "question": "Normal gastroenterology physiology concept",
+        "question": "Movement of food through the alimentary canal",
         "answer": "MOTILITY"
       },
       {
-        "question": "Core gastroenterology structure term",
+        "question": "Process of nutrients entering the bloodstream from the lumen",
         "answer": "ABSORPTION"
       },
       {
-        "question": "Foundational gastroenterology vocabulary item",
+        "question": "Distal part of the gaster controlling emptying into duodenum",
         "answer": "PYLORUS"
       },
       {
-        "question": "Common gastroenterology body term",
+        "question": "Dome-shaped upper part of the gaster",
         "answer": "FUNDUS"
       }
     ],
     "m2": [
       {
-        "question": "gastroenterology disease mechanism term",
+        "question": "Inflammation of the lining of the gaster",
         "answer": "GASTRITIS"
       },
       {
@@ -2644,7 +2644,7 @@ const medicalCrosswordData = {
         "answer": "APPENDICITIS"
       },
       {
-        "question": "Common gastroenterology pathology association",
+        "question": "Inflammation of the large bowel",
         "answer": "COLITIS"
       },
       {
@@ -2660,7 +2660,7 @@ const medicalCrosswordData = {
         "answer": "STEATORRHEA"
       },
       {
-        "question": "gastroenterology disease mechanism term",
+        "question": "Bedside oncology clinical term",
         "answer": "ASCITES"
       },
       {
@@ -2668,19 +2668,19 @@ const medicalCrosswordData = {
         "answer": "VARICES"
       },
       {
-        "question": "Pathophysiology term in gastroenterology",
+        "question": "Carcinoid right sided valve lesion",
         "answer": "FIBROSIS"
       },
       {
-        "question": "Disease process in gastroenterology",
+        "question": "Irreversible cell swelling death",
         "answer": "NECROSIS"
       },
       {
-        "question": "Mechanism linked to gastroenterology",
+        "question": "Reduced blood supply to tissue",
         "answer": "ISCHEMIA"
       },
       {
-        "question": "gastroenterology disease mechanism term",
+        "question": "Pathophysiology term in pulmonology",
         "answer": "OBSTRUCTION"
       },
       {
@@ -2700,7 +2700,7 @@ const medicalCrosswordData = {
         "answer": "ADENOMA"
       },
       {
-        "question": "gastroenterology disease mechanism term",
+        "question": "Mechanism linked to endocrinology",
         "answer": "CARCINOMA"
       },
       {
@@ -2712,7 +2712,7 @@ const medicalCrosswordData = {
         "answer": "FISSURE"
       },
       {
-        "question": "Disease process in gastroenterology",
+        "question": "Postablation esophageal complication",
         "answer": "FISTULA"
       },
       {
@@ -2720,11 +2720,11 @@ const medicalCrosswordData = {
         "answer": "STRICTURE"
       },
       {
-        "question": "gastroenterology disease mechanism term",
+        "question": "Full thickness bowel wall breach",
         "answer": "PERFORATION"
       },
       {
-        "question": "Common gastroenterology pathology association",
+        "question": "Paralyzed bowel with poor motility",
         "answer": "ILEUS"
       },
       {
@@ -2744,7 +2744,7 @@ const medicalCrosswordData = {
         "answer": "GASTROPARESIS"
       },
       {
-        "question": "Common gastroenterology pathology association",
+        "question": "Pulmonary vein isolation target",
         "answer": "ANTRUM"
       },
       {
@@ -2762,15 +2762,15 @@ const medicalCrosswordData = {
     ],
     "clinical": [
       {
-        "question": "Bedside gastroenterology clinical term",
+        "question": "Queasy sensation before vomiting",
         "answer": "NAUSEA"
       },
       {
-        "question": "Common gastroenterology symptom sign",
+        "question": "Forceful expulsion of stomach contents",
         "answer": "VOMITING"
       },
       {
-        "question": "gastroenterology diagnosis treatment term",
+        "question": "Watery stool symptom after antibiotics",
         "answer": "DIARRHEA"
       },
       {
@@ -2826,11 +2826,11 @@ const medicalCrosswordData = {
         "answer": "PARACENTESIS"
       },
       {
-        "question": "Common gastroenterology symptom sign",
+        "question": "Scope based gastrointestinal procedure",
         "answer": "ENDOSCOPY"
       },
       {
-        "question": "gastroenterology diagnosis treatment term",
+        "question": "Endoscopic route to large bowel",
         "answer": "COLONOSCOPY"
       },
       {
@@ -2842,7 +2842,7 @@ const medicalCrosswordData = {
         "answer": "MRCP"
       },
       {
-        "question": "Bedside gastroenterology clinical term",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -2854,7 +2854,7 @@ const medicalCrosswordData = {
         "answer": "ONDANSETRON"
       },
       {
-        "question": "Clinical clue in gastroenterology",
+        "question": "Synthetic sugar fermented in colon",
         "answer": "LACTULOSE"
       },
       {
@@ -3098,7 +3098,7 @@ const medicalCrosswordData = {
         "answer": "IMPEDANCE"
       },
       {
-        "question": "Specialized gastroenterology vocabulary item",
+        "question": "Swallowed delivery form",
         "answer": "CAPSULE"
       },
       {
@@ -3198,7 +3198,7 @@ const medicalCrosswordData = {
         "answer": "NECROSECTOMY"
       },
       {
-        "question": "Specialized gastroenterology vocabulary item",
+        "question": "Advanced anatomy subspecialty term",
         "answer": "VASCULATURE"
       },
       {
@@ -3302,15 +3302,15 @@ const medicalCrosswordData = {
         "answer": "RENAL"
       },
       {
-        "question": "Foundational nephrology vocabulary item",
+        "question": "Outer layer of gray matter in the cerebrum",
         "answer": "CORTEX"
       },
       {
-        "question": "Common nephrology body term",
+        "question": "Brainstem region regulating vital autonomic functions",
         "answer": "MEDULLA"
       },
       {
-        "question": "Basic nephrology anatomy term",
+        "question": "Bedside gastroenterology clinical term",
         "answer": "PAPILLA"
       },
       {
@@ -3366,15 +3366,15 @@ const medicalCrosswordData = {
         "answer": "CREATININE"
       },
       {
-        "question": "Common nephrology body term",
+        "question": "Salt retaining adrenal hormone",
         "answer": "ALDOSTERONE"
       },
       {
-        "question": "Basic nephrology anatomy term",
+        "question": "Kidney enzyme activating angiotensin",
         "answer": "RENIN"
       },
       {
-        "question": "Normal nephrology physiology concept",
+        "question": "Vasoconstrictor octapeptide hormone",
         "answer": "ANGIOTENSIN"
       },
       {
@@ -3398,7 +3398,7 @@ const medicalCrosswordData = {
         "answer": "NEPHRIN"
       },
       {
-        "question": "Core nephrology structure term",
+        "question": "Mechanism linked to anatomy",
         "answer": "DUCT"
       },
       {
@@ -3472,7 +3472,7 @@ const medicalCrosswordData = {
         "answer": "HYDRONEPHROSIS"
       },
       {
-        "question": "nephrology disease mechanism term",
+        "question": "Pathophysiology term in pulmonology",
         "answer": "OBSTRUCTION"
       },
       {
@@ -3480,19 +3480,19 @@ const medicalCrosswordData = {
         "answer": "REFLUX"
       },
       {
-        "question": "Pathophysiology term in nephrology",
+        "question": "Irreversible cell swelling death",
         "answer": "NECROSIS"
       },
       {
-        "question": "Disease process in nephrology",
+        "question": "Reduced blood supply to tissue",
         "answer": "ISCHEMIA"
       },
       {
-        "question": "Mechanism linked to nephrology",
+        "question": "Carcinoid right sided valve lesion",
         "answer": "FIBROSIS"
       },
       {
-        "question": "nephrology disease mechanism term",
+        "question": "Vessel wall hardening disease",
         "answer": "SCLEROSIS"
       },
       {
@@ -3512,7 +3512,7 @@ const medicalCrosswordData = {
         "answer": "OXALATE"
       },
       {
-        "question": "nephrology disease mechanism term",
+        "question": "rheumatology diagnosis treatment term",
         "answer": "URATE"
       },
       {
@@ -3536,7 +3536,7 @@ const medicalCrosswordData = {
         "answer": "POLYCYSTIC"
       },
       {
-        "question": "Common nephrology pathology association",
+        "question": "Restrictive cardiomyopathy protein deposit",
         "answer": "AMYLOID"
       },
       {
@@ -3544,7 +3544,7 @@ const medicalCrosswordData = {
         "answer": "GOODPASTURE"
       },
       {
-        "question": "Disease process in nephrology",
+        "question": "Mucosal antibody class",
         "answer": "IGA"
       },
       {
@@ -3574,7 +3574,7 @@ const medicalCrosswordData = {
     ],
     "clinical": [
       {
-        "question": "Bedside nephrology clinical term",
+        "question": "Excess interstitial fluid accumulation",
         "answer": "EDEMA"
       },
       {
@@ -3614,7 +3614,7 @@ const medicalCrosswordData = {
         "answer": "COLIC"
       },
       {
-        "question": "Bedside nephrology clinical term",
+        "question": "Abnormally high blood pressure",
         "answer": "HYPERTENSION"
       },
       {
@@ -3626,7 +3626,7 @@ const medicalCrosswordData = {
         "answer": "PRURITUS"
       },
       {
-        "question": "Clinical clue in nephrology",
+        "question": "Queasy sensation before vomiting",
         "answer": "NAUSEA"
       },
       {
@@ -3646,7 +3646,7 @@ const medicalCrosswordData = {
         "answer": "TRANSPLANT"
       },
       {
-        "question": "Clinical clue in nephrology",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -3654,7 +3654,7 @@ const medicalCrosswordData = {
         "answer": "URINALYSIS"
       },
       {
-        "question": "Bedside nephrology clinical term",
+        "question": "Laboratory growth of organisms",
         "answer": "CULTURE"
       },
       {
@@ -3666,7 +3666,7 @@ const medicalCrosswordData = {
         "answer": "CYSTOSCOPY"
       },
       {
-        "question": "Clinical clue in nephrology",
+        "question": "Diuretic used for pulmonary edema",
         "answer": "FUROSEMIDE"
       },
       {
@@ -3678,7 +3678,7 @@ const medicalCrosswordData = {
         "answer": "SPIRONOLACTONE"
       },
       {
-        "question": "Common nephrology symptom sign",
+        "question": "ACE inhibitor example",
         "answer": "LISINOPRIL"
       },
       {
@@ -3714,7 +3714,7 @@ const medicalCrosswordData = {
         "answer": "LITHOTRIPSY"
       },
       {
-        "question": "Bedside nephrology clinical term",
+        "question": "Mesh scaffold placed in artery",
         "answer": "STENT"
       },
       {
@@ -3832,7 +3832,7 @@ const medicalCrosswordData = {
         "answer": "ETHYLENEGLYCOL"
       },
       {
-        "question": "Board relevant nephrology association",
+        "question": "Statin adverse muscle injury",
         "answer": "RHABDOMYOLYSIS"
       },
       {
@@ -3864,7 +3864,7 @@ const medicalCrosswordData = {
         "answer": "CORTICAL"
       },
       {
-        "question": "USMLE clue for nephrology",
+        "question": "Muscle attached to valve chordae",
         "answer": "PAPILLARY"
       },
       {
@@ -3930,7 +3930,7 @@ const medicalCrosswordData = {
         "answer": "CONVECTION"
       },
       {
-        "question": "Specialized nephrology vocabulary item",
+        "question": "Passive movement of gases across the alveolar-capillary membrane",
         "answer": "DIFFUSION"
       },
       {
@@ -3950,7 +3950,7 @@ const medicalCrosswordData = {
         "answer": "PROFILING"
       },
       {
-        "question": "Specialized nephrology vocabulary item",
+        "question": "Postablation esophageal complication",
         "answer": "FISTULA"
       },
       {
@@ -3990,7 +3990,7 @@ const medicalCrosswordData = {
         "answer": "TACROLIMUS"
       },
       {
-        "question": "Specialized nephrology vocabulary item",
+        "question": "Classic board association in pharmacology",
         "answer": "CYCLOSPORINE"
       },
       {
@@ -4010,7 +4010,7 @@ const medicalCrosswordData = {
         "answer": "REJECTION"
       },
       {
-        "question": "Specialized nephrology vocabulary item",
+        "question": "Return of disease after treatment",
         "answer": "RECURRENCE"
       },
       {
@@ -4046,11 +4046,11 @@ const medicalCrosswordData = {
         "answer": "NEPHROLOGY"
       },
       {
-        "question": "Resident level nephrology concept",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
-        "question": "Specialized nephrology vocabulary item",
+        "question": "High yield endocrinology buzzword",
         "answer": "ADJUVANT"
       },
       {
@@ -4074,11 +4074,11 @@ const medicalCrosswordData = {
         "answer": "PARATHYROID"
       },
       {
-        "question": "Foundational endocrinology vocabulary item",
+        "question": "Fellowship level nephrology clue",
         "answer": "ADRENAL"
       },
       {
-        "question": "Common endocrinology body term",
+        "question": "Organ producing digestive enzymes and hormones like insulin",
         "answer": "PANCREAS"
       },
       {
@@ -4086,11 +4086,11 @@ const medicalCrosswordData = {
         "answer": "ISLET"
       },
       {
-        "question": "Normal endocrinology physiology concept",
+        "question": "Classic board association in gastroenterology",
         "answer": "GLUCOSE"
       },
       {
-        "question": "Core endocrinology structure term",
+        "question": "Clinical clue in pharmacology",
         "answer": "INSULIN"
       },
       {
@@ -4102,15 +4102,15 @@ const medicalCrosswordData = {
         "answer": "CORTISOL"
       },
       {
-        "question": "Basic endocrinology anatomy term",
+        "question": "Salt retaining adrenal hormone",
         "answer": "ALDOSTERONE"
       },
       {
-        "question": "Normal endocrinology physiology concept",
+        "question": "Presentation linked to immunology",
         "answer": "EPINEPHRINE"
       },
       {
-        "question": "Core endocrinology structure term",
+        "question": "USMLE clue for psychiatry",
         "answer": "NOREPINEPHRINE"
       },
       {
@@ -4130,11 +4130,11 @@ const medicalCrosswordData = {
         "answer": "VITAMIN"
       },
       {
-        "question": "Core endocrinology structure term",
+        "question": "geriatrics diagnosis treatment term",
         "answer": "CALCIUM"
       },
       {
-        "question": "Foundational endocrinology vocabulary item",
+        "question": "Common nephrology pathology association",
         "answer": "PHOSPHATE"
       },
       {
@@ -4150,7 +4150,7 @@ const medicalCrosswordData = {
         "answer": "HYPOPHYSIS"
       },
       {
-        "question": "Core endocrinology structure term",
+        "question": "Brain region controlling pituitary and homeostasis",
         "answer": "HYPOTHALAMUS"
       },
       {
@@ -4158,7 +4158,7 @@ const medicalCrosswordData = {
         "answer": "TROPIC"
       },
       {
-        "question": "Common endocrinology body term",
+        "question": "pulmonology diagnosis treatment term",
         "answer": "STEROID"
       },
       {
@@ -4166,7 +4166,7 @@ const medicalCrosswordData = {
         "answer": "PEPTIDE"
       },
       {
-        "question": "Normal endocrinology physiology concept",
+        "question": "Rare procedural pediatrics term",
         "answer": "ENDOCRINE"
       },
       {
@@ -4210,7 +4210,7 @@ const medicalCrosswordData = {
         "answer": "OXYTOCIN"
       },
       {
-        "question": "Core endocrinology structure term",
+        "question": "Advanced emergency medicine subspecialty term",
         "answer": "VASOPRESSIN"
       },
       {
@@ -4224,7 +4224,7 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "endocrinology disease mechanism term",
+        "question": "Common pediatrics pathology association",
         "answer": "DIABETES"
       },
       {
@@ -4304,7 +4304,7 @@ const medicalCrosswordData = {
         "answer": "OSTEOPOROSIS"
       },
       {
-        "question": "endocrinology disease mechanism term",
+        "question": "Protection against pathogen takeover",
         "answer": "RESISTANCE"
       },
       {
@@ -4406,7 +4406,7 @@ const medicalCrosswordData = {
         "answer": "TREMOR"
       },
       {
-        "question": "Bedside endocrinology clinical term",
+        "question": "Awareness of abnormal heartbeat",
         "answer": "PALPITATION"
       },
       {
@@ -4450,11 +4450,11 @@ const medicalCrosswordData = {
         "answer": "FATIGUE"
       },
       {
-        "question": "Common endocrinology symptom sign",
+        "question": "Abnormally low blood pressure",
         "answer": "HYPOTENSION"
       },
       {
-        "question": "endocrinology diagnosis treatment term",
+        "question": "Abnormally high blood pressure",
         "answer": "HYPERTENSION"
       },
       {
@@ -4470,7 +4470,7 @@ const medicalCrosswordData = {
         "answer": "NODULE"
       },
       {
-        "question": "Common endocrinology symptom sign",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -4596,7 +4596,7 @@ const medicalCrosswordData = {
         "answer": "MEDULLARY"
       },
       {
-        "question": "USMLE clue for endocrinology",
+        "question": "Muscle attached to valve chordae",
         "answer": "PAPILLARY"
       },
       {
@@ -4660,11 +4660,11 @@ const medicalCrosswordData = {
         "answer": "DEXAMETHASONE"
       },
       {
-        "question": "Testable endocrinology board fact",
+        "question": "Pheochromocytoma hypertension metabolite",
         "answer": "METANEPHRINE"
       },
       {
-        "question": "Board relevant endocrinology association",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -4730,7 +4730,7 @@ const medicalCrosswordData = {
         "answer": "RADIOIODINE"
       },
       {
-        "question": "Advanced endocrinology subspecialty term",
+        "question": "Septal reduction chemical procedure",
         "answer": "ABLATION"
       },
       {
@@ -4822,7 +4822,7 @@ const medicalCrosswordData = {
         "answer": "ANTIDOTE"
       },
       {
-        "question": "Specialized endocrinology vocabulary item",
+        "question": "USMLE clue for hematology",
         "answer": "ANTITOXIN"
       },
       {
@@ -4842,7 +4842,7 @@ const medicalCrosswordData = {
         "answer": "ATROPHIC"
       },
       {
-        "question": "Specialized endocrinology vocabulary item",
+        "question": "High yield immunology buzzword",
         "answer": "AUTONOMIC"
       },
       {
@@ -4862,7 +4862,7 @@ const medicalCrosswordData = {
         "answer": "CACHEXIA"
       },
       {
-        "question": "Specialized endocrinology vocabulary item",
+        "question": "Rare procedural immunology term",
         "answer": "CALCIFIC"
       },
       {
@@ -4878,7 +4878,7 @@ const medicalCrosswordData = {
         "answer": "BLOOD"
       },
       {
-        "question": "Normal hematology physiology concept",
+        "question": "Fluid component of blood",
         "answer": "PLASMA"
       },
       {
@@ -4886,7 +4886,7 @@ const medicalCrosswordData = {
         "answer": "SERUM"
       },
       {
-        "question": "Foundational hematology vocabulary item",
+        "question": "Classic board association in oncology",
         "answer": "ERYTHROCYTE"
       },
       {
@@ -4894,11 +4894,11 @@ const medicalCrosswordData = {
         "answer": "LEUKOCYTE"
       },
       {
-        "question": "Basic hematology anatomy term",
+        "question": "Small clotting blood fragment",
         "answer": "PLATELET"
       },
       {
-        "question": "Normal hematology physiology concept",
+        "question": "Oxygen carrier in red cells",
         "answer": "HEMOGLOBIN"
       },
       {
@@ -4910,7 +4910,7 @@ const medicalCrosswordData = {
         "answer": "MARROW"
       },
       {
-        "question": "Common hematology body term",
+        "question": "Lymphoid organ filtering blood and removing old red cells",
         "answer": "SPLEEN"
       },
       {
@@ -4942,7 +4942,7 @@ const medicalCrosswordData = {
         "answer": "RETICULOCYTE"
       },
       {
-        "question": "Core hematology structure term",
+        "question": "High yield oncology buzzword",
         "answer": "NEUTROPHIL"
       },
       {
@@ -4958,7 +4958,7 @@ const medicalCrosswordData = {
         "answer": "MONOCYTE"
       },
       {
-        "question": "Normal hematology physiology concept",
+        "question": "USMLE clue for oncology",
         "answer": "LYMPHOCYTE"
       },
       {
@@ -4986,7 +4986,7 @@ const medicalCrosswordData = {
         "answer": "PROTHROMBIN"
       },
       {
-        "question": "Foundational hematology vocabulary item",
+        "question": "Blood plasma protein for oncotic pressure",
         "answer": "ALBUMIN"
       },
       {
@@ -5018,7 +5018,7 @@ const medicalCrosswordData = {
         "answer": "BLAST"
       },
       {
-        "question": "Normal hematology physiology concept",
+        "question": "Testable oncology board fact",
         "answer": "PLASMACELL"
       },
       {
@@ -5036,7 +5036,7 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "hematology disease mechanism term",
+        "question": "Bedside oncology clinical term",
         "answer": "ANEMIA"
       },
       {
@@ -5056,7 +5056,7 @@ const medicalCrosswordData = {
         "answer": "THROMBOCYTOSIS"
       },
       {
-        "question": "hematology disease mechanism term",
+        "question": "High white count in severe infection",
         "answer": "LEUKOCYTOSIS"
       },
       {
@@ -5076,11 +5076,11 @@ const medicalCrosswordData = {
         "answer": "HEMOPHILIA"
       },
       {
-        "question": "hematology disease mechanism term",
+        "question": "Calf clot clinical concern",
         "answer": "THROMBOSIS"
       },
       {
-        "question": "Common hematology pathology association",
+        "question": "Lung clot causing sudden dyspnea",
         "answer": "EMBOLISM"
       },
       {
@@ -5136,7 +5136,7 @@ const medicalCrosswordData = {
         "answer": "ELLIPTOCYTOSIS"
       },
       {
-        "question": "hematology disease mechanism term",
+        "question": "Board relevant gastroenterology association",
         "answer": "HEMOCHROMATOSIS"
       },
       {
@@ -5176,7 +5176,7 @@ const medicalCrosswordData = {
         "answer": "BASOPHILIA"
       },
       {
-        "question": "hematology disease mechanism term",
+        "question": "Pathophysiology term in immunology",
         "answer": "EOSINOPHILIA"
       },
       {
@@ -5206,7 +5206,7 @@ const medicalCrosswordData = {
         "answer": "FATIGUE"
       },
       {
-        "question": "hematology diagnosis treatment term",
+        "question": "Blood loss complication or symptom",
         "answer": "BLEEDING"
       },
       {
@@ -5218,7 +5218,7 @@ const medicalCrosswordData = {
         "answer": "JAUNDICE"
       },
       {
-        "question": "Bedside hematology clinical term",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
@@ -5250,11 +5250,11 @@ const medicalCrosswordData = {
         "answer": "ANTICOAGULATION"
       },
       {
-        "question": "Clinical clue in hematology",
+        "question": "Oral anticoagulant requiring INR",
         "answer": "WARFARIN"
       },
       {
-        "question": "Presentation linked to hematology",
+        "question": "Anticoagulant injectable drug",
         "answer": "HEPARIN"
       },
       {
@@ -5270,7 +5270,7 @@ const medicalCrosswordData = {
         "answer": "RIVAROXABAN"
       },
       {
-        "question": "Clinical clue in hematology",
+        "question": "Antiplatelet emergency chest pain drug",
         "answer": "ASPIRIN"
       },
       {
@@ -5302,7 +5302,7 @@ const medicalCrosswordData = {
         "answer": "GCSF"
       },
       {
-        "question": "Common hematology symptom sign",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -5342,7 +5342,7 @@ const medicalCrosswordData = {
         "answer": "PROTEINS"
       },
       {
-        "question": "Common hematology symptom sign",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -5546,7 +5546,7 @@ const medicalCrosswordData = {
         "answer": "CHIMERISM"
       },
       {
-        "question": "Rare procedural hematology term",
+        "question": "Transferred microbes persisting after therapy",
         "answer": "ENGRAFTMENT"
       },
       {
@@ -5566,7 +5566,7 @@ const medicalCrosswordData = {
         "answer": "THROMBECTOMY"
       },
       {
-        "question": "Rare procedural hematology term",
+        "question": "Emergency clot dissolving therapy",
         "answer": "THROMBOLYSIS"
       },
       {
@@ -5614,7 +5614,7 @@ const medicalCrosswordData = {
         "answer": "CARFILZOMIB"
       },
       {
-        "question": "Specialized hematology vocabulary item",
+        "question": "Advanced oncology subspecialty term",
         "answer": "VENETOCLAX"
       },
       {
@@ -5634,7 +5634,7 @@ const medicalCrosswordData = {
         "answer": "ATROPHIC"
       },
       {
-        "question": "Specialized hematology vocabulary item",
+        "question": "High yield immunology buzzword",
         "answer": "AUTONOMIC"
       },
       {
@@ -5654,7 +5654,7 @@ const medicalCrosswordData = {
         "answer": "CACHEXIA"
       },
       {
-        "question": "Specialized hematology vocabulary item",
+        "question": "Rare procedural immunology term",
         "answer": "CALCIFIC"
       },
       {
@@ -5674,7 +5674,7 @@ const medicalCrosswordData = {
         "answer": "CELLULAR"
       },
       {
-        "question": "Specialized hematology vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "CENTRAL"
       },
       {
@@ -5698,15 +5698,15 @@ const medicalCrosswordData = {
         "answer": "ANTIBODY"
       },
       {
-        "question": "Foundational immunology vocabulary item",
+        "question": "USMLE clue for oncology",
         "answer": "LYMPHOCYTE"
       },
       {
-        "question": "Common immunology body term",
+        "question": "White cell forming foam cells",
         "answer": "MACROPHAGE"
       },
       {
-        "question": "Basic immunology anatomy term",
+        "question": "High yield oncology buzzword",
         "answer": "NEUTROPHIL"
       },
       {
@@ -5726,7 +5726,7 @@ const medicalCrosswordData = {
         "answer": "DENDRITIC"
       },
       {
-        "question": "Basic immunology anatomy term",
+        "question": "Immune messenger protein",
         "answer": "CYTOKINE"
       },
       {
@@ -5734,7 +5734,7 @@ const medicalCrosswordData = {
         "answer": "CHEMOKINE"
       },
       {
-        "question": "Core immunology structure term",
+        "question": "Advanced nephrology subspecialty term",
         "answer": "COMPLEMENT"
       },
       {
@@ -5742,7 +5742,7 @@ const medicalCrosswordData = {
         "answer": "THYMUS"
       },
       {
-        "question": "Common immunology body term",
+        "question": "Lymphoid organ filtering blood and removing old red cells",
         "answer": "SPLEEN"
       },
       {
@@ -5750,7 +5750,7 @@ const medicalCrosswordData = {
         "answer": "MARROW"
       },
       {
-        "question": "Normal immunology physiology concept",
+        "question": "Disease process in psychiatry",
         "answer": "TOLERANCE"
       },
       {
@@ -5770,11 +5770,11 @@ const medicalCrosswordData = {
         "answer": "HAPTEN"
       },
       {
-        "question": "Normal immunology physiology concept",
+        "question": "High yield endocrinology buzzword",
         "answer": "ADJUVANT"
       },
       {
-        "question": "Core immunology structure term",
+        "question": "Fluid component of blood",
         "answer": "PLASMA"
       },
       {
@@ -5794,7 +5794,7 @@ const medicalCrosswordData = {
         "answer": "HUMORAL"
       },
       {
-        "question": "Core immunology structure term",
+        "question": "Resident level hematology concept",
         "answer": "CELLULAR"
       },
       {
@@ -5814,7 +5814,7 @@ const medicalCrosswordData = {
         "answer": "BCR"
       },
       {
-        "question": "Core immunology structure term",
+        "question": "Mucosal antibody class",
         "answer": "IGA"
       },
       {
@@ -5848,7 +5848,7 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "immunology disease mechanism term",
+        "question": "Immune response driving tissue swelling",
         "answer": "INFLAMMATION"
       },
       {
@@ -5884,15 +5884,15 @@ const medicalCrosswordData = {
         "answer": "ANERGY"
       },
       {
-        "question": "Mechanism linked to immunology",
+        "question": "Pathologic programmed cell death",
         "answer": "APOPTOSIS"
       },
       {
-        "question": "immunology disease mechanism term",
+        "question": "Irreversible cell swelling death",
         "answer": "NECROSIS"
       },
       {
-        "question": "Common immunology pathology association",
+        "question": "Pathologic vessel inflammation",
         "answer": "VASCULITIS"
       },
       {
@@ -5992,7 +5992,7 @@ const medicalCrosswordData = {
         "answer": "MAC"
       },
       {
-        "question": "Common immunology pathology association",
+        "question": "Antimicrobial peptide from mucosa",
         "answer": "DEFENSIN"
       },
       {
@@ -6030,7 +6030,7 @@ const medicalCrosswordData = {
         "answer": "PRURITUS"
       },
       {
-        "question": "Bedside immunology clinical term",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
@@ -6038,11 +6038,11 @@ const medicalCrosswordData = {
         "answer": "SWELLING"
       },
       {
-        "question": "immunology diagnosis treatment term",
+        "question": "Niacin adverse skin symptom",
         "answer": "FLUSHING"
       },
       {
-        "question": "Clinical clue in immunology",
+        "question": "Systemic poor perfusion state",
         "answer": "SHOCK"
       },
       {
@@ -6110,7 +6110,7 @@ const medicalCrosswordData = {
         "answer": "PATCHTEST"
       },
       {
-        "question": "Bedside immunology clinical term",
+        "question": "Immunoassay used for toxin detection",
         "answer": "ELISA"
       },
       {
@@ -6126,7 +6126,7 @@ const medicalCrosswordData = {
         "answer": "BIOLOGIC"
       },
       {
-        "question": "Presentation linked to immunology",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -6240,7 +6240,7 @@ const medicalCrosswordData = {
         "answer": "WHIM"
       },
       {
-        "question": "USMLE clue for immunology",
+        "question": "Transcription factor family in tolerance",
         "answer": "FOXP"
       },
       {
@@ -6328,7 +6328,7 @@ const medicalCrosswordData = {
         "answer": "BENIGN"
       },
       {
-        "question": "Board relevant immunology association",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       }
     ],
@@ -6426,7 +6426,7 @@ const medicalCrosswordData = {
         "answer": "CANNULA"
       },
       {
-        "question": "Specialized immunology vocabulary item",
+        "question": "Advanced hematology subspecialty term",
         "answer": "CAPSULAR"
       },
       {
@@ -6446,7 +6446,7 @@ const medicalCrosswordData = {
         "answer": "CIRCULATION"
       },
       {
-        "question": "Specialized immunology vocabulary item",
+        "question": "Rare procedural rheumatology term",
         "answer": "CLINICAL"
       },
       {
@@ -6466,7 +6466,7 @@ const medicalCrosswordData = {
         "answer": "CONGENITAL"
       },
       {
-        "question": "Specialized immunology vocabulary item",
+        "question": "Rare procedural rheumatology term",
         "answer": "CONJUGATE"
       },
       {
@@ -6502,7 +6502,7 @@ const medicalCrosswordData = {
         "answer": "JOINT"
       },
       {
-        "question": "Normal rheumatology physiology concept",
+        "question": "Disease process in anatomy",
         "answer": "CARTILAGE"
       },
       {
@@ -6510,19 +6510,19 @@ const medicalCrosswordData = {
         "answer": "SYNOVIUM"
       },
       {
-        "question": "Foundational rheumatology vocabulary item",
+        "question": "Pathophysiology term in anatomy",
         "answer": "LIGAMENT"
       },
       {
-        "question": "Common rheumatology body term",
+        "question": "Common anatomy pathology association",
         "answer": "TENDON"
       },
       {
-        "question": "Basic rheumatology anatomy term",
+        "question": "Common anatomy pathology association",
         "answer": "BURSA"
       },
       {
-        "question": "Normal rheumatology physiology concept",
+        "question": "Mechanism linked to anatomy",
         "answer": "BONE"
       },
       {
@@ -6558,7 +6558,7 @@ const medicalCrosswordData = {
         "answer": "OSTEOBLAST"
       },
       {
-        "question": "Basic rheumatology anatomy term",
+        "question": "Classic board association in geriatrics",
         "answer": "OSTEOCLAST"
       },
       {
@@ -6570,11 +6570,11 @@ const medicalCrosswordData = {
         "answer": "MARROW"
       },
       {
-        "question": "Foundational rheumatology vocabulary item",
+        "question": "Swallowed delivery form",
         "answer": "CAPSULE"
       },
       {
-        "question": "Common rheumatology body term",
+        "question": "Mechanism linked to orthopedics",
         "answer": "MENISCUS"
       },
       {
@@ -6618,7 +6618,7 @@ const medicalCrosswordData = {
         "answer": "PATELLA"
       },
       {
-        "question": "Basic rheumatology anatomy term",
+        "question": "Mechanism linked to orthopedics",
         "answer": "ACROMION"
       },
       {
@@ -6660,7 +6660,7 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "rheumatology disease mechanism term",
+        "question": "Rheumatic fever migratory joint finding",
         "answer": "ARTHRITIS"
       },
       {
@@ -6680,11 +6680,11 @@ const medicalCrosswordData = {
         "answer": "ENTHESITIS"
       },
       {
-        "question": "rheumatology disease mechanism term",
+        "question": "Pathologic vessel inflammation",
         "answer": "VASCULITIS"
       },
       {
-        "question": "Common rheumatology pathology association",
+        "question": "Carcinoid right sided valve lesion",
         "answer": "FIBROSIS"
       },
       {
@@ -6700,7 +6700,7 @@ const medicalCrosswordData = {
         "answer": "MYOSITIS"
       },
       {
-        "question": "rheumatology disease mechanism term",
+        "question": "Vessel wall hardening disease",
         "answer": "SCLEROSIS"
       },
       {
@@ -6740,7 +6740,7 @@ const medicalCrosswordData = {
         "answer": "OSTEOPOROSIS"
       },
       {
-        "question": "rheumatology disease mechanism term",
+        "question": "Disease process in endocrinology",
         "answer": "OSTEOMALACIA"
       },
       {
@@ -6800,7 +6800,7 @@ const medicalCrosswordData = {
         "answer": "DISLOCATION"
       },
       {
-        "question": "rheumatology disease mechanism term",
+        "question": "Clinical clue in orthopedics",
         "answer": "CREPITUS"
       },
       {
@@ -6846,7 +6846,7 @@ const medicalCrosswordData = {
         "answer": "FATIGUE"
       },
       {
-        "question": "Common rheumatology symptom sign",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
@@ -6950,7 +6950,7 @@ const medicalCrosswordData = {
         "answer": "BOUTONNIERE"
       },
       {
-        "question": "rheumatology diagnosis treatment term",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -7064,7 +7064,7 @@ const medicalCrosswordData = {
         "answer": "BEHCET"
       },
       {
-        "question": "High yield rheumatology buzzword",
+        "question": "Rare coronary artery inflammation",
         "answer": "TAKAYASU"
       },
       {
@@ -7140,7 +7140,7 @@ const medicalCrosswordData = {
         "answer": "BENIGN"
       },
       {
-        "question": "Board relevant rheumatology association",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       }
     ],
@@ -7158,7 +7158,7 @@ const medicalCrosswordData = {
         "answer": "TENOSYNOVECTOMY"
       },
       {
-        "question": "Specialized rheumatology vocabulary item",
+        "question": "Clinical clue in immunology",
         "answer": "BIOLOGIC"
       },
       {
@@ -7198,7 +7198,7 @@ const medicalCrosswordData = {
         "answer": "AVACOPAN"
       },
       {
-        "question": "Specialized rheumatology vocabulary item",
+        "question": "Fellowship level nephrology clue",
         "answer": "MYCOPHENOLATE"
       },
       {
@@ -7238,7 +7238,7 @@ const medicalCrosswordData = {
         "answer": "CACHEXIA"
       },
       {
-        "question": "Specialized rheumatology vocabulary item",
+        "question": "Rare procedural immunology term",
         "answer": "CALCIFIC"
       },
       {
@@ -7258,7 +7258,7 @@ const medicalCrosswordData = {
         "answer": "CELLULAR"
       },
       {
-        "question": "Specialized rheumatology vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "CENTRAL"
       },
       {
@@ -7278,7 +7278,7 @@ const medicalCrosswordData = {
         "answer": "COFACTOR"
       },
       {
-        "question": "Specialized rheumatology vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "COLLATERAL"
       },
       {
@@ -7298,7 +7298,7 @@ const medicalCrosswordData = {
         "answer": "CORTICAL"
       },
       {
-        "question": "Specialized rheumatology vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "CRANIAL"
       },
       {
@@ -7310,15 +7310,15 @@ const medicalCrosswordData = {
   "infectiousDisease": {
     "m1": [
       {
-        "question": "Basic infectious disease anatomy term",
+        "question": "Prokaryotes common in bowel communities",
         "answer": "BACTERIA"
       },
       {
-        "question": "Normal infectious disease physiology concept",
+        "question": "Acellular infectious particle",
         "answer": "VIRUS"
       },
       {
-        "question": "Core infectious disease structure term",
+        "question": "Yeast or mold organism",
         "answer": "FUNGUS"
       },
       {
@@ -7326,7 +7326,7 @@ const medicalCrosswordData = {
         "answer": "PARASITE"
       },
       {
-        "question": "Common infectious disease body term",
+        "question": "High yield neurology buzzword",
         "answer": "PRION"
       },
       {
@@ -7342,11 +7342,11 @@ const medicalCrosswordData = {
         "answer": "RESERVOIR"
       },
       {
-        "question": "Foundational infectious disease vocabulary item",
+        "question": "Microbial establishment on mucosa",
         "answer": "COLONIZATION"
       },
       {
-        "question": "Common infectious disease body term",
+        "question": "Common hematology symptom sign",
         "answer": "INFECTION"
       },
       {
@@ -7354,27 +7354,27 @@ const medicalCrosswordData = {
         "answer": "TRANSMISSION"
       },
       {
-        "question": "Normal infectious disease physiology concept",
+        "question": "Degree of disease causing power",
         "answer": "VIRULENCE"
       },
       {
-        "question": "Core infectious disease structure term",
+        "question": "Microbial poison causing symptoms",
         "answer": "TOXIN"
       },
       {
-        "question": "Foundational infectious disease vocabulary item",
+        "question": "Dormant resistant bacterial form",
         "answer": "SPORE"
       },
       {
-        "question": "Common infectious disease body term",
+        "question": "Swallowed delivery form",
         "answer": "CAPSULE"
       },
       {
-        "question": "Basic infectious disease anatomy term",
+        "question": "Microbial layer attached to surface",
         "answer": "BIOFILM"
       },
       {
-        "question": "Normal infectious disease physiology concept",
+        "question": "Laboratory growth of organisms",
         "answer": "CULTURE"
       },
       {
@@ -7386,27 +7386,27 @@ const medicalCrosswordData = {
         "answer": "GRAM"
       },
       {
-        "question": "Common infectious disease body term",
+        "question": "Organism requiring oxygen",
         "answer": "AEROBE"
       },
       {
-        "question": "Basic infectious disease anatomy term",
+        "question": "Organism thriving without oxygen",
         "answer": "ANAEROBE"
       },
       {
-        "question": "Normal infectious disease physiology concept",
+        "question": "Major risk factor for gut imbalance",
         "answer": "ANTIBIOTIC"
       },
       {
-        "question": "Core infectious disease structure term",
+        "question": "pharmacology diagnosis treatment term",
         "answer": "ANTIVIRAL"
       },
       {
-        "question": "Foundational infectious disease vocabulary item",
+        "question": "Clinical clue in pharmacology",
         "answer": "ANTIFUNGAL"
       },
       {
-        "question": "Common infectious disease body term",
+        "question": "Common immunology symptom sign",
         "answer": "VACCINE"
       },
       {
@@ -7414,23 +7414,23 @@ const medicalCrosswordData = {
         "answer": "IMMUNITY"
       },
       {
-        "question": "Normal infectious disease physiology concept",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
-        "question": "Core infectious disease structure term",
+        "question": "Life threatening systemic infection response",
         "answer": "SEPSIS"
       },
       {
-        "question": "Foundational infectious disease vocabulary item",
+        "question": "Organism capable of causing disease",
         "answer": "PATHOGEN"
       },
       {
-        "question": "Common infectious disease body term",
+        "question": "Tiny organism in the intestine",
         "answer": "MICROBE"
       },
       {
-        "question": "Basic infectious disease anatomy term",
+        "question": "Older term for resident microbes",
         "answer": "FLORA"
       },
       {
@@ -7442,7 +7442,7 @@ const medicalCrosswordData = {
         "answer": "ENDEMIC"
       },
       {
-        "question": "Foundational infectious disease vocabulary item",
+        "question": "Outbreak strain behavior descriptor",
         "answer": "EPIDEMIC"
       },
       {
@@ -7472,7 +7472,7 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "infectious disease disease mechanism term",
+        "question": "Mechanism linked to pulmonology",
         "answer": "PNEUMONIA"
       },
       {
@@ -7484,7 +7484,7 @@ const medicalCrosswordData = {
         "answer": "CELLULITIS"
       },
       {
-        "question": "Disease process in infectious disease",
+        "question": "Inflammation of heart lining",
         "answer": "ENDOCARDITIS"
       },
       {
@@ -7492,7 +7492,7 @@ const medicalCrosswordData = {
         "answer": "OSTEOMYELITIS"
       },
       {
-        "question": "infectious disease disease mechanism term",
+        "question": "Rheumatic fever migratory joint finding",
         "answer": "ARTHRITIS"
       },
       {
@@ -7504,7 +7504,7 @@ const medicalCrosswordData = {
         "answer": "EMPYEMA"
       },
       {
-        "question": "Disease process in infectious disease",
+        "question": "Bacteria detected in bloodstream",
         "answer": "BACTEREMIA"
       },
       {
@@ -7524,7 +7524,7 @@ const medicalCrosswordData = {
         "answer": "SEPTICEMIA"
       },
       {
-        "question": "Disease process in infectious disease",
+        "question": "Irreversible cell swelling death",
         "answer": "NECROSIS"
       },
       {
@@ -7532,7 +7532,7 @@ const medicalCrosswordData = {
         "answer": "GRANULOMA"
       },
       {
-        "question": "infectious disease disease mechanism term",
+        "question": "Classic board association in pulmonology",
         "answer": "CASEATION"
       },
       {
@@ -7548,7 +7548,7 @@ const medicalCrosswordData = {
         "answer": "REACTIVATION"
       },
       {
-        "question": "Mechanism linked to infectious disease",
+        "question": "Protection against pathogen takeover",
         "answer": "RESISTANCE"
       },
       {
@@ -7572,7 +7572,7 @@ const medicalCrosswordData = {
         "answer": "ENDOTOXIN"
       },
       {
-        "question": "infectious disease disease mechanism term",
+        "question": "Holding samples pending safety results",
         "answer": "QUARANTINE"
       },
       {
@@ -7604,7 +7604,7 @@ const medicalCrosswordData = {
         "answer": "OPPORTUNISTIC"
       },
       {
-        "question": "Disease process in infectious disease",
+        "question": "Resident organism usually harmless",
         "answer": "COMMENSAL"
       },
       {
@@ -7638,7 +7638,7 @@ const medicalCrosswordData = {
         "answer": "COUGH"
       },
       {
-        "question": "Common infectious disease symptom sign",
+        "question": "Watery stool symptom after antibiotics",
         "answer": "DIARRHEA"
       },
       {
@@ -7674,11 +7674,11 @@ const medicalCrosswordData = {
         "answer": "LYMPHADENITIS"
       },
       {
-        "question": "Bedside infectious disease clinical term",
+        "question": "DNA amplification diagnostic test",
         "answer": "PCR"
       },
       {
-        "question": "Common infectious disease symptom sign",
+        "question": "Immunoassay used for toxin detection",
         "answer": "ELISA"
       },
       {
@@ -7686,7 +7686,7 @@ const medicalCrosswordData = {
         "answer": "SMEAR"
       },
       {
-        "question": "Clinical clue in infectious disease",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -7694,7 +7694,7 @@ const medicalCrosswordData = {
         "answer": "LUMBARPUNCTURE"
       },
       {
-        "question": "Bedside infectious disease clinical term",
+        "question": "Oral antibiotic for recurrent infection",
         "answer": "VANCOMYCIN"
       },
       {
@@ -7710,7 +7710,7 @@ const medicalCrosswordData = {
         "answer": "DOXYCYCLINE"
       },
       {
-        "question": "Presentation linked to infectious disease",
+        "question": "Older anaerobe antibiotic option",
         "answer": "METRONIDAZOLE"
       },
       {
@@ -7738,11 +7738,11 @@ const medicalCrosswordData = {
         "answer": "RIFAMPIN"
       },
       {
-        "question": "Common infectious disease symptom sign",
+        "question": "Mobile DNA carrying resistance genes",
         "answer": "PLASMID"
       },
       {
-        "question": "infectious disease diagnosis treatment term",
+        "question": "Antibiotic resistance gene reservoir",
         "answer": "RESISTOME"
       },
       {
@@ -7750,7 +7750,7 @@ const medicalCrosswordData = {
         "answer": "MYCETOMA"
       },
       {
-        "question": "Presentation linked to infectious disease",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -7796,7 +7796,7 @@ const medicalCrosswordData = {
     ],
     "usmle": [
       {
-        "question": "High yield infectious disease buzzword",
+        "question": "IV drug tricuspid infection organism",
         "answer": "STAPH"
       },
       {
@@ -7816,7 +7816,7 @@ const medicalCrosswordData = {
         "answer": "GONOCOCCUS"
       },
       {
-        "question": "High yield infectious disease buzzword",
+        "question": "Gut coccus that may resist drugs",
         "answer": "ENTEROCOCCUS"
       },
       {
@@ -7832,7 +7832,7 @@ const medicalCrosswordData = {
         "answer": "TETANI"
       },
       {
-        "question": "Board relevant infectious disease association",
+        "question": "Antibiotic associated colitis organism",
         "answer": "DIFFICILE"
       },
       {
@@ -7884,7 +7884,7 @@ const medicalCrosswordData = {
         "answer": "CRYPTOCOCCUS"
       },
       {
-        "question": "USMLE clue for infectious disease",
+        "question": "Yeast overgrowing after antibiotics",
         "answer": "CANDIDA"
       },
       {
@@ -7990,7 +7990,7 @@ const medicalCrosswordData = {
         "answer": "BREAKPOINT"
       },
       {
-        "question": "Specialized infectious disease vocabulary item",
+        "question": "Common pharmacology pathology association",
         "answer": "SYNERGY"
       },
       {
@@ -8038,7 +8038,7 @@ const medicalCrosswordData = {
         "answer": "TIGECYCLINE"
       },
       {
-        "question": "Advanced infectious disease subspecialty term",
+        "question": "Narrow antibiotic for recurrence prevention",
         "answer": "FIDAXOMICIN"
       },
       {
@@ -8070,7 +8070,7 @@ const medicalCrosswordData = {
         "answer": "CALCIFIC"
       },
       {
-        "question": "Specialized infectious disease vocabulary item",
+        "question": "Fellowship level endocrinology clue",
         "answer": "CANNULA"
       },
       {
@@ -8090,7 +8090,7 @@ const medicalCrosswordData = {
         "answer": "CENTRAL"
       },
       {
-        "question": "Specialized infectious disease vocabulary item",
+        "question": "Fellowship level hematology clue",
         "answer": "CHRONIC"
       },
       {
@@ -8110,7 +8110,7 @@ const medicalCrosswordData = {
         "answer": "COLLATERAL"
       },
       {
-        "question": "Specialized infectious disease vocabulary item",
+        "question": "Rare procedural immunology term",
         "answer": "COMPARTMENT"
       },
       {
@@ -8138,11 +8138,11 @@ const medicalCrosswordData = {
         "answer": "LESION"
       },
       {
-        "question": "Common oncology body term",
+        "question": "Bedside endocrinology clinical term",
         "answer": "NODULE"
       },
       {
-        "question": "Basic oncology anatomy term",
+        "question": "Disease process in gastroenterology",
         "answer": "POLYP"
       },
       {
@@ -8150,7 +8150,7 @@ const medicalCrosswordData = {
         "answer": "NEOPLASM"
       },
       {
-        "question": "Core oncology structure term",
+        "question": "Mechanism linked to endocrinology",
         "answer": "CARCINOMA"
       },
       {
@@ -8158,15 +8158,15 @@ const medicalCrosswordData = {
         "answer": "SARCOMA"
       },
       {
-        "question": "Common oncology body term",
+        "question": "Pathophysiology term in hematology",
         "answer": "LYMPHOMA"
       },
       {
-        "question": "Basic oncology anatomy term",
+        "question": "Common hematology pathology association",
         "answer": "LEUKEMIA"
       },
       {
-        "question": "Normal oncology physiology concept",
+        "question": "Disease process in dermatology",
         "answer": "MELANOMA"
       },
       {
@@ -8174,7 +8174,7 @@ const medicalCrosswordData = {
         "answer": "METASTASIS"
       },
       {
-        "question": "Foundational oncology vocabulary item",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -8190,7 +8190,7 @@ const medicalCrosswordData = {
         "answer": "CELL"
       },
       {
-        "question": "Core oncology structure term",
+        "question": "Collection of neuronal cell bodies in the CNS",
         "answer": "NUCLEUS"
       },
       {
@@ -8198,11 +8198,11 @@ const medicalCrosswordData = {
         "answer": "MITOSIS"
       },
       {
-        "question": "Common oncology body term",
+        "question": "Pathologic programmed cell death",
         "answer": "APOPTOSIS"
       },
       {
-        "question": "Basic oncology anatomy term",
+        "question": "Irreversible cell swelling death",
         "answer": "NECROSIS"
       },
       {
@@ -8210,15 +8210,15 @@ const medicalCrosswordData = {
         "answer": "STROMA"
       },
       {
-        "question": "Core oncology structure term",
+        "question": "Cell layer lining the intestine",
         "answer": "EPITHELIUM"
       },
       {
-        "question": "Foundational oncology vocabulary item",
+        "question": "Disease process in anatomy",
         "answer": "GLAND"
       },
       {
-        "question": "Common oncology body term",
+        "question": "Inner lining of the gut",
         "answer": "MUCOSA"
       },
       {
@@ -8234,7 +8234,7 @@ const medicalCrosswordData = {
         "answer": "NODE"
       },
       {
-        "question": "Foundational oncology vocabulary item",
+        "question": "Lymphoid organ filtering blood and removing old red cells",
         "answer": "SPLEEN"
       },
       {
@@ -8242,7 +8242,7 @@ const medicalCrosswordData = {
         "answer": "BLOOD"
       },
       {
-        "question": "Basic oncology anatomy term",
+        "question": "Yellow adherent lesion in toxin colitis",
         "answer": "PLAQUE"
       },
       {
@@ -8278,13 +8278,13 @@ const medicalCrosswordData = {
         "answer": "HORMONE"
       },
       {
-        "question": "Common oncology body term",
+        "question": "Immune messenger protein",
         "answer": "CYTOKINE"
       }
     ],
     "m2": [
       {
-        "question": "oncology disease mechanism term",
+        "question": "Pathophysiology term in hematology",
         "answer": "DYSPLASIA"
       },
       {
@@ -8300,7 +8300,7 @@ const medicalCrosswordData = {
         "answer": "HYPERPLASIA"
       },
       {
-        "question": "Mechanism linked to oncology",
+        "question": "Entry of organisms into tissue",
         "answer": "INVASION"
       },
       {
@@ -8316,7 +8316,7 @@ const medicalCrosswordData = {
         "answer": "CARCINOGENESIS"
       },
       {
-        "question": "Disease process in oncology",
+        "question": "Microbial movement across gut barrier",
         "answer": "TRANSLOCATION"
       },
       {
@@ -8336,7 +8336,7 @@ const medicalCrosswordData = {
         "answer": "FUSION"
       },
       {
-        "question": "Disease process in oncology",
+        "question": "Low oxygen state in tissue",
         "answer": "HYPOXIA"
       },
       {
@@ -8368,7 +8368,7 @@ const medicalCrosswordData = {
         "answer": "PERINEURAL"
       },
       {
-        "question": "Common oncology pathology association",
+        "question": "Return of disease after treatment",
         "answer": "RECURRENCE"
       },
       {
@@ -8376,7 +8376,7 @@ const medicalCrosswordData = {
         "answer": "PROGRESSION"
       },
       {
-        "question": "Disease process in oncology",
+        "question": "Protection against pathogen takeover",
         "answer": "RESISTANCE"
       },
       {
@@ -8384,7 +8384,7 @@ const medicalCrosswordData = {
         "answer": "METASTATIC"
       },
       {
-        "question": "oncology disease mechanism term",
+        "question": "Resident level neurology concept",
         "answer": "PARANEOPLASTIC"
       },
       {
@@ -8392,7 +8392,7 @@ const medicalCrosswordData = {
         "answer": "CACHEXIA"
       },
       {
-        "question": "Pathophysiology term in oncology",
+        "question": "Calf clot clinical concern",
         "answer": "THROMBOSIS"
       },
       {
@@ -8404,7 +8404,7 @@ const medicalCrosswordData = {
         "answer": "SIADH"
       },
       {
-        "question": "oncology disease mechanism term",
+        "question": "High white count in severe infection",
         "answer": "LEUKOCYTOSIS"
       },
       {
@@ -8454,7 +8454,7 @@ const medicalCrosswordData = {
         "answer": "FATIGUE"
       },
       {
-        "question": "oncology diagnosis treatment term",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
@@ -8462,7 +8462,7 @@ const medicalCrosswordData = {
         "answer": "PAIN"
       },
       {
-        "question": "Presentation linked to oncology",
+        "question": "Blood loss complication or symptom",
         "answer": "BLEEDING"
       },
       {
@@ -8506,7 +8506,7 @@ const medicalCrosswordData = {
         "answer": "MAMMOGRAPHY"
       },
       {
-        "question": "Bedside oncology clinical term",
+        "question": "Endoscopic route to large bowel",
         "answer": "COLONOSCOPY"
       },
       {
@@ -8562,11 +8562,11 @@ const medicalCrosswordData = {
         "answer": "REMISSION"
       },
       {
-        "question": "Presentation linked to oncology",
+        "question": "Symptom return after apparent improvement",
         "answer": "RELAPSE"
       },
       {
-        "question": "Bedside oncology clinical term",
+        "question": "Testing sources before sample use",
         "answer": "SCREENING"
       },
       {
@@ -8756,7 +8756,7 @@ const medicalCrosswordData = {
         "answer": "ERYTHROCYTE"
       },
       {
-        "question": "USMLE clue for oncology",
+        "question": "Small clotting blood fragment",
         "answer": "PLATELET"
       },
       {
@@ -8764,7 +8764,7 @@ const medicalCrosswordData = {
         "answer": "DYSCRASIA"
       },
       {
-        "question": "Board relevant oncology association",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       }
     ],
@@ -8778,7 +8778,7 @@ const medicalCrosswordData = {
         "answer": "CYTOGENETICS"
       },
       {
-        "question": "Resident level oncology concept",
+        "question": "Method identifying microbial DNA",
         "answer": "SEQUENCING"
       },
       {
@@ -8882,7 +8882,7 @@ const medicalCrosswordData = {
         "answer": "ALEMTUZUMAB"
       },
       {
-        "question": "Specialized oncology vocabulary item",
+        "question": "Fellowship level hematology clue",
         "answer": "DARATUMUMAB"
       },
       {
@@ -8902,7 +8902,7 @@ const medicalCrosswordData = {
         "answer": "TRANSPLANT"
       },
       {
-        "question": "Specialized oncology vocabulary item",
+        "question": "High yield endocrinology buzzword",
         "answer": "ADJUVANT"
       },
       {
@@ -8922,7 +8922,7 @@ const medicalCrosswordData = {
         "answer": "AMBULATORY"
       },
       {
-        "question": "Specialized oncology vocabulary item",
+        "question": "Rare procedural gastroenterology term",
         "answer": "ANASTOMOSIS"
       },
       {
@@ -9090,13 +9090,13 @@ const medicalCrosswordData = {
         "answer": "SOMNOLENCE"
       },
       {
-        "question": "Common psychiatry body term",
+        "question": "Clinical clue in neurology",
         "answer": "AMNESIA"
       }
     ],
     "m2": [
       {
-        "question": "psychiatry disease mechanism term",
+        "question": "Pathophysiology term in geriatrics",
         "answer": "DEPRESSION"
       },
       {
@@ -9136,7 +9136,7 @@ const medicalCrosswordData = {
         "answer": "ADHD"
       },
       {
-        "question": "psychiatry disease mechanism term",
+        "question": "Pathophysiology term in pediatrics",
         "answer": "AUTISM"
       },
       {
@@ -9156,7 +9156,7 @@ const medicalCrosswordData = {
         "answer": "DEMENTIA"
       },
       {
-        "question": "psychiatry disease mechanism term",
+        "question": "Common geriatrics pathology association",
         "answer": "INSOMNIA"
       },
       {
@@ -9196,7 +9196,7 @@ const medicalCrosswordData = {
         "answer": "DEPENDENCE"
       },
       {
-        "question": "psychiatry disease mechanism term",
+        "question": "Disease process in emergency medicine",
         "answer": "INTOXICATION"
       },
       {
@@ -9236,7 +9236,7 @@ const medicalCrosswordData = {
         "answer": "CRAVING"
       },
       {
-        "question": "psychiatry disease mechanism term",
+        "question": "Symptom return after apparent improvement",
         "answer": "RELAPSE"
       },
       {
@@ -9394,7 +9394,7 @@ const medicalCrosswordData = {
         "answer": "HISTRIONIC"
       },
       {
-        "question": "Presentation linked to psychiatry",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -9694,7 +9694,7 @@ const medicalCrosswordData = {
         "answer": "CAPSULAR"
       },
       {
-        "question": "Specialized psychiatry vocabulary item",
+        "question": "Resident level hematology concept",
         "answer": "CELLULAR"
       },
       {
@@ -9714,7 +9714,7 @@ const medicalCrosswordData = {
         "answer": "COFACTOR"
       },
       {
-        "question": "Specialized psychiatry vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "COLLATERAL"
       },
       {
@@ -9734,7 +9734,7 @@ const medicalCrosswordData = {
         "answer": "CORTICAL"
       },
       {
-        "question": "Specialized psychiatry vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "CRANIAL"
       },
       {
@@ -9790,7 +9790,7 @@ const medicalCrosswordData = {
         "answer": "FOLLICLE"
       },
       {
-        "question": "Normal dermatology physiology concept",
+        "question": "Disease process in anatomy",
         "answer": "GLAND"
       },
       {
@@ -9810,7 +9810,7 @@ const medicalCrosswordData = {
         "answer": "HAIR"
       },
       {
-        "question": "Normal dermatology physiology concept",
+        "question": "Bedside gastroenterology clinical term",
         "answer": "PAPILLA"
       },
       {
@@ -9846,7 +9846,7 @@ const medicalCrosswordData = {
         "answer": "PAPULE"
       },
       {
-        "question": "Basic dermatology anatomy term",
+        "question": "Yellow adherent lesion in toxin colitis",
         "answer": "PLAQUE"
       },
       {
@@ -9858,47 +9858,47 @@ const medicalCrosswordData = {
         "answer": "BULLA"
       },
       {
-        "question": "Foundational dermatology vocabulary item",
+        "question": "Small, circumscribed elevation of skin containing purulent exudate",
         "answer": "PUSTULE"
       },
       {
-        "question": "Common dermatology body term",
+        "question": "Transient, edematous papule or plaque, often pruritic",
         "answer": "WHEAL"
       },
       {
-        "question": "Basic dermatology anatomy term",
+        "question": "Flakes of stratum corneum, seen in psoriasis or seborrhea",
         "answer": "SCALE"
       },
       {
-        "question": "Normal dermatology physiology concept",
+        "question": "Dried serum, blood, or pus on the skin surface",
         "answer": "CRUST"
       },
       {
-        "question": "Core dermatology structure term",
+        "question": "Pathophysiology term in rheumatology",
         "answer": "EROSION"
       },
       {
-        "question": "Foundational dermatology vocabulary item",
+        "question": "Common gastroenterology pathology association",
         "answer": "ULCER"
       },
       {
-        "question": "Common dermatology body term",
+        "question": "Pathophysiology term in gastroenterology",
         "answer": "FISSURE"
       },
       {
-        "question": "Basic dermatology anatomy term",
+        "question": "Testable immunology board fact",
         "answer": "TELANGIECTASIA"
       },
       {
-        "question": "Normal dermatology physiology concept",
+        "question": "Disease process in hematology",
         "answer": "PETECHIA"
       },
       {
-        "question": "Core dermatology structure term",
+        "question": "Pathophysiology term in hematology",
         "answer": "PURPURA"
       },
       {
-        "question": "Foundational dermatology vocabulary item",
+        "question": "Mechanism linked to hematology",
         "answer": "ECCHYMOSIS"
       },
       {
@@ -9908,7 +9908,7 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Inflammation of the skin, often presenting with erythema and pruritus",
         "answer": "DERMATITIS"
       },
       {
@@ -9928,7 +9928,7 @@ const medicalCrosswordData = {
         "answer": "ROSACEA"
       },
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Bedside immunology clinical term",
         "answer": "URTICARIA"
       },
       {
@@ -9948,7 +9948,7 @@ const medicalCrosswordData = {
         "answer": "IMPETIGO"
       },
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Superficial cellulitis with sharply demarcated, raised borders",
         "answer": "ERYSIPELAS"
       },
       {
@@ -9968,7 +9968,7 @@ const medicalCrosswordData = {
         "answer": "TINEA"
       },
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Opportunistic fungal infection causing thrush or diaper rash",
         "answer": "CANDIDIASIS"
       },
       {
@@ -9988,7 +9988,7 @@ const medicalCrosswordData = {
         "answer": "NEVUS"
       },
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Horny growth, often benign, resulting from excess keratin",
         "answer": "KERATOSIS"
       },
       {
@@ -10008,7 +10008,7 @@ const medicalCrosswordData = {
         "answer": "PORPHYRIA"
       },
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Genetic disorder causing dry, fish-like skin",
         "answer": "ICHTHYOSIS"
       },
       {
@@ -10020,7 +10020,7 @@ const medicalCrosswordData = {
         "answer": "GRANULOMA"
       },
       {
-        "question": "Disease process in dermatology",
+        "question": "Pathologic vessel inflammation",
         "answer": "VASCULITIS"
       },
       {
@@ -10028,7 +10028,7 @@ const medicalCrosswordData = {
         "answer": "NECROBIOSIS"
       },
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Fellowship level geriatrics clue",
         "answer": "INDURATION"
       },
       {
@@ -10048,7 +10048,7 @@ const medicalCrosswordData = {
         "answer": "HYPERHIDROSIS"
       },
       {
-        "question": "dermatology disease mechanism term",
+        "question": "Inability to sweat normally, causing heat intolerance",
         "answer": "ANHIDROSIS"
       },
       {
@@ -10118,7 +10118,7 @@ const medicalCrosswordData = {
         "answer": "DERMOSCOPY"
       },
       {
-        "question": "dermatology diagnosis treatment term",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -10126,7 +10126,7 @@ const medicalCrosswordData = {
         "answer": "KOH"
       },
       {
-        "question": "Presentation linked to dermatology",
+        "question": "Laboratory growth of organisms",
         "answer": "CULTURE"
       },
       {
@@ -10186,7 +10186,7 @@ const medicalCrosswordData = {
         "answer": "ANTIHISTAMINE"
       },
       {
-        "question": "Presentation linked to dermatology",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -10406,11 +10406,11 @@ const medicalCrosswordData = {
         "answer": "PUVA"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Device using focused light for precise tissue destruction or cutting",
         "answer": "LASER"
       },
       {
-        "question": "Fellowship level dermatology clue",
+        "question": "Septal reduction chemical procedure",
         "answer": "ABLATION"
       },
       {
@@ -10426,7 +10426,7 @@ const medicalCrosswordData = {
         "answer": "GRAFT"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Tissue moved with its own blood supply for reconstruction",
         "answer": "FLAP"
       },
       {
@@ -10446,7 +10446,7 @@ const medicalCrosswordData = {
         "answer": "DUPILUMAB"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Presentation linked to immunology",
         "answer": "SECUKINUMAB"
       },
       {
@@ -10466,7 +10466,7 @@ const medicalCrosswordData = {
         "answer": "APREMILAST"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Bedside nephrology clinical term",
         "answer": "SPIRONOLACTONE"
       },
       {
@@ -10486,7 +10486,7 @@ const medicalCrosswordData = {
         "answer": "SCLEROTHERAPY"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "CENTRAL"
       },
       {
@@ -10506,7 +10506,7 @@ const medicalCrosswordData = {
         "answer": "COLLATERAL"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Rare procedural immunology term",
         "answer": "COMPARTMENT"
       },
       {
@@ -10526,7 +10526,7 @@ const medicalCrosswordData = {
         "answer": "CRANIAL"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Rare procedural immunology term",
         "answer": "CYTOPLASM"
       },
       {
@@ -10546,7 +10546,7 @@ const medicalCrosswordData = {
         "answer": "DELIRIUM"
       },
       {
-        "question": "Specialized dermatology vocabulary item",
+        "question": "Rare procedural obstetrics gynecology term",
         "answer": "DENSITY"
       },
       {
@@ -10558,7 +10558,7 @@ const medicalCrosswordData = {
   "orthopedics": {
     "m1": [
       {
-        "question": "Basic orthopedics anatomy term",
+        "question": "Mechanism linked to anatomy",
         "answer": "BONE"
       },
       {
@@ -10566,15 +10566,15 @@ const medicalCrosswordData = {
         "answer": "JOINT"
       },
       {
-        "question": "Core orthopedics structure term",
+        "question": "Disease process in anatomy",
         "answer": "CARTILAGE"
       },
       {
-        "question": "Foundational orthopedics vocabulary item",
+        "question": "Pathophysiology term in anatomy",
         "answer": "LIGAMENT"
       },
       {
-        "question": "Common orthopedics body term",
+        "question": "Common anatomy pathology association",
         "answer": "TENDON"
       },
       {
@@ -10586,7 +10586,7 @@ const medicalCrosswordData = {
         "answer": "FASCIA"
       },
       {
-        "question": "Core orthopedics structure term",
+        "question": "Common anatomy pathology association",
         "answer": "BURSA"
       },
       {
@@ -10594,19 +10594,19 @@ const medicalCrosswordData = {
         "answer": "MARROW"
       },
       {
-        "question": "Common orthopedics body term",
+        "question": "Outer layer of gray matter in the cerebrum",
         "answer": "CORTEX"
       },
       {
-        "question": "Basic orthopedics anatomy term",
+        "question": "Fibrous membrane covering the outer surface of bone",
         "answer": "PERIOSTEUM"
       },
       {
-        "question": "Normal orthopedics physiology concept",
+        "question": "Membrane lining the medullary cavity of long bones",
         "answer": "ENDOSTEUM"
       },
       {
-        "question": "Core orthopedics structure term",
+        "question": "Haversian system, the basic structural unit of compact bone",
         "answer": "OSTEON"
       },
       {
@@ -10618,7 +10618,7 @@ const medicalCrosswordData = {
         "answer": "OSTEOBLAST"
       },
       {
-        "question": "Basic orthopedics anatomy term",
+        "question": "Classic board association in geriatrics",
         "answer": "OSTEOCLAST"
       },
       {
@@ -10658,7 +10658,7 @@ const medicalCrosswordData = {
         "answer": "PELVIS"
       },
       {
-        "question": "Basic orthopedics anatomy term",
+        "question": "Socket on the pelvis articulating with the femoral head",
         "answer": "ACETABULUM"
       },
       {
@@ -10690,7 +10690,7 @@ const medicalCrosswordData = {
         "answer": "DISC"
       },
       {
-        "question": "Foundational orthopedics vocabulary item",
+        "question": "Pathophysiology term in rheumatology",
         "answer": "OSTEOPHYTE"
       },
       {
@@ -10720,7 +10720,7 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "orthopedics disease mechanism term",
+        "question": "Resident level pediatrics concept",
         "answer": "FRACTURE"
       },
       {
@@ -10732,15 +10732,15 @@ const medicalCrosswordData = {
         "answer": "SPRAIN"
       },
       {
-        "question": "Disease process in orthopedics",
+        "question": "Genetic variant within a species",
         "answer": "STRAIN"
       },
       {
-        "question": "Mechanism linked to orthopedics",
+        "question": "Rheumatic fever migratory joint finding",
         "answer": "ARTHRITIS"
       },
       {
-        "question": "orthopedics disease mechanism term",
+        "question": "Pathophysiology term in endocrinology",
         "answer": "OSTEITIS"
       },
       {
@@ -10780,7 +10780,7 @@ const medicalCrosswordData = {
         "answer": "SPONDYLOLYSIS"
       },
       {
-        "question": "orthopedics disease mechanism term",
+        "question": "Common neurology pathology association",
         "answer": "RADICULOPATHY"
       },
       {
@@ -10860,7 +10860,7 @@ const medicalCrosswordData = {
         "answer": "ACROMION"
       },
       {
-        "question": "orthopedics disease mechanism term",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -11318,7 +11318,7 @@ const medicalCrosswordData = {
         "answer": "CLINICAL"
       },
       {
-        "question": "Specialized orthopedics vocabulary item",
+        "question": "Fellowship level immunology clue",
         "answer": "COFACTOR"
       },
       {
@@ -11338,7 +11338,7 @@ const medicalCrosswordData = {
         "answer": "CORTICAL"
       },
       {
-        "question": "Specialized orthopedics vocabulary item",
+        "question": "Advanced immunology subspecialty term",
         "answer": "CRANIAL"
       },
       {
@@ -11358,7 +11358,7 @@ const medicalCrosswordData = {
         "answer": "DELIRIUM"
       },
       {
-        "question": "Specialized orthopedics vocabulary item",
+        "question": "Rare procedural obstetrics gynecology term",
         "answer": "DENSITY"
       },
       {
@@ -11374,7 +11374,7 @@ const medicalCrosswordData = {
         "answer": "UTERUS"
       },
       {
-        "question": "Normal obstetrics gynecology physiology concept",
+        "question": "Clinical clue in endocrinology",
         "answer": "OVARY"
       },
       {
@@ -11446,11 +11446,11 @@ const medicalCrosswordData = {
         "answer": "CORPUS"
       },
       {
-        "question": "Common obstetrics gynecology body term",
+        "question": "Disease process in endocrinology",
         "answer": "ESTROGEN"
       },
       {
-        "question": "Basic obstetrics gynecology anatomy term",
+        "question": "Common endocrinology pathology association",
         "answer": "PROGESTERONE"
       },
       {
@@ -11494,7 +11494,7 @@ const medicalCrosswordData = {
         "answer": "PELVIS"
       },
       {
-        "question": "Normal obstetrics gynecology physiology concept",
+        "question": "Dome-shaped upper part of the gaster",
         "answer": "FUNDUS"
       },
       {
@@ -11672,7 +11672,7 @@ const medicalCrosswordData = {
         "answer": "EPIDURAL"
       },
       {
-        "question": "obstetrics gynecology disease mechanism term",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -11694,7 +11694,7 @@ const medicalCrosswordData = {
     ],
     "clinical": [
       {
-        "question": "Bedside obstetrics gynecology clinical term",
+        "question": "Blood loss complication or symptom",
         "answer": "BLEEDING"
       },
       {
@@ -11718,7 +11718,7 @@ const medicalCrosswordData = {
         "answer": "LABOR"
       },
       {
-        "question": "Common obstetrics gynecology symptom sign",
+        "question": "Chamber enlargement by volume overload",
         "answer": "DILATION"
       },
       {
@@ -11746,7 +11746,7 @@ const medicalCrosswordData = {
         "answer": "COLPOSCOPY"
       },
       {
-        "question": "Clinical clue in obstetrics gynecology",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -11782,7 +11782,7 @@ const medicalCrosswordData = {
         "answer": "VACUUM"
       },
       {
-        "question": "obstetrics gynecology diagnosis treatment term",
+        "question": "Torsades associated electrolyte",
         "answer": "MAGNESIUM"
       },
       {
@@ -12066,7 +12066,7 @@ const medicalCrosswordData = {
         "answer": "MORCELLATION"
       },
       {
-        "question": "Resident level obstetrics gynecology concept",
+        "question": "Septal reduction chemical procedure",
         "answer": "ABLATION"
       },
       {
@@ -12110,7 +12110,7 @@ const medicalCrosswordData = {
         "answer": "CONGENITAL"
       },
       {
-        "question": "Specialized obstetrics gynecology vocabulary item",
+        "question": "Rare procedural rheumatology term",
         "answer": "CONJUGATE"
       },
       {
@@ -12130,7 +12130,7 @@ const medicalCrosswordData = {
         "answer": "DEBRIDEMENT"
       },
       {
-        "question": "Specialized obstetrics gynecology vocabulary item",
+        "question": "Common endocrinology pathology association",
         "answer": "DEFICIENCY"
       },
       {
@@ -12150,7 +12150,7 @@ const medicalCrosswordData = {
         "answer": "DEPENDENT"
       },
       {
-        "question": "Specialized obstetrics gynecology vocabulary item",
+        "question": "Board relevant pediatrics association",
         "answer": "DIAGNOSTIC"
       },
       {
@@ -12170,7 +12170,7 @@ const medicalCrosswordData = {
         "answer": "DRAINAGE"
       },
       {
-        "question": "Specialized obstetrics gynecology vocabulary item",
+        "question": "Board relevant pediatrics association",
         "answer": "DYSPLASTIC"
       },
       {
@@ -12218,15 +12218,15 @@ const medicalCrosswordData = {
         "answer": "FONTANELLE"
       },
       {
-        "question": "Common pediatrics body term",
+        "question": "Clinical clue in emergency medicine",
         "answer": "SUTURE"
       },
       {
-        "question": "Basic pediatrics anatomy term",
+        "question": "Involuntary, rapid response to a stimulus",
         "answer": "REFLEX"
       },
       {
-        "question": "Normal pediatrics physiology concept",
+        "question": "Presentation linked to neurology",
         "answer": "BABINSKI"
       },
       {
@@ -12266,7 +12266,7 @@ const medicalCrosswordData = {
         "answer": "WEIGHT"
       },
       {
-        "question": "Normal pediatrics physiology concept",
+        "question": "Common immunology symptom sign",
         "answer": "VACCINE"
       },
       {
@@ -12278,7 +12278,7 @@ const medicalCrosswordData = {
         "answer": "MILK"
       },
       {
-        "question": "Common pediatrics body term",
+        "question": "Testable gastroenterology board fact",
         "answer": "LACTOSE"
       },
       {
@@ -12286,7 +12286,7 @@ const medicalCrosswordData = {
         "answer": "BILIRUBIN"
       },
       {
-        "question": "Normal pediatrics physiology concept",
+        "question": "Testable obstetrics gynecology board fact",
         "answer": "APGAR"
       },
       {
@@ -12326,7 +12326,7 @@ const medicalCrosswordData = {
         "answer": "MACROCEPHALY"
       },
       {
-        "question": "Normal pediatrics physiology concept",
+        "question": "Common neurology pathology association",
         "answer": "HYDROCEPHALUS"
       },
       {
@@ -12334,17 +12334,17 @@ const medicalCrosswordData = {
         "answer": "HYPOTONIA"
       },
       {
-        "question": "Foundational pediatrics vocabulary item",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
-        "question": "Common pediatrics body term",
+        "question": "High yield endocrinology buzzword",
         "answer": "ADJUVANT"
       }
     ],
     "m2": [
       {
-        "question": "pediatrics disease mechanism term",
+        "question": "Presentation linked to gastroenterology",
         "answer": "JAUNDICE"
       },
       {
@@ -12364,7 +12364,7 @@ const medicalCrosswordData = {
         "answer": "MARASMUS"
       },
       {
-        "question": "pediatrics disease mechanism term",
+        "question": "RSV infection common in infants",
         "answer": "BRONCHIOLITIS"
       },
       {
@@ -12400,11 +12400,11 @@ const medicalCrosswordData = {
         "answer": "SCARLET"
       },
       {
-        "question": "Mechanism linked to pediatrics",
+        "question": "Medium vessel childhood vasculitis",
         "answer": "KAWASAKI"
       },
       {
-        "question": "pediatrics disease mechanism term",
+        "question": "Reversible airway obstruction with bronchial hyperresponsiveness",
         "answer": "ASTHMA"
       },
       {
@@ -12420,11 +12420,11 @@ const medicalCrosswordData = {
         "answer": "ADHD"
       },
       {
-        "question": "Mechanism linked to pediatrics",
+        "question": "Watery stool symptom after antibiotics",
         "answer": "DIARRHEA"
       },
       {
-        "question": "pediatrics disease mechanism term",
+        "question": "Fluid loss from severe stool output",
         "answer": "DEHYDRATION"
       },
       {
@@ -12432,7 +12432,7 @@ const medicalCrosswordData = {
         "answer": "MENINGITIS"
       },
       {
-        "question": "Pathophysiology term in pediatrics",
+        "question": "Life threatening systemic infection response",
         "answer": "SEPSIS"
       },
       {
@@ -12464,7 +12464,7 @@ const medicalCrosswordData = {
         "answer": "AFFERENT"
       },
       {
-        "question": "pediatrics disease mechanism term",
+        "question": "Board relevant endocrinology association",
         "answer": "ALKALINE"
       },
       {
@@ -12484,7 +12484,7 @@ const medicalCrosswordData = {
         "answer": "ANEURYSMAL"
       },
       {
-        "question": "pediatrics disease mechanism term",
+        "question": "Rare procedural endocrinology term",
         "answer": "ANOXIA"
       },
       {
@@ -12506,7 +12506,7 @@ const medicalCrosswordData = {
     ],
     "clinical": [
       {
-        "question": "Bedside pediatrics clinical term",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
@@ -12522,7 +12522,7 @@ const medicalCrosswordData = {
         "answer": "RASH"
       },
       {
-        "question": "Presentation linked to pediatrics",
+        "question": "Forceful expulsion of stomach contents",
         "answer": "VOMITING"
       },
       {
@@ -12538,7 +12538,7 @@ const medicalCrosswordData = {
         "answer": "POORFEEDING"
       },
       {
-        "question": "Clinical clue in pediatrics",
+        "question": "Blue discoloration from hypoxemia",
         "answer": "CYANOSIS"
       },
       {
@@ -12554,7 +12554,7 @@ const medicalCrosswordData = {
         "answer": "NEBULIZER"
       },
       {
-        "question": "pediatrics diagnosis treatment term",
+        "question": "Major risk factor for gut imbalance",
         "answer": "ANTIBIOTIC"
       },
       {
@@ -12594,7 +12594,7 @@ const medicalCrosswordData = {
         "answer": "CIRCUMCISION"
       },
       {
-        "question": "pediatrics diagnosis treatment term",
+        "question": "Testing sources before sample use",
         "answer": "SCREENING"
       },
       {
@@ -12842,7 +12842,7 @@ const medicalCrosswordData = {
         "answer": "NICU"
       },
       {
-        "question": "Specialized pediatrics vocabulary item",
+        "question": "Presentation linked to emergency medicine",
         "answer": "RESUSCITATION"
       },
       {
@@ -12862,7 +12862,7 @@ const medicalCrosswordData = {
         "answer": "TPN"
       },
       {
-        "question": "Specialized pediatrics vocabulary item",
+        "question": "Temporary external cardiac support",
         "answer": "ECMO"
       },
       {
@@ -12918,11 +12918,11 @@ const medicalCrosswordData = {
         "answer": "ENDOCRINE"
       },
       {
-        "question": "Resident level pediatrics concept",
+        "question": "Protein catalyst in digestion",
         "answer": "ENZYME"
       },
       {
-        "question": "Specialized pediatrics vocabulary item",
+        "question": "High yield geriatrics buzzword",
         "answer": "EPITHELIAL"
       },
       {
@@ -12942,11 +12942,11 @@ const medicalCrosswordData = {
         "answer": "FASCICLE"
       },
       {
-        "question": "Specialized pediatrics vocabulary item",
+        "question": "Fellowship level geriatrics clue",
         "answer": "FIBRINOUS"
       },
       {
-        "question": "Fellowship level pediatrics clue",
+        "question": "Postablation esophageal complication",
         "answer": "FISTULA"
       },
       {
@@ -12962,7 +12962,7 @@ const medicalCrosswordData = {
         "answer": "FRACTURE"
       },
       {
-        "question": "Specialized pediatrics vocabulary item",
+        "question": "Rare procedural emergency medicine term",
         "answer": "FUNGAL"
       },
       {
@@ -12974,7 +12974,7 @@ const medicalCrosswordData = {
         "answer": "GLANDULAR"
       },
       {
-        "question": "Rare procedural pediatrics term",
+        "question": "Transpulmonary pressure gradient",
         "answer": "GRADIENT"
       },
       {
@@ -12982,7 +12982,7 @@ const medicalCrosswordData = {
         "answer": "GRAFT"
       },
       {
-        "question": "Specialized pediatrics vocabulary item",
+        "question": "Rare procedural emergency medicine term",
         "answer": "HEMORRHAGIC"
       },
       {
@@ -13018,7 +13018,7 @@ const medicalCrosswordData = {
         "answer": "BALANCE"
       },
       {
-        "question": "Normal geriatrics physiology concept",
+        "question": "Presentation linked to orthopedics",
         "answer": "GAIT"
       },
       {
@@ -13050,7 +13050,7 @@ const medicalCrosswordData = {
         "answer": "OSTEOPENIA"
       },
       {
-        "question": "Common geriatrics body term",
+        "question": "Mechanism linked to endocrinology",
         "answer": "OSTEOPOROSIS"
       },
       {
@@ -13094,11 +13094,11 @@ const medicalCrosswordData = {
         "answer": "FALLS"
       },
       {
-        "question": "Basic geriatrics anatomy term",
+        "question": "neurology diagnosis treatment term",
         "answer": "DELIRIUM"
       },
       {
-        "question": "Normal geriatrics physiology concept",
+        "question": "Mechanism linked to psychiatry",
         "answer": "DEMENTIA"
       },
       {
@@ -13130,33 +13130,33 @@ const medicalCrosswordData = {
         "answer": "CAREGIVING"
       },
       {
-        "question": "Common geriatrics body term",
+        "question": "neurology diagnosis treatment term",
         "answer": "DYSPHAGIA"
       },
       {
-        "question": "Basic geriatrics anatomy term",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
-        "question": "Normal geriatrics physiology concept",
+        "question": "High yield endocrinology buzzword",
         "answer": "ADJUVANT"
       },
       {
-        "question": "Core geriatrics structure term",
+        "question": "Classic board association in endocrinology",
         "answer": "AEROBIC"
       },
       {
-        "question": "Foundational geriatrics vocabulary item",
+        "question": "USMLE clue for endocrinology",
         "answer": "AFFERENT"
       },
       {
-        "question": "Common geriatrics body term",
+        "question": "Board relevant endocrinology association",
         "answer": "ALKALINE"
       }
     ],
     "m2": [
       {
-        "question": "geriatrics disease mechanism term",
+        "question": "USMLE clue for neurology",
         "answer": "ALZHEIMER"
       },
       {
@@ -13176,7 +13176,7 @@ const medicalCrosswordData = {
         "answer": "CONSTIPATION"
       },
       {
-        "question": "geriatrics disease mechanism term",
+        "question": "Rheumatic fever migratory joint finding",
         "answer": "ARTHRITIS"
       },
       {
@@ -13192,11 +13192,11 @@ const medicalCrosswordData = {
         "answer": "MALNUTRITION"
       },
       {
-        "question": "Mechanism linked to geriatrics",
+        "question": "Fluid loss from severe stool output",
         "answer": "DEHYDRATION"
       },
       {
-        "question": "geriatrics disease mechanism term",
+        "question": "Pulmonary risk with upper delivery",
         "answer": "ASPIRATION"
       },
       {
@@ -13208,7 +13208,7 @@ const medicalCrosswordData = {
         "answer": "ORTHOSTASIS"
       },
       {
-        "question": "Disease process in geriatrics",
+        "question": "Temporary loss of consciousness",
         "answer": "SYNCOPE"
       },
       {
@@ -13228,7 +13228,7 @@ const medicalCrosswordData = {
         "answer": "PRESBYCUSIS"
       },
       {
-        "question": "Disease process in geriatrics",
+        "question": "Abnormally high blood pressure",
         "answer": "HYPERTENSION"
       },
       {
@@ -13244,7 +13244,7 @@ const medicalCrosswordData = {
         "answer": "COPD"
       },
       {
-        "question": "Pathophysiology term in geriatrics",
+        "question": "Volume ejected per beat",
         "answer": "STROKE"
       },
       {
@@ -13256,7 +13256,7 @@ const medicalCrosswordData = {
         "answer": "ANEMIA"
       },
       {
-        "question": "geriatrics disease mechanism term",
+        "question": "High yield endocrinology buzzword",
         "answer": "AMBULATORY"
       },
       {
@@ -13276,7 +13276,7 @@ const medicalCrosswordData = {
         "answer": "ANOXIA"
       },
       {
-        "question": "geriatrics disease mechanism term",
+        "question": "USMLE clue for hematology",
         "answer": "ANTITOXIN"
       },
       {
@@ -13296,7 +13296,7 @@ const medicalCrosswordData = {
         "answer": "ATROPHIC"
       },
       {
-        "question": "geriatrics disease mechanism term",
+        "question": "High yield immunology buzzword",
         "answer": "AUTONOMIC"
       },
       {
@@ -13358,7 +13358,7 @@ const medicalCrosswordData = {
         "answer": "AGITATION"
       },
       {
-        "question": "Bedside geriatrics clinical term",
+        "question": "Testing sources before sample use",
         "answer": "SCREENING"
       },
       {
@@ -13616,7 +13616,7 @@ const medicalCrosswordData = {
         "answer": "ENDOCRINE"
       },
       {
-        "question": "Board relevant geriatrics association",
+        "question": "Protein catalyst in digestion",
         "answer": "ENZYME"
       },
       {
@@ -13654,7 +13654,7 @@ const medicalCrosswordData = {
         "answer": "HOSPICE"
       },
       {
-        "question": "Specialized geriatrics vocabulary item",
+        "question": "Rare procedural psychiatry term",
         "answer": "CAPACITY"
       },
       {
@@ -13722,7 +13722,7 @@ const medicalCrosswordData = {
         "answer": "FIBRINOUS"
       },
       {
-        "question": "Advanced geriatrics subspecialty term",
+        "question": "Postablation esophageal complication",
         "answer": "FISTULA"
       },
       {
@@ -13734,7 +13734,7 @@ const medicalCrosswordData = {
         "answer": "FOCAL"
       },
       {
-        "question": "Specialized geriatrics vocabulary item",
+        "question": "Rare procedural emergency medicine term",
         "answer": "FUNGAL"
       },
       {
@@ -13746,7 +13746,7 @@ const medicalCrosswordData = {
         "answer": "GLANDULAR"
       },
       {
-        "question": "Rare procedural geriatrics term",
+        "question": "Transpulmonary pressure gradient",
         "answer": "GRADIENT"
       },
       {
@@ -13754,7 +13754,7 @@ const medicalCrosswordData = {
         "answer": "GRAFT"
       },
       {
-        "question": "Specialized geriatrics vocabulary item",
+        "question": "Rare procedural emergency medicine term",
         "answer": "HEMORRHAGIC"
       },
       {
@@ -13774,7 +13774,7 @@ const medicalCrosswordData = {
         "answer": "HYDRATION"
       },
       {
-        "question": "Specialized geriatrics vocabulary item",
+        "question": "Rare procedural emergency medicine term",
         "answer": "HYPEREMIA"
       },
       {
@@ -13794,7 +13794,7 @@ const medicalCrosswordData = {
         "answer": "IMMUNE"
       },
       {
-        "question": "Specialized geriatrics vocabulary item",
+        "question": "Fellowship level pharmacology clue",
         "answer": "INCISION"
       },
       {
@@ -13806,7 +13806,7 @@ const medicalCrosswordData = {
   "emergencyMedicine": {
     "m1": [
       {
-        "question": "Basic emergency medicine anatomy term",
+        "question": "Disease process in pulmonology",
         "answer": "AIRWAY"
       },
       {
@@ -13814,7 +13814,7 @@ const medicalCrosswordData = {
         "answer": "BREATHING"
       },
       {
-        "question": "Core emergency medicine structure term",
+        "question": "Resident level immunology concept",
         "answer": "CIRCULATION"
       },
       {
@@ -13822,7 +13822,7 @@ const medicalCrosswordData = {
         "answer": "DISABILITY"
       },
       {
-        "question": "Common emergency medicine body term",
+        "question": "Advanced psychiatry subspecialty term",
         "answer": "EXPOSURE"
       },
       {
@@ -13830,7 +13830,7 @@ const medicalCrosswordData = {
         "answer": "TRIAGE"
       },
       {
-        "question": "Normal emergency medicine physiology concept",
+        "question": "Systemic poor perfusion state",
         "answer": "SHOCK"
       },
       {
@@ -13842,19 +13842,19 @@ const medicalCrosswordData = {
         "answer": "PRESSURE"
       },
       {
-        "question": "Common emergency medicine body term",
+        "question": "Gas transported by hemoglobin for cellular metabolism",
         "answer": "OXYGEN"
       },
       {
-        "question": "Basic emergency medicine anatomy term",
+        "question": "Classic board association in gastroenterology",
         "answer": "GLUCOSE"
       },
       {
-        "question": "Normal emergency medicine physiology concept",
+        "question": "Bedside rheumatology clinical term",
         "answer": "PAIN"
       },
       {
-        "question": "Core emergency medicine structure term",
+        "question": "Temperature elevation with infection",
         "answer": "FEVER"
       },
       {
@@ -13866,7 +13866,7 @@ const medicalCrosswordData = {
         "answer": "WOUND"
       },
       {
-        "question": "Basic emergency medicine anatomy term",
+        "question": "Resident level pediatrics concept",
         "answer": "FRACTURE"
       },
       {
@@ -13874,27 +13874,27 @@ const medicalCrosswordData = {
         "answer": "BURN"
       },
       {
-        "question": "Core emergency medicine structure term",
+        "question": "Blood loss complication or symptom",
         "answer": "BLEEDING"
       },
       {
-        "question": "Foundational emergency medicine vocabulary item",
+        "question": "Presentation linked to pediatrics",
         "answer": "SEIZURE"
       },
       {
-        "question": "Common emergency medicine body term",
+        "question": "Common neurology symptom sign",
         "answer": "COMA"
       },
       {
-        "question": "Basic emergency medicine anatomy term",
+        "question": "Temporary loss of consciousness",
         "answer": "SYNCOPE"
       },
       {
-        "question": "Normal emergency medicine physiology concept",
+        "question": "Microbial poison causing symptoms",
         "answer": "TOXIN"
       },
       {
-        "question": "Core emergency medicine structure term",
+        "question": "Resident level endocrinology concept",
         "answer": "ANTIDOTE"
       },
       {
@@ -13910,7 +13910,7 @@ const medicalCrosswordData = {
         "answer": "AED"
       },
       {
-        "question": "Normal emergency medicine physiology concept",
+        "question": "Bedside orthopedics clinical term",
         "answer": "SPLINT"
       },
       {
@@ -13926,15 +13926,15 @@ const medicalCrosswordData = {
         "answer": "LARYNGOSCOPE"
       },
       {
-        "question": "Basic emergency medicine anatomy term",
+        "question": "Presentation linked to pediatrics",
         "answer": "VENTILATION"
       },
       {
-        "question": "Normal emergency medicine physiology concept",
+        "question": "Bedside pulmonology clinical term",
         "answer": "OXYGENATION"
       },
       {
-        "question": "Core emergency medicine structure term",
+        "question": "Advanced pulmonology subspecialty term",
         "answer": "CAPNOGRAPHY"
       },
       {
@@ -13942,11 +13942,11 @@ const medicalCrosswordData = {
         "answer": "PLETHORA"
       },
       {
-        "question": "Common emergency medicine body term",
+        "question": "Abnormally low blood pressure",
         "answer": "HYPOTENSION"
       },
       {
-        "question": "Basic emergency medicine anatomy term",
+        "question": "Abnormally high blood pressure",
         "answer": "HYPERTENSION"
       },
       {
@@ -13958,7 +13958,7 @@ const medicalCrosswordData = {
         "answer": "BANDAGING"
       },
       {
-        "question": "Foundational emergency medicine vocabulary item",
+        "question": "Resident level immunology concept",
         "answer": "DEBRIDEMENT"
       },
       {
@@ -13968,11 +13968,11 @@ const medicalCrosswordData = {
     ],
     "m2": [
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "Low oxygen state in tissue",
         "answer": "HYPOXIA"
       },
       {
-        "question": "Common emergency medicine pathology association",
+        "question": "Reduced blood supply to tissue",
         "answer": "ISCHEMIA"
       },
       {
@@ -13984,11 +13984,11 @@ const medicalCrosswordData = {
         "answer": "ALKALOSIS"
       },
       {
-        "question": "Mechanism linked to emergency medicine",
+        "question": "Life threatening systemic infection response",
         "answer": "SEPSIS"
       },
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "Board relevant pulmonology association",
         "answer": "ANAPHYLAXIS"
       },
       {
@@ -13996,7 +13996,7 @@ const medicalCrosswordData = {
         "answer": "HEMORRHAGE"
       },
       {
-        "question": "Pathophysiology term in emergency medicine",
+        "question": "Fluid loss from severe stool output",
         "answer": "DEHYDRATION"
       },
       {
@@ -14008,7 +14008,7 @@ const medicalCrosswordData = {
         "answer": "OVERDOSE"
       },
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "Pathophysiology term in psychiatry",
         "answer": "WITHDRAWAL"
       },
       {
@@ -14020,7 +14020,7 @@ const medicalCrosswordData = {
         "answer": "HYPERTHERMIA"
       },
       {
-        "question": "Disease process in emergency medicine",
+        "question": "Statin adverse muscle injury",
         "answer": "RHABDOMYOLYSIS"
       },
       {
@@ -14028,7 +14028,7 @@ const medicalCrosswordData = {
         "answer": "COMPARTMENT"
       },
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "Lung clot causing sudden dyspnea",
         "answer": "EMBOLISM"
       },
       {
@@ -14036,7 +14036,7 @@ const medicalCrosswordData = {
         "answer": "PNEUMOTHORAX"
       },
       {
-        "question": "Pathophysiology term in emergency medicine",
+        "question": "Electrical alternans classic effusion",
         "answer": "TAMPONADE"
       },
       {
@@ -14044,11 +14044,11 @@ const medicalCrosswordData = {
         "answer": "ARRYTHMIA"
       },
       {
-        "question": "Mechanism linked to emergency medicine",
+        "question": "Abnormal slow heart rhythm",
         "answer": "BRADYCARDIA"
       },
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "Abnormal fast heart rhythm",
         "answer": "TACHYCARDIA"
       },
       {
@@ -14056,7 +14056,7 @@ const medicalCrosswordData = {
         "answer": "DYSRHYTHMIA"
       },
       {
-        "question": "Pathophysiology term in emergency medicine",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -14068,7 +14068,7 @@ const medicalCrosswordData = {
         "answer": "AEROBIC"
       },
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "USMLE clue for endocrinology",
         "answer": "AFFERENT"
       },
       {
@@ -14088,7 +14088,7 @@ const medicalCrosswordData = {
         "answer": "ANEMIC"
       },
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "Advanced endocrinology subspecialty term",
         "answer": "ANEURYSMAL"
       },
       {
@@ -14108,7 +14108,7 @@ const medicalCrosswordData = {
         "answer": "APOPTOTIC"
       },
       {
-        "question": "emergency medicine disease mechanism term",
+        "question": "Testable pulmonology board fact",
         "answer": "ARTERIAL"
       },
       {
@@ -14134,7 +14134,7 @@ const medicalCrosswordData = {
         "answer": "INTUBATION"
       },
       {
-        "question": "Common emergency medicine symptom sign",
+        "question": "Electric shock restoring rhythm",
         "answer": "DEFIBRILLATION"
       },
       {
@@ -14142,7 +14142,7 @@ const medicalCrosswordData = {
         "answer": "CARDIOVERSION"
       },
       {
-        "question": "Clinical clue in emergency medicine",
+        "question": "Emergency clot dissolving therapy",
         "answer": "THROMBOLYSIS"
       },
       {
@@ -14162,7 +14162,7 @@ const medicalCrosswordData = {
         "answer": "ANALGESIA"
       },
       {
-        "question": "Clinical clue in emergency medicine",
+        "question": "Major risk factor for gut imbalance",
         "answer": "ANTIBIOTIC"
       },
       {
@@ -14174,11 +14174,11 @@ const medicalCrosswordData = {
         "answer": "ATROPINE"
       },
       {
-        "question": "Common emergency medicine symptom sign",
+        "question": "Pulmonary hypertension vasodilator test",
         "answer": "ADENOSINE"
       },
       {
-        "question": "emergency medicine diagnosis treatment term",
+        "question": "Ventricular arrhythmia drug class",
         "answer": "AMIODARONE"
       },
       {
@@ -14436,7 +14436,7 @@ const medicalCrosswordData = {
         "answer": "ENDOCRINE"
       },
       {
-        "question": "Classic board association in emergency medicine",
+        "question": "Protein catalyst in digestion",
         "answer": "ENZYME"
       },
       {
@@ -14466,7 +14466,7 @@ const medicalCrosswordData = {
         "answer": "PARACENTESIS"
       },
       {
-        "question": "Specialized emergency medicine vocabulary item",
+        "question": "Advanced rheumatology subspecialty term",
         "answer": "ARTHROCENTESIS"
       },
       {
@@ -14486,7 +14486,7 @@ const medicalCrosswordData = {
         "answer": "RSI"
       },
       {
-        "question": "Specialized emergency medicine vocabulary item",
+        "question": "Temporary external cardiac support",
         "answer": "ECMO"
       },
       {
@@ -14506,7 +14506,7 @@ const medicalCrosswordData = {
         "answer": "TRANSVENOUS"
       },
       {
-        "question": "Specialized emergency medicine vocabulary item",
+        "question": "Presentation linked to pharmacology",
         "answer": "VASOPRESSOR"
       },
       {
@@ -14546,7 +14546,7 @@ const medicalCrosswordData = {
         "answer": "FIBRINOUS"
       },
       {
-        "question": "Specialized emergency medicine vocabulary item",
+        "question": "Postablation esophageal complication",
         "answer": "FISTULA"
       },
       {
@@ -14566,11 +14566,11 @@ const medicalCrosswordData = {
         "answer": "GANGLIONIC"
       },
       {
-        "question": "Specialized emergency medicine vocabulary item",
+        "question": "Advanced pediatrics subspecialty term",
         "answer": "GLANDULAR"
       },
       {
-        "question": "Fellowship level emergency medicine clue",
+        "question": "Transpulmonary pressure gradient",
         "answer": "GRADIENT"
       },
       {
@@ -14586,7 +14586,7 @@ const medicalCrosswordData = {
         "answer": "HEPATIC"
       },
       {
-        "question": "Specialized emergency medicine vocabulary item",
+        "question": "Advanced geriatrics subspecialty term",
         "answer": "HEREDITARY"
       },
       {
@@ -14606,7 +14606,7 @@ const medicalCrosswordData = {
         "answer": "HYPOXIC"
       },
       {
-        "question": "Specialized emergency medicine vocabulary item",
+        "question": "Advanced geriatrics subspecialty term",
         "answer": "IDIOPATHIC"
       },
       {
@@ -14630,7 +14630,7 @@ const medicalCrosswordData = {
         "answer": "RECEPTOR"
       },
       {
-        "question": "Foundational pharmacology vocabulary item",
+        "question": "Testable endocrinology board fact",
         "answer": "AGONIST"
       },
       {
@@ -14642,7 +14642,7 @@ const medicalCrosswordData = {
         "answer": "LIGAND"
       },
       {
-        "question": "Normal pharmacology physiology concept",
+        "question": "Protein catalyst in digestion",
         "answer": "ENZYME"
       },
       {
@@ -14658,11 +14658,11 @@ const medicalCrosswordData = {
         "answer": "EFFICACY"
       },
       {
-        "question": "Basic pharmacology anatomy term",
+        "question": "Disease process in immunology",
         "answer": "AFFINITY"
       },
       {
-        "question": "Normal pharmacology physiology concept",
+        "question": "Process of nutrients entering the bloodstream from the lumen",
         "answer": "ABSORPTION"
       },
       {
@@ -14678,7 +14678,7 @@ const medicalCrosswordData = {
         "answer": "EXCRETION"
       },
       {
-        "question": "Basic pharmacology anatomy term",
+        "question": "Fluid component of blood",
         "answer": "PLASMA"
       },
       {
@@ -14694,7 +14694,7 @@ const medicalCrosswordData = {
         "answer": "TOXICITY"
       },
       {
-        "question": "Common pharmacology body term",
+        "question": "Resident level endocrinology concept",
         "answer": "ANTIDOTE"
       },
       {
@@ -14706,7 +14706,7 @@ const medicalCrosswordData = {
         "answer": "TABLET"
       },
       {
-        "question": "Core pharmacology structure term",
+        "question": "Swallowed delivery form",
         "answer": "CAPSULE"
       },
       {
@@ -14718,7 +14718,7 @@ const medicalCrosswordData = {
         "answer": "INJECTION"
       },
       {
-        "question": "Basic pharmacology anatomy term",
+        "question": "Administration of prepared material",
         "answer": "INFUSION"
       },
       {
@@ -14738,7 +14738,7 @@ const medicalCrosswordData = {
         "answer": "ALLOSTERIC"
       },
       {
-        "question": "Basic pharmacology anatomy term",
+        "question": "Board relevant nephrology association",
         "answer": "INTRINSIC"
       },
       {
@@ -14750,7 +14750,7 @@ const medicalCrosswordData = {
         "answer": "ACTIVATOR"
       },
       {
-        "question": "Foundational pharmacology vocabulary item",
+        "question": "Small product of microbial activity",
         "answer": "METABOLITE"
       },
       {
@@ -14758,7 +14758,7 @@ const medicalCrosswordData = {
         "answer": "SUBSTRATE"
       },
       {
-        "question": "Basic pharmacology anatomy term",
+        "question": "Fellowship level immunology clue",
         "answer": "COFACTOR"
       },
       {
@@ -14774,7 +14774,7 @@ const medicalCrosswordData = {
         "answer": "BIOASSAY"
       },
       {
-        "question": "Common pharmacology body term",
+        "question": "Laboratory method detecting bacterial poison",
         "answer": "ASSAY"
       }
     ],
@@ -14812,7 +14812,7 @@ const medicalCrosswordData = {
         "answer": "DEPENDENCE"
       },
       {
-        "question": "Disease process in pharmacology",
+        "question": "Protection against pathogen takeover",
         "answer": "RESISTANCE"
       },
       {
@@ -14852,7 +14852,7 @@ const medicalCrosswordData = {
         "answer": "OTOTOXICITY"
       },
       {
-        "question": "Disease process in pharmacology",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -14860,7 +14860,7 @@ const medicalCrosswordData = {
         "answer": "ADJUVANT"
       },
       {
-        "question": "pharmacology disease mechanism term",
+        "question": "Classic board association in endocrinology",
         "answer": "AEROBIC"
       },
       {
@@ -14880,7 +14880,7 @@ const medicalCrosswordData = {
         "answer": "ANASTOMOSIS"
       },
       {
-        "question": "pharmacology disease mechanism term",
+        "question": "Board relevant endocrinology association",
         "answer": "ANEMIC"
       },
       {
@@ -14900,7 +14900,7 @@ const medicalCrosswordData = {
         "answer": "APHASIA"
       },
       {
-        "question": "pharmacology disease mechanism term",
+        "question": "Advanced endocrinology subspecialty term",
         "answer": "APOPTOTIC"
       },
       {
@@ -14920,7 +14920,7 @@ const medicalCrosswordData = {
         "answer": "BARRIER"
       },
       {
-        "question": "pharmacology disease mechanism term",
+        "question": "Advanced endocrinology subspecialty term",
         "answer": "BASAL"
       },
       {
@@ -14946,7 +14946,7 @@ const medicalCrosswordData = {
         "answer": "ANALGESIC"
       },
       {
-        "question": "Common pharmacology symptom sign",
+        "question": "Major risk factor for gut imbalance",
         "answer": "ANTIBIOTIC"
       },
       {
@@ -14990,7 +14990,7 @@ const medicalCrosswordData = {
         "answer": "NSAID"
       },
       {
-        "question": "pharmacology diagnosis treatment term",
+        "question": "Between sample community diversity",
         "answer": "BETA"
       },
       {
@@ -15104,15 +15104,15 @@ const medicalCrosswordData = {
     ],
     "usmle": [
       {
-        "question": "High yield pharmacology buzzword",
+        "question": "Oral anticoagulant requiring INR",
         "answer": "WARFARIN"
       },
       {
-        "question": "Classic board association in pharmacology",
+        "question": "Anticoagulant injectable drug",
         "answer": "HEPARIN"
       },
       {
-        "question": "USMLE clue for pharmacology",
+        "question": "Antiplatelet emergency chest pain drug",
         "answer": "ASPIRIN"
       },
       {
@@ -15124,7 +15124,7 @@ const medicalCrosswordData = {
         "answer": "METFORMIN"
       },
       {
-        "question": "High yield pharmacology buzzword",
+        "question": "ACE inhibitor example",
         "answer": "LISINOPRIL"
       },
       {
@@ -15132,7 +15132,7 @@ const medicalCrosswordData = {
         "answer": "LOSARTAN"
       },
       {
-        "question": "USMLE clue for pharmacology",
+        "question": "Beta blocker example",
         "answer": "METOPROLOL"
       },
       {
@@ -15140,7 +15140,7 @@ const medicalCrosswordData = {
         "answer": "AMLODIPINE"
       },
       {
-        "question": "Board relevant pharmacology association",
+        "question": "Diuretic used for pulmonary edema",
         "answer": "FUROSEMIDE"
       },
       {
@@ -15152,11 +15152,11 @@ const medicalCrosswordData = {
         "answer": "DIGOXIN"
       },
       {
-        "question": "USMLE clue for pharmacology",
+        "question": "Ventricular arrhythmia drug class",
         "answer": "AMIODARONE"
       },
       {
-        "question": "Testable pharmacology board fact",
+        "question": "Pulmonary hypertension vasodilator test",
         "answer": "ADENOSINE"
       },
       {
@@ -15192,7 +15192,7 @@ const medicalCrosswordData = {
         "answer": "CYCLOSPORINE"
       },
       {
-        "question": "USMLE clue for pharmacology",
+        "question": "Oral antibiotic for recurrent infection",
         "answer": "VANCOMYCIN"
       },
       {
@@ -15346,11 +15346,11 @@ const medicalCrosswordData = {
         "answer": "COMPOUNDING"
       },
       {
-        "question": "Advanced pharmacology subspecialty term",
+        "question": "Postablation esophageal complication",
         "answer": "FISTULA"
       },
       {
-        "question": "Rare procedural pharmacology term",
+        "question": "Advanced pediatrics subspecialty term",
         "answer": "FLACCID"
       },
       {
@@ -15358,7 +15358,7 @@ const medicalCrosswordData = {
         "answer": "FOCAL"
       },
       {
-        "question": "Specialized pharmacology vocabulary item",
+        "question": "Resident level pediatrics concept",
         "answer": "FRACTURE"
       },
       {
@@ -15370,15 +15370,15 @@ const medicalCrosswordData = {
         "answer": "GANGLIONIC"
       },
       {
-        "question": "Rare procedural pharmacology term",
+        "question": "Advanced pediatrics subspecialty term",
         "answer": "GLANDULAR"
       },
       {
-        "question": "Resident level pharmacology concept",
+        "question": "Transpulmonary pressure gradient",
         "answer": "GRADIENT"
       },
       {
-        "question": "Specialized pharmacology vocabulary item",
+        "question": "Fellowship level nephrology clue",
         "answer": "GRAFT"
       },
       {
@@ -15390,7 +15390,7 @@ const medicalCrosswordData = {
         "answer": "HEPATIC"
       },
       {
-        "question": "Rare procedural pharmacology term",
+        "question": "Advanced geriatrics subspecialty term",
         "answer": "HEREDITARY"
       },
       {
@@ -15398,7 +15398,7 @@ const medicalCrosswordData = {
         "answer": "HORMONAL"
       },
       {
-        "question": "Specialized pharmacology vocabulary item",
+        "question": "Resident level geriatrics concept",
         "answer": "HYDRATION"
       },
       {
@@ -15410,7 +15410,7 @@ const medicalCrosswordData = {
         "answer": "HYPOXIC"
       },
       {
-        "question": "Rare procedural pharmacology term",
+        "question": "Advanced geriatrics subspecialty term",
         "answer": "IDIOPATHIC"
       },
       {
@@ -15418,7 +15418,7 @@ const medicalCrosswordData = {
         "answer": "IMAGING"
       },
       {
-        "question": "Specialized pharmacology vocabulary item",
+        "question": "Resident level geriatrics concept",
         "answer": "IMMUNE"
       },
       {
@@ -15490,11 +15490,11 @@ const medicalCrosswordData = {
         "answer": "SPINE"
       },
       {
-        "question": "Basic anatomy anatomy term",
+        "question": "Bony structure protecting thoracic organs",
         "answer": "RIB"
       },
       {
-        "question": "Normal anatomy physiology concept",
+        "question": "Manubrium, body, and xiphoid process make up this bone",
         "answer": "STERNUM"
       },
       {
@@ -15546,15 +15546,15 @@ const medicalCrosswordData = {
         "answer": "MUSCLE"
       },
       {
-        "question": "Common anatomy body term",
+        "question": "Bundle of peripheral axons transmitting signals",
         "answer": "NERVE"
       },
       {
-        "question": "Basic anatomy anatomy term",
+        "question": "Vessel carrying blood away",
         "answer": "ARTERY"
       },
       {
-        "question": "Normal anatomy physiology concept",
+        "question": "Vessel returning blood centrally",
         "answer": "VEIN"
       },
       {
@@ -15562,11 +15562,11 @@ const medicalCrosswordData = {
         "answer": "LYMPH"
       },
       {
-        "question": "Foundational anatomy vocabulary item",
+        "question": "Socket on the pelvis articulating with the femoral head",
         "answer": "ACETABULUM"
       },
       {
-        "question": "Common anatomy body term",
+        "question": "Pathophysiology term in orthopedics",
         "answer": "GLENOID"
       },
       {
@@ -15624,7 +15624,7 @@ const medicalCrosswordData = {
         "answer": "MEMBRANE"
       },
       {
-        "question": "Disease process in anatomy",
+        "question": "Inner lining of the gut",
         "answer": "MUCOSA"
       },
       {
@@ -15632,7 +15632,7 @@ const medicalCrosswordData = {
         "answer": "SEROSA"
       },
       {
-        "question": "anatomy disease mechanism term",
+        "question": "Cell layer lining the intestine",
         "answer": "EPITHELIUM"
       },
       {
@@ -15652,7 +15652,7 @@ const medicalCrosswordData = {
         "answer": "DUCT"
       },
       {
-        "question": "anatomy disease mechanism term",
+        "question": "Natural pacemaker of heart",
         "answer": "SINUS"
       },
       {
@@ -15672,15 +15672,15 @@ const medicalCrosswordData = {
         "answer": "SULCUS"
       },
       {
-        "question": "anatomy disease mechanism term",
+        "question": "Cortical ridge separated by a sulcus",
         "answer": "GYRUS"
       },
       {
-        "question": "Common anatomy pathology association",
+        "question": "Wall between cardiac chambers",
         "answer": "SEPTUM"
       },
       {
-        "question": "Pathophysiology term in anatomy",
+        "question": "Swallowed delivery form",
         "answer": "CAPSULE"
       },
       {
@@ -15740,7 +15740,7 @@ const medicalCrosswordData = {
         "answer": "MANDIBLE"
       },
       {
-        "question": "Pathophysiology term in anatomy",
+        "question": "Microbial attachment to host surface",
         "answer": "ADHESION"
       },
       {
@@ -15790,7 +15790,7 @@ const medicalCrosswordData = {
         "answer": "CATHETER"
       },
       {
-        "question": "Presentation linked to anatomy",
+        "question": "Tissue sample for pathology",
         "answer": "BIOPSY"
       },
       {
@@ -15826,11 +15826,11 @@ const medicalCrosswordData = {
         "answer": "LACERATION"
       },
       {
-        "question": "Clinical clue in anatomy",
+        "question": "Device pocket blood collection",
         "answer": "HEMATOMA"
       },
       {
-        "question": "Presentation linked to anatomy",
+        "question": "Excess interstitial fluid accumulation",
         "answer": "EDEMA"
       },
       {
@@ -15846,7 +15846,7 @@ const medicalCrosswordData = {
         "answer": "SPRAIN"
       },
       {
-        "question": "Clinical clue in anatomy",
+        "question": "Genetic variant within a species",
         "answer": "STRAIN"
       },
       {
@@ -15944,11 +15944,11 @@ const medicalCrosswordData = {
         "answer": "ULNAR"
       },
       {
-        "question": "USMLE clue for anatomy",
+        "question": "Pulse felt at wrist",
         "answer": "RADIAL"
       },
       {
-        "question": "Testable anatomy board fact",
+        "question": "Thigh artery pulse site",
         "answer": "FEMORAL"
       },
       {
@@ -15984,7 +15984,7 @@ const medicalCrosswordData = {
         "answer": "CAVERNOUS"
       },
       {
-        "question": "USMLE clue for anatomy",
+        "question": "Major neck artery",
         "answer": "CAROTID"
       },
       {
@@ -16082,7 +16082,7 @@ const medicalCrosswordData = {
         "answer": "MICROANATOMY"
       },
       {
-        "question": "Rare procedural anatomy term",
+        "question": "Presentation linked to oncology",
         "answer": "HISTOLOGY"
       },
       {
@@ -16102,7 +16102,7 @@ const medicalCrosswordData = {
         "answer": "CROSSSECTIONAL"
       },
       {
-        "question": "Rare procedural anatomy term",
+        "question": "Rare procedural obstetrics gynecology term",
         "answer": "LAPAROSCOPY"
       },
       {
@@ -16110,11 +16110,11 @@ const medicalCrosswordData = {
         "answer": "THORACOSCOPY"
       },
       {
-        "question": "Specialized anatomy vocabulary item",
+        "question": "Common orthopedics symptom sign",
         "answer": "ARTHROSCOPY"
       },
       {
-        "question": "Fellowship level anatomy clue",
+        "question": "Scope based gastrointestinal procedure",
         "answer": "ENDOSCOPY"
       },
       {
@@ -16122,7 +16122,7 @@ const medicalCrosswordData = {
         "answer": "FLUOROSCOPY"
       },
       {
-        "question": "Rare procedural anatomy term",
+        "question": "Catheter visualization of coronary arteries",
         "answer": "ANGIOGRAPHY"
       },
       {
@@ -16130,7 +16130,7 @@ const medicalCrosswordData = {
         "answer": "LYMPHATIC"
       },
       {
-        "question": "Specialized anatomy vocabulary item",
+        "question": "Common dermatology pathology association",
         "answer": "DERMATOME"
       },
       {
@@ -16150,7 +16150,7 @@ const medicalCrosswordData = {
         "answer": "TENOTOMY"
       },
       {
-        "question": "Specialized anatomy vocabulary item",
+        "question": "Resident level neurology concept",
         "answer": "NEURECTOMY"
       },
       {
@@ -16162,7 +16162,7 @@ const medicalCrosswordData = {
         "answer": "VASCULATURE"
       },
       {
-        "question": "Rare procedural anatomy term",
+        "question": "Common endocrinology pathology association",
         "answer": "DEFICIENCY"
       },
       {
@@ -16170,7 +16170,7 @@ const medicalCrosswordData = {
         "answer": "DEFORMITY"
       },
       {
-        "question": "Specialized anatomy vocabulary item",
+        "question": "neurology diagnosis treatment term",
         "answer": "DELIRIUM"
       },
       {
@@ -16182,7 +16182,7 @@ const medicalCrosswordData = {
         "answer": "DEPENDENT"
       },
       {
-        "question": "Rare procedural anatomy term",
+        "question": "Board relevant pediatrics association",
         "answer": "DIAGNOSTIC"
       },
       {
@@ -16190,7 +16190,7 @@ const medicalCrosswordData = {
         "answer": "DIFFUSE"
       },
       {
-        "question": "Specialized anatomy vocabulary item",
+        "question": "Clinical clue in nephrology",
         "answer": "DISTAL"
       },
       {
@@ -16202,7 +16202,7 @@ const medicalCrosswordData = {
         "answer": "DYSPLASTIC"
       },
       {
-        "question": "Rare procedural anatomy term",
+        "question": "Fellowship level obstetrics gynecology clue",
         "answer": "EFFERENT"
       },
       {
@@ -16210,7 +16210,7 @@ const medicalCrosswordData = {
         "answer": "ENDOCRINE"
       },
       {
-        "question": "Specialized anatomy vocabulary item",
+        "question": "Protein catalyst in digestion",
         "answer": "ENZYME"
       },
       {
@@ -16222,7 +16222,7 @@ const medicalCrosswordData = {
         "answer": "ERYTHEMA"
       },
       {
-        "question": "Rare procedural anatomy term",
+        "question": "dermatology diagnosis treatment term",
         "answer": "EXCISION"
       },
       {
@@ -16230,7 +16230,7 @@ const medicalCrosswordData = {
         "answer": "EXUDATE"
       },
       {
-        "question": "Specialized anatomy vocabulary item",
+        "question": "Resident level pediatrics concept",
         "answer": "FASCICLE"
       },
       {

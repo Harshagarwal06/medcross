@@ -126,14 +126,21 @@ STRICT RULES:
 
     /** Give a soft hint without revealing the answer */
     async hintForClue(clueText, knownLetters, category) {
-        const lettersHint = knownLetters ? `\nKnown letters so far: ${knownLetters}` : '';
+        const lettersHint = knownLetters && /[A-Z]/i.test(knownLetters)
+            ? `\nLetters filled so far (underscores are blank): ${knownLetters}` : '';
         const prompt =
-            `You are helping a medical student solve a crossword WITHOUT revealing the answer directly.
+            `You are a medical tutor nudging a student toward a crossword answer they have NOT solved yet.
 
 Clue: "${clueText}"
 Category: ${category || 'medicine'}${lettersHint}
 
-Give ONE helpful nudge (1-2 sentences) that guides them toward the answer without stating it. Focus on a memorable clinical association or word etymology.`;
+Give exactly ONE nudge, 1-2 complete sentences, built on a concrete, memorable anchor: a classic clinical association, a mechanism, a buzzword/triad, an anatomical location, or a word root meaning.
+
+STRICT RULES:
+- Never state, spell, abbreviate, define, or rhyme the answer; refer to it only as "the answer".
+- Do not use any word that shares the answer's root (e.g. if the answer is a "-itis", don't say "inflammation of").
+- Be specific to THIS term — no generic filler like "an important concept".
+- Finish the final sentence.`;
         return _callGemini(prompt, 150);
     },
 
@@ -160,9 +167,11 @@ For EACH term write ONE sentence covering its core clinical meaning. Format as a
 Return ONLY valid JSON: an array of objects with "answer" and "question".
 Rules:
 - 15 to 30 items.
-- answer must be one medical term, letters only after normalization, 3-15 letters.
-- question must be a concise crossword clue and must not include the answer.
-- Prefer high-yield clinical, anatomy, physiology, pathology, and pharmacology terms.
+- answer: one medical term, letters only after normalization, 3-15 letters.
+- question: a precise crossword clue, 4-12 words, that points unambiguously to that exact term via its definition, function, classic association, mechanism, or location.
+- The clue must NEVER contain the answer, its plural, abbreviation, or word root.
+- No vague filler clues like "an important concept" or "a key term" — each clue must carry real, specific information.
+- Prefer high-yield clinical, anatomy, physiology, pathology, and pharmacology terms drawn from the notes.
 
 Notes:
 ${notesText.slice(0, 12000)}`;
@@ -205,8 +214,10 @@ ${apiList}
 Return ONLY valid JSON: an array of objects with "answer" and "question".
 Rules:
 - 18 to 30 items.
-- answer must be one medical term, letters only after normalization, 3-15 letters.
-- question must be a concise crossword clue and must NOT contain the answer.
+- answer: one medical term, letters only after normalization, 3-15 letters.
+- question: a precise crossword clue, 4-12 words, that points unambiguously to that exact term via its definition, function, classic association, mechanism, or location.
+- The clue must NEVER contain the answer, its plural, abbreviation, or word root.
+- No vague filler clues like "an important concept" or "a key term" — each clue must carry real, specific information.
 - Prefer medically meaningful terms, not filler words, dosage units, or generic words.
 - Include a balanced mix of diseases, anatomy, physiology, symptoms, drugs, tests, and mechanisms when relevant.`;
 
@@ -217,20 +228,25 @@ Rules:
 
     async socraticHint({ clueText, category, knownLetters, stage = 1, answerLength = 0 }) {
         const stageLabels = {
-            1: 'Ask one concept-check question that helps the student identify the topic.',
-            2: 'Give one clinical association or mechanism clue.',
-            3: 'Give one stronger word-pattern or differential clue, but do not state the answer.'
+            1: 'Orient them: name the broad topic or category the term belongs to, and ask one question that gets them thinking in the right direction.',
+            2: 'Sharpen it: give one specific clinical association, mechanism, or classic presentation tied to this term.',
+            3: 'Almost there: give a strong differential or word-pattern cue (e.g. what it is most often confused with, or what its root means) — still without saying the answer.'
         };
         const prompt =
-            `You are a Socratic medical crossword tutor. Do not reveal the answer.
+            `You are a Socratic medical crossword tutor guiding a student through escalating hints. Each stage reveals a little more, but NEVER the answer itself.
 
 Clue: "${clueText}"
 Category: ${category || 'medicine'}
-Known letters: ${knownLetters || 'none'}
+Letters filled (underscores are blank): ${knownLetters || 'none'}
 Answer length: ${answerLength || 'unknown'}
-Stage ${stage}: ${stageLabels[stage] || stageLabels[1]}
+Stage ${stage} goal: ${stageLabels[stage] || stageLabels[1]}
 
-Write 1-2 short sentences. Never state, spell, abbreviate, or directly define the answer.`;
+Write 1-2 short, specific sentences for THIS stage only. Build on the filled letters if any are present.
+
+STRICT RULES:
+- Never state, spell, abbreviate, rhyme, or directly define the answer.
+- Do not use a word sharing the answer's root.
+- No generic filler — every sentence must add real information about this term.`;
         return _callGemini(prompt, 180);
     },
 
