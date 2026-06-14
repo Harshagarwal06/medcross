@@ -25,18 +25,19 @@ python3 -m http.server 8787
 
 Latest known asset versions:
 
-- `sw.js`: `medcross-v58`
-- `index.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `medical-api-sources.js?v=8`, `notes-import.js?v=1`, `homepage.js?v=27`, `homepage-filters.js?v=1`, `gemini.js?v=17`
-- `puzzle.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `medical-database.js?v=4`, `validation.js?v=1`, `progress.js?v=12`, `script.js?v=20`, `gemini.js?v=17`
+- `sw.js`: `medcross-v59`
+- `index.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `validation.js?v=1`, `progress.js?v=12`, `medical-api-sources.js?v=8`, `notes-import.js?v=1`, `homepage.js?v=27`, `homepage-filters.js?v=1`, `gemini.js?v=18`
+- `puzzle.html`: `style.css?v=27`, `crossword-generator.js?v=12`, `medical-database.js?v=4`, `validation.js?v=1`, `progress.js?v=12`, `script.js?v=20`, `gemini.js?v=18`
 - `stats.html`: `style.css?v=27`, `progress.js?v=12`, `stats.js?v=15`
-- `study.html`: `style.css?v=27`, `progress.js?v=12`, `study.js?v=14`, `gemini.js?v=17`
+- `study.html`: `style.css?v=27`, `progress.js?v=12`, `study.js?v=14`, `gemini.js?v=18`
 
 ## Deployment
 
 - Live on GitHub Pages: `https://harshagarwal06.github.io/medcross/` (repo `Harshagarwal06/medcross`, public, deploys from `main` branch root).
 - Deploy = push to `main`; Pages rebuilds automatically (~1 minute).
 - `config.js` is gitignored and verified absent from git history and the live site, so the deployed app runs key-less: AI buttons hidden, topic puzzles use public APIs, notes puzzles use local database matching.
-- **AI on the public site:** LIVE via a Cloudflare Pages Function. The proxy is `functions/api/ai.js`, deployed on the Cloudflare Pages project at `https://medcross-ai.pages.dev/api/ai`. `config.public.js` (committed, no secret) points the public site there and activates it only on deployed hosts (local dev still uses the direct `config.js` key). The `GEMINI_API_KEY` is a Pages env-var secret — never shipped to the browser. CORS allows both the GitHub Pages and Cloudflare Pages origins, so AI works from either site. Verified end-to-end: `POST /api/ai` with the GitHub Pages Origin returns `{"text": "..."}`. A standalone Worker version (`ai-proxy/cloudflare-worker.js`) also exists as an alternative. Steps: `ai-proxy/README.md`.
+- **AI on the public site:** LIVE via a Cloudflare Pages Function (`functions/api/ai.js`) at `https://medcross-ai.pages.dev/api/ai`. `config.public.js` (committed, no secret) points the public site there. Tokens are Pages env-var **secrets** — never shipped to the browser. CORS allows both the GitHub Pages and Cloudflare Pages origins. A standalone Worker version (`ai-proxy/cloudflare-worker.js`) exists as an alternative. Steps: `ai-proxy/README.md`.
+- **AI provider — Hugging Face (open-source) primary, Gemini fallback.** The proxy tries Hugging Face first when `HF_TOKEN` is set (model `Qwen/Qwen2.5-72B-Instruct` via the HF Inference Providers router, override with `HF_MODEL`), then falls back to Gemini if `GEMINI_API_KEY` is set. **To enable HF on the public site:** Cloudflare Pages project → Settings → Environment variables → add secret `HF_TOKEN = hf_...` → redeploy. Locally, `gemini.js` calls the HF router directly when `window.HF_TOKEN` is in the gitignored `config.js` (else uses `window.GEMINI_API_KEY`). Verified end-to-end: topic generation returns ~23 clean validated entries in ~20s. The Python client `ai/medai_client.py` also uses the HF router (model id fixed to `Qwen/Qwen2.5-72B-Instruct`).
 - Why the AI buttons "disappeared" on the live site: they only render when `MedAI.isConfigured()` is true (needs a key or proxy URL). The key is local-only by design, so the public site hid them. Locally they work as before.
 
 ## API Key Setup
