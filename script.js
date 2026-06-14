@@ -371,6 +371,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.getElementById('modal-share').addEventListener('click', shareResults);
         document.getElementById('modal-back-home')?.addEventListener('click', goBack);
+
+        // Answer Key overlay
+        document.getElementById('modal-view-answers')?.addEventListener('click', showAnswerKey);
+        const answerKeyModal = document.getElementById('answer-key-modal');
+        const closeAnswerKey = () => answerKeyModal.classList.remove('active');
+        document.getElementById('answer-key-close')?.addEventListener('click', closeAnswerKey);
+        document.getElementById('answer-key-done')?.addEventListener('click', closeAnswerKey);
+        answerKeyModal?.addEventListener('click', (e) => { if (e.target === answerKeyModal) closeAnswerKey(); });
+    }
+
+    // Build and show the answer key — every clue with its answer, grouped
+    // Across / Down. Reads straight from the puzzle data, so it works whether
+    // the puzzle was solved or revealed.
+    function showAnswerKey() {
+        const body = document.getElementById('answer-key-body');
+        const section = (title, clues) => {
+            if (!clues || !clues.length) return '';
+            const rows = [...clues]
+                .sort((a, b) => a.number - b.number)
+                .map(c => `
+                    <li class="ak-row">
+                        <span class="ak-num">${escapeHtml(String(c.number))}</span>
+                        <span class="ak-answer">${escapeHtml(c.answer || '')}</span>
+                        <span class="ak-clue">${escapeHtml(c.clue || '')}</span>
+                    </li>`).join('');
+            return `<div class="ak-group"><h3 class="ak-group-title">${title}</h3><ul class="ak-list">${rows}</ul></div>`;
+        };
+        body.innerHTML = section('Across', puzzleData.clues.across) + section('Down', puzzleData.clues.down);
+        document.getElementById('answer-key-modal').classList.add('active');
     }
 
     function bindGridInteractions() {

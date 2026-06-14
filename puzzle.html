@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=27">
+    <link rel="stylesheet" href="style.css?v=28">
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Theme init: same behavior as the homepage so both pages match -->
     <script>
@@ -161,8 +161,23 @@
             <div class="modal-achievements" id="modal-achievements"></div>
             <div class="modal-actions">
                 <button class="modal-btn modal-btn-secondary" id="modal-back-home" type="button">Back to Puzzles</button>
+                <button class="modal-btn modal-btn-secondary" id="modal-view-answers" type="button">View Answers</button>
                 <button class="modal-btn modal-btn-secondary" id="modal-share">Share</button>
                 <button class="modal-btn modal-btn-primary" id="modal-new-puzzle">New Puzzle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Answer Key overlay (all clues with their answers) -->
+    <div class="modal-overlay" id="answer-key-modal">
+        <div class="modal-content answer-key-content">
+            <div class="answer-key-header">
+                <div class="modal-title">Answer Key</div>
+                <button class="answer-key-close" id="answer-key-close" type="button" aria-label="Close answer key">✕</button>
+            </div>
+            <div class="answer-key-body" id="answer-key-body"></div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" id="answer-key-done" type="button">Done</button>
             </div>
         </div>
     </div>
@@ -171,7 +186,7 @@
     <script src="crossword-generator.js?v=12"></script>
     <script src="validation.js?v=1"></script>
     <script src="progress.js?v=12"></script>
-    <script src="script.js?v=20"></script>
+    <script src="script.js?v=21"></script>
     <script src="config.public.js?v=2"></script>
     <script src="config.js"></script>
     <script src="gemini.js?v=18"></script>
