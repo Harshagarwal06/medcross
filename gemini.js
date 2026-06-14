@@ -11,19 +11,29 @@
  *   Learn      — post-puzzle learning notes for every term you solved
  */
 
-// Key is supplied by config.js (gitignored) — see config.example.js.
+// Keys are supplied by config.js (gitignored) — see config.example.js.
 const GEMINI_API_KEY = window.GEMINI_API_KEY || 'YOUR_KEY_HERE';
 const GEMINI_PROXY_URL = window.MEDCROSS_AI_PROXY_URL || '';
+// Optional Hugging Face open-source backend (local dev). On the deployed
+// site HF runs server-side in the proxy instead, so the token never ships.
+const HF_TOKEN = window.HF_TOKEN || '';
+const HF_MODEL = window.HF_MODEL || 'Qwen/Qwen2.5-72B-Instruct';
 
 // Try current models in order — gemini-1.5-* is retired and now 404s.
 const _GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
 let _geminiModel = _GEMINI_MODELS[0];
 
-// ── Core API call (with automatic model fallback) ────────────────────────────
+// ── Core API call (provider routing + automatic fallback) ────────────────────
 async function _callGemini(prompt, maxTokens = 280) {
+    // 1) Deployed site: everything goes through the server-side proxy.
     if (GEMINI_PROXY_URL) {
-        return _callGeminiProxy(prompt, maxTokens);
+        return _callAIProxy(prompt, maxTokens);
     }
+    // 2) Local dev with a Hugging Face token: use the open-source model directly.
+    if (HF_TOKEN) {
+        return _callHuggingFace(prompt, maxTokens);
+    }
+    // 3) Local dev with a Gemini key: direct Gemini.
 
     let lastError = null;
     const startIdx = _GEMINI_MODELS.indexOf(_geminiModel);
@@ -74,7 +84,7 @@ async function _callGemini(prompt, maxTokens = 280) {
     throw lastError || new Error('Gemini API request failed.');
 }
 
-async function _callGeminiProxy(prompt, maxTokens) {
+async function _callAIProxy(prompt, maxTokens) {
     const res = await fetch(GEMINI_PROXY_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,11 +101,39 @@ async function _callGeminiProxy(prompt, maxTokens) {
     return String(text).trim();
 }
 
+// Hugging Face Inference Providers router (OpenAI-compatible chat completions).
+// Used only for LOCAL dev (token from gitignored config.js). The deployed site
+// keeps the token server-side in the proxy.
+async function _callHuggingFace(prompt, maxTokens) {
+    const res = await fetch('https://router.huggingface.co/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${HF_TOKEN}`
+        },
+        body: JSON.stringify({
+            model: HF_MODEL,
+            messages: [{ role: 'user', content: prompt }],
+            max_tokens: Math.min(Math.max(maxTokens * 2, 1024), 4096),
+            temperature: 0.6
+        })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+        throw new Error(data.error?.message || data.error || `Hugging Face error ${res.status}`);
+    }
+    const text = data.choices?.[0]?.message?.content?.trim();
+    if (!text) throw new Error('No response received from Hugging Face.');
+    return text;
+}
+
 // ── Public AI helpers ─────────────────────────────────────────────────────────
 const MedAI = {
 
     isConfigured() {
-        return Boolean(GEMINI_PROXY_URL) || (GEMINI_API_KEY !== 'YOUR_KEY_HERE' && GEMINI_API_KEY.length > 10);
+        return Boolean(GEMINI_PROXY_URL)
+            || Boolean(HF_TOKEN)
+            || (GEMINI_API_KEY !== 'YOUR_KEY_HERE' && GEMINI_API_KEY.length > 10);
     },
 
     /** Explain a clue's medical concept in plain English.
@@ -189,7 +227,7 @@ ${notesText.slice(0, 12000)}`;
         const clean = [];
         for (const item of parsed) {
             const answer = String(item.answer || '').replace(/[^a-z]/gi, '').toUpperCase();
-            const question = String(item.question || '').trim();
+            const question = String(item.question || '').replace(/\s*\(\d+\)\s*$/, '').trim();
             if (answer.length < 3 || answer.length > 15 || !question || seen.has(answer)) continue;
             if (question.toUpperCase().includes(answer)) continue;
             seen.add(answer);
@@ -286,7 +324,7 @@ function _cleanPuzzleEntries(items, emptyMessage) {
     const clean = [];
     for (const item of items) {
         const answer = String(item.answer || item.word || '').replace(/[^a-z]/gi, '').toUpperCase();
-        const question = String(item.question || item.clue || '').trim();
+        const question = String(item.question || item.clue || '').replace(/\s*\(\d+\)\s*$/, '').trim();
         if (answer.length < 3 || answer.length > 15 || !question || seen.has(answer)) continue;
         const compactQuestion = question.replace(/[^a-z]/gi, '').toUpperCase();
         const answerRegex = new RegExp(answer.split('').join('\\s*'), 'i');
@@ -581,5 +619,6 @@ document.addEventListener('DOMContentLoaded', () => {
     _addTutorButton();
     _hookHintButton();
     _watchCongratsModal();
-    console.log(`[MedAI] Gemini AI active (${_geminiModel}).`);
+    const backend = GEMINI_PROXY_URL ? 'server proxy' : HF_TOKEN ? `Hugging Face (${HF_MODEL})` : `Gemini (${_geminiModel})`;
+    console.log(`[MedAI] AI active — backend: ${backend}.`);
 });

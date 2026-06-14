@@ -26,7 +26,10 @@ import re
 from openai import OpenAI, APIError, APITimeoutError
 
 BASE_URL = "https://router.huggingface.co/v1"
-MODEL_ID = "Qwen/Qwen3.5-9B:together"
+# Qwen2.5-72B-Instruct: strong instruction-following + reliable JSON, served on
+# the HF Inference Providers router. (The old "Qwen3.5-9B" id was not real.)
+# Override with the MEDAI_MODEL env var if you want a different model.
+MODEL_ID = os.environ.get("MEDAI_MODEL", "Qwen/Qwen2.5-72B-Instruct")
 
 DEFAULT_TEMPERATURE = 0.65
 DEFAULT_TIMEOUT_SECONDS = 30
