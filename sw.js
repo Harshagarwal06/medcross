@@ -1,5 +1,5 @@
 // MedCross service worker — offline app shell (cache-first).
-const CACHE = 'medcross-v59';
+const CACHE = 'medcross-v60';
 const CACHEABLE_RESPONSE_TYPES = new Set(['basic', 'cors', 'opaque']);
 const ASSETS = [
   './',
