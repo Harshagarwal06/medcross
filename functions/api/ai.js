@@ -162,11 +162,23 @@ export async function onRequestPost(context) {
   return json({ error: errors.join(' | ') || 'AI request failed.' }, 502, origin);
 }
 
-// Friendly response for anyone opening the URL in a browser (GET).
+// Status endpoint (GET). Reports which provider vars are bound — booleans
+// only, never the secret values — so misconfiguration is easy to diagnose.
 export function onRequestGet(context) {
-  const provider = context.env.HF_TOKEN ? 'Hugging Face (Qwen)' : context.env.GEMINI_API_KEY ? 'Gemini' : 'none configured';
-  return new Response(`MedCross AI proxy is running. Provider: ${provider}. POST { prompt } here.`, {
+  const env = context.env || {};
+  const provider = env.HF_TOKEN ? 'Hugging Face (Qwen)' : env.GEMINI_API_KEY ? 'Gemini' : 'none configured';
+  const body = {
+    status: 'ok',
+    provider,
+    bound: {
+      HF_TOKEN: Boolean(env.HF_TOKEN),
+      HF_TOKEN_len: env.HF_TOKEN ? String(env.HF_TOKEN).length : 0,
+      HF_MODEL: env.HF_MODEL || HF_DEFAULT_MODEL,
+      GEMINI_API_KEY: Boolean(env.GEMINI_API_KEY),
+    },
+  };
+  return new Response(JSON.stringify(body, null, 2), {
     status: 200,
-    headers: { 'Content-Type': 'text/plain' },
+    headers: { 'Content-Type': 'application/json' },
   });
 }
